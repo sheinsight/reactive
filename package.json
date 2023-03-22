@@ -1,0 +1,13 @@
+{
+  "name": "reactive",
+  "version": "0.0.1",
+  "description": "A reactive state management library with a large amount of built-in logic encapsulation.",
+  "scripts": {},
+  "keywords": [
+    "reactive",
+    "logic encapsulation"
+  ],
+  "author": "ityuany",
+  "private": true,
+  "license": "ISC"
+}
