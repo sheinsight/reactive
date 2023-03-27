@@ -37,3 +37,38 @@ interface CreateReturn<S> {
  **/
 declare function create<S extends object>(state: S): CreateReturn<S>;
 ```
+
+## createQuery
+
+这个函数通常是用来创建查询函数，内置的状态将包含 request 与 response 两个模块
+
+```ts
+import { CreateReturn } from "./create";
+
+type AwaitReturnType<T extends (...args: any) => any> = Await<ReturnType<T>>;
+
+type Services = (...args: any[]) => Promise<any>;
+
+interface CreateQueryState<S> {
+  data: S;
+  loading: boolean;
+}
+
+interface CreateQueryReturn<S extends Services>
+  extends CreateReturn<CreateQueryState<AwaitReturnType<S>>> {
+  query: S;
+  refresh: () => Promise<S>;
+}
+
+interface CreateQueryOptions<S> {
+  defaultState: S;
+  delay: number;
+}
+
+type Await<T> = T extends Promise<infer U> ? U : T;
+
+declare function createQuery<S extends Services, State = CreateQueryState<S>>(
+  service: S,
+  options?: CreateQueryOptions<State>
+): CreateQueryReturn<S>;
+```
