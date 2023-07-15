@@ -11,12 +11,17 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          ref: ${{ github.event.release.tag_name}}
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 18 # 你可以选择所需的 Node.js 版本
+          node-version: lts/hydrogen
+          registry-url: "https://registry.npmjs.org"
+          cache: "pnpm"
 
       - name: Use Pnpm
         uses: pnpm/action-setup@v2
