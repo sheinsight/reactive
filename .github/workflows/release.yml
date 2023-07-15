@@ -35,7 +35,10 @@ jobs:
       - name: Test package
         run: pnpm test # 确保你的项目有一个 "test" script 在 package.json 中
 
+      - name: set token
+        run: echo -e //registry.npmjs.org/:_authToken=${NPM_TOKEN} >> .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.SHINED_NPM_PUBLISH_TOKEN }}
+
       - name: Publish package
         run: pnpm release
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.SHINED_NPM_PUBLISH_TOKEN }}
