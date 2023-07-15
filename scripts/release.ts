@@ -6,9 +6,7 @@ import { findPackages } from "find-packages";
 import { readPackage } from "read-pkg";
 import { writePackage } from "write-pkg";
 
-const gitTag = process.env.CI_COMMIT_TAG!;
-
-console.log(process.env);
+const gitTag = process.env.GITHUB_REF_NAME!;
 
 if (gitTag) {
   function extractVersionTag(version: string): string {
