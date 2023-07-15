@@ -19,9 +19,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: lts/hydrogen
-          registry-url: "https://registry.npmjs.org"
-          cache: "pnpm"
+          node-version: 18 # 你可以选择所需的 Node.js 版本
 
       - name: Use Pnpm
         uses: pnpm/action-setup@v2
