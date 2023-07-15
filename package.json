@@ -1,0 +1,31 @@
+{
+  "name": "reactive",
+  "version": "0.0.1-alpha.3",
+  "author": {
+    "name": "ityuany"
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@8.6.7",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "pnpm --filter '@shined/*' build ",
+    "test": "pnpm  --filter '@shined/*' test",
+    "bump": "tsx ./scripts/bump.ts",
+    "release": "tsx ./scripts/release.ts"
+  },
+  "devDependencies": {
+    "@types/semver": "^7.5.0",
+    "enquirer": "^2.3.6",
+    "execa": "^7.1.1",
+    "find-packages": "^10.0.4",
+    "read-pkg": "^8.0.0",
+    "read-yaml-file": "^2.1.0",
+    "semver": "^7.5.4",
+    "tsx": "^3.12.7",
+    "vitest": "^0.33.0",
+    "write-pkg": "^6.0.0"
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "reactive@0.0.1-alpha.2"
+}

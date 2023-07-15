@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "skipLibCheck": true
+  }
+}
