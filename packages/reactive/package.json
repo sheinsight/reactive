@@ -1,6 +1,6 @@
 {
   "name": "@shined/reactive",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.0",
   "description": "A reactive react state management library based on Proxy",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -12,6 +12,9 @@
     "test:w": "vitest",
     "test:cov": "vitest run --coverage"
   },
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.js",
