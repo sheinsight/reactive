@@ -1,0 +1,38 @@
+name: Publish to NPM Registry
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18 # 你可以选择所需的 Node.js 版本
+
+      - name: Use Pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ vars.PNPM_7_VERSION }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build package
+        run: pnpm build # 如果你的项目需要构建过程，请确保你有一个 "build" script 在 package.json 中
+
+      - name: Test package
+        run: pnpm test # 确保你的项目有一个 "test" script 在 package.json 中
+
+      - name: Publish package
+        run: pnpm release
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.SHINED_NPM_PUBLISH_TOKEN }}
