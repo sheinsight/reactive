@@ -1,6 +1,6 @@
 {
   "name": "reactive",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": {
     "name": "ityuany"
   },
@@ -27,5 +27,5 @@
     "write-pkg": "^6.0.0"
   },
   "readme": "ERROR: No README data found!",
-  "_id": "reactive@0.0.1"
+  "_id": "reactive@0.0.2"
 }
