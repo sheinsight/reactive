@@ -110,9 +110,22 @@ export function proxy<T extends object>(initState: T): T {
       } else {
         nextValue = value;
       }
-      Reflect.set(target, prop, nextValue, receiver);
-      notifyUpdate();
-      return true;
+      let success = Reflect.set(target, prop, nextValue, receiver);
+      if (success) {
+        notifyUpdate();
+      }
+      return success;
+    },
+    deleteProperty(target: T, prop: string | symbol) {
+      const childListeners = Reflect.get(target, prop)?.[LISTENERS];
+      if (childListeners) {
+        childListeners.delete(popPropListener(prop));
+      }
+      const success = Reflect.deleteProperty(target, prop);
+      if (success) {
+        notifyUpdate();
+      }
+      return success;
     },
   });
 
