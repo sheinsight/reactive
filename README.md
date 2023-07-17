@@ -43,3 +43,8 @@ function App() {
   );
 }
 ```
+
+# example
+
+- [base-example](https://stackblitz.com/edit/vitejs-vite-zli31f?file=src%2Fmain.tsx)
+- [multi-store-example](https://stackblitz.com/edit/vitejs-vite-n5azuk?file=src%2Fmain.tsx)
