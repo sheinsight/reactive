@@ -1,43 +1,95 @@
 # @shined/reactive
 
-🚀 A proxy-based react state management library , Has high rendering performance.
+> `@shined/reactive` proxy-based react state , Has high rendering performance. 🔥
 
-In the past, we usually needed to manually use the selector method to declaratively optimize our rendering performance. I call this behavior "manual transmission".
-
-Now, let reactive automatically optimize rendering performance for you and experience the era of automatic transmission.
+- ⚡️ High rendering performance .
+- 😉 Simple API .
+- 🏄‍♂️ No dogmatism.
+- 🔐 Freeze your snapshot to avoid accidental modifications.
 
 # Install
 
 ```bash
 # npm
 npm i @shined/reactive -S
+```
 
+```bash
+# yarn
+yarn add @shined/reactive -S
+```
+
+```bash
 # pnpm
-pnpm i @shined/reactive -S
+pnpm install @shined/reactive -S
 ```
 
 # How to use
 
+Create Store
+
 ```jsx
-// create store
 import { create } from "@shined/reactive";
+
+const store = create({
+  name: "Pikachu",
+});
+```
+
+Get snapshot in the component.
+
+> What needs to be noted is that the obtained snapshots are all frozen, so you cannot mutate.
+
+```jsx
+import { store } from "./store";
+
+export default function Children() {
+  const state = store.useSnapshot();
+  return (
+    <>
+      <h1>{state.name}</h1>
+    </>
+  );
+}
+```
+
+You can mutate the status anywhere.
+
+For example, mutate directly in the store.
+
+```jsx
+import { create } from "@shined/reactive";
+
 const store = create({
   name: "Pikachu",
 });
 
-// create component
-function App() {
-  // get store snapshot
-  const snap = store.useSnapshot();
+const changeName = () => {
+  store.current.name = "Squirtle";
+};
+```
+
+Or mutate in the component.
+
+> Note that you cannot mutate the snapshot, otherwise an error will be reported.
+
+```jsx
+import { store } from "./store";
+
+export default function Children() {
+  const state = store.useSnapshot();
   return (
     <>
-      <h1>{snap.name}</h1>
+      <h1>{state.name}</h1>
       <button
         onClick={() => {
+          // ❌ Error: Cannot modify frozen object
+          state.name = "Squirtle";
+          // ✅ OK
           store.current.name = "Squirtle";
         }}
       >
-        点我
+        mutate name
       </button>
     </>
   );
