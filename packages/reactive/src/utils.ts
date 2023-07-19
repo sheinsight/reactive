@@ -26,3 +26,7 @@ export const REACTIVE = Symbol();
 export function getSnapshot<T extends object>(proxyState: T): T {
   return proxyState[SNAPSHOT];
 }
+
+export type DeepReadonly<T> = {
+  readonly [K in keyof T]: T[K] extends object ? DeepReadonly<T[K]> : T[K];
+};
