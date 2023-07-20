@@ -1,11 +1,11 @@
-import { defineWorkspace } from 'vitest/config'
+import { defineWorkspace } from "vitest/config";
 
 export default defineWorkspace([
-  'packages/*',
+  "packages/*",
   {
     test: {
-      include: ['packages/**/use-*.spec.ts'],
-      environment: 'happy-dom'
-    }
-  }
-])
+      include: ["packages/**/use-*.spec.ts"],
+      environment: "happy-dom",
+    },
+  },
+]);
