@@ -19,10 +19,34 @@ describe("useSnapShot", () => {
         },
       },
     });
+
     const { result } = renderHook(() => useSnapshot(proxyState));
+
     act(() => {
       proxyState.address.city.name = "北京";
     });
+
     expect(result.current.address.city.name).toEqual("北京");
+  });
+
+  it("snapshot can not be updated", () => {
+    const proxyState = proxy({
+      address: {
+        city: {
+          name: "上海",
+        },
+      },
+    });
+
+    const { result } = renderHook(() => useSnapshot(proxyState));
+
+    expect(() => {
+      act(() => {
+        // @ts-expect-error: for test
+        result.current.address.city.name = "北京";
+      });
+    }).toThrowError();
+
+    expect(result.current.address.city.name).toEqual("上海");
   });
 });
