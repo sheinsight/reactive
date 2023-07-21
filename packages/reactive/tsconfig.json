@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "ES2015",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "nodenext",
     "target": "esnext",
     "declaration": true
   }

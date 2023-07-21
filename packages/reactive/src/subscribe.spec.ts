@@ -1,5 +1,5 @@
-import { subscribe } from "./subscribe";
-import { LISTENERS } from "./utils";
+import { subscribe } from "./subscribe.js";
+import { LISTENERS } from "./utils.js";
 import { describe, it, expect, vitest } from "vitest";
 
 describe("subscribe", () => {

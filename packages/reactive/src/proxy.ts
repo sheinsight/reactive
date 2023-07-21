@@ -7,7 +7,7 @@ import {
   createObjectFromPrototype,
   isObject,
   getSnapshot,
-} from "./utils";
+} from "./utils.js";
 
 let globalVersion = 1;
 

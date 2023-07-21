@@ -1,7 +1,7 @@
-import { proxy } from "./proxy";
-import { useSnapshot } from "./use-snapshot";
-import { subscribe } from "./subscribe";
-import { DeepReadonly } from "./utils";
+import { proxy } from "./proxy.js";
+import { useSnapshot } from "./use-snapshot.js";
+import { subscribe } from "./subscribe.js";
+import { DeepReadonly } from "./utils.js";
 
 export function create<T extends object>(initState: T) {
   const state = proxy(initState);
