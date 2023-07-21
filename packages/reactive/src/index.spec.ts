@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { create } from "./index";
+import { create } from "./index.js";
 
 describe("index", () => {
   it("should be defined", () => {

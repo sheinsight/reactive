@@ -1,8 +1,8 @@
 import { useCallback, useRef } from "react";
-import { DeepReadonly, getSnapshot } from "./utils";
-import { useSyncExternalStoreWithSelector } from "use-sync-external-store/shim/with-selector";
+import { DeepReadonly, getSnapshot } from "./utils.js";
+import { useSyncExternalStoreWithSelector } from "use-sync-external-store/shim/with-selector.js";
 import { createProxy, isChanged } from "proxy-compare";
-import { subscribe } from "./subscribe";
+import { subscribe } from "./subscribe.js";
 
 export function useSnapshot<T extends object>(proxyState: T): DeepReadonly<T> {
   const affected = new WeakMap();
