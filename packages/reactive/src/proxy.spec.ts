@@ -107,14 +107,12 @@ describe("proxy", () => {
     expect(listener2).toHaveBeenCalledTimes(1);
   });
 
-  it("should ", () => {
+  it("should retrive listener when store props changed", () => {
     const state = { nested: { obj: {} } };
     const reactiveState = proxy(state);
     const newObj = {};
 
     newObj[LISTENERS] = new Set();
-    newObj[LISTENERS].add(vitest.fn());
-    newObj[LISTENERS].add(vitest.fn());
 
     reactiveState.nested.obj = newObj;
     reactiveState.nested.obj = {};
@@ -122,5 +120,14 @@ describe("proxy", () => {
     expect(reactiveState.nested.obj[LISTENERS].size).toBe(1);
   });
 
-  
+  it("should not notify listeners when a property is set to the same value", () => {
+    const state = { count: 0 };
+    const reactiveState = proxy(state);
+    const listener = vitest.fn();
+
+    reactiveState[LISTENERS].add(listener);
+    reactiveState.count = 0;
+
+    expect(listener).toHaveBeenCalledTimes(0);
+  });
 });
