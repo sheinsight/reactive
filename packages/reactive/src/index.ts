@@ -3,14 +3,14 @@ import { useSnapshot } from "./use-snapshot.js";
 import { subscribe } from "./subscribe.js";
 import { DeepReadonly } from "./utils.js";
 
-export function create<T extends object>(
-  initState: T
-): Readonly<{
+export type CreateReturn<T extends object> = Readonly<{
   mutate: T;
   useSnapshot: () => DeepReadonly<T>;
   subscribe: (callback: () => void) => () => void;
   restore: () => void;
-}> {
+}>;
+
+export function create<T extends object>(initState: T): CreateReturn<T> {
   const state = proxy(initState);
   return {
     mutate: state,
