@@ -9,12 +9,19 @@ export function create<T extends object>(
   mutate: T;
   useSnapshot: () => DeepReadonly<T>;
   subscribe: (callback: () => void) => () => void;
+  restore: () => void;
 }> {
   const state = proxy(initState);
   return {
     mutate: state,
     useSnapshot: (): DeepReadonly<T> => useSnapshot(state),
     subscribe: (callback) => subscribe(state, callback),
+    restore: () => {
+      const _ = structuredClone(initState);
+      Object.keys(_).forEach((k) => {
+        state[k] = _[k];
+      });
+    },
   };
 }
 export { proxy, subscribe, useSnapshot };
