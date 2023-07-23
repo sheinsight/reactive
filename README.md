@@ -65,7 +65,7 @@ const store = create({
 });
 
 const changeName = () => {
-  store.current.name = "Squirtle";
+  store.mutate.name = "Squirtle";
 };
 ```
 
@@ -86,7 +86,7 @@ export default function Children() {
           // ❌ Error: Cannot modify frozen object
           state.name = "Squirtle";
           // ✅ OK
-          store.current.name = "Squirtle";
+          store.mutate.name = "Squirtle";
         }}
       >
         mutate name
