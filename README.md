@@ -98,7 +98,7 @@ export default function Children() {
 
 You can easily restore the initial state.
 
-> We used the latest [`structuredClone`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) API. If your target browser version is too low, please ensure that the polyfill is loaded correctly.
+> We used the latest [`structuredClone`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone){:target="\_blank"} API. If your target browser version is too low, please ensure that the polyfill is loaded correctly.
 
 ```tsx
 import { store } from "./store";
