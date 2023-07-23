@@ -12,7 +12,7 @@ describe("index", () => {
         city: "NanJing",
       },
     });
-    expect(store.current).toBeDefined();
+    expect(store.mutate).toBeDefined();
     expect(store.useSnapshot).toBeDefined();
     expect(store.subscribe).toBeDefined();
   });
