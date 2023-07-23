@@ -5,7 +5,7 @@
 - ⚡️ High rendering performance .
 - 😉 Simple API .
 - 🏄‍♂️ No dogmatism.
-- 🔐 Freeze your snapshot to avoid accidental modifications.
+- 🔐 Freeze your snapshot to avoid accidental mutate.
 
 # Install
 
@@ -83,7 +83,7 @@ export default function Children() {
       <h1>{state.name}</h1>
       <button
         onClick={() => {
-          // ❌ Error: Cannot modify frozen object
+          // ❌ Error: Cannot mutate frozen object
           state.name = "Squirtle";
           // ✅ OK
           store.mutate.name = "Squirtle";
