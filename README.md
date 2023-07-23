@@ -96,6 +96,30 @@ export default function Children() {
 }
 ```
 
+You can easily restore the initial state.
+
+> We used the latest [`structuredClone`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) API. If your target browser version is too low, please ensure that the polyfill is loaded correctly.
+
+```tsx
+import { store } from "./store";
+
+export default function Children() {
+  const state = store.useSnapshot();
+  return (
+    <>
+      <h1>{state.name}</h1>
+      <button
+        onClick={() => {
+          store.restore();
+        }}
+      >
+        restore
+      </button>
+    </>
+  );
+}
+```
+
 # example
 
 - [base-example](https://stackblitz.com/edit/vitejs-vite-zli31f?file=src%2Fmain.tsx)
