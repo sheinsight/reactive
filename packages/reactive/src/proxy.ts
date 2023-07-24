@@ -21,6 +21,9 @@ export function proxy<T extends object>(initState: T): T {
   let version = globalVersion;
   const listeners = new Set<(v?: number) => void>();
 
+  // FIXME:
+  // when the value is not truly changed, the listener should not be triggered.
+  // such as: `state.count = state.count`
   const notifyUpdate = (nextVersion = ++globalVersion) => {
     if (version !== nextVersion) {
       version = nextVersion;
