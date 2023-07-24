@@ -1,16 +1,27 @@
-import { proxy } from "./proxy";
-import { useSnapshot } from "./use-snapshot";
-import { subscribe } from "./subscribe";
-import { DeepReadonly } from "./utils";
+import { proxy } from "./proxy.js";
+import { useSnapshot } from "./use-snapshot.js";
+import { subscribe } from "./subscribe.js";
+import { DeepReadonly } from "./utils.js";
 
-type AnyFunc = (...args: any[]) => any;
+export type CreateReturn<T extends object> = Readonly<{
+  mutate: T;
+  useSnapshot: () => DeepReadonly<T>;
+  subscribe: (callback: () => void) => () => void;
+  restore: () => void;
+}>;
 
-export function create<T extends object>(initState: T) {
+export function create<T extends object>(initState: T): CreateReturn<T> {
   const state = proxy(initState);
   return {
-    current: state,
+    mutate: state,
     useSnapshot: (): DeepReadonly<T> => useSnapshot(state),
-    subscribe: (callback: AnyFunc) => subscribe(state, callback),
+    subscribe: (callback) => subscribe(state, callback),
+    restore: () => {
+      const _ = structuredClone(initState);
+      Object.keys(_).forEach((k) => {
+        state[k] = _[k];
+      });
+    },
   };
 }
 export { proxy, subscribe, useSnapshot };

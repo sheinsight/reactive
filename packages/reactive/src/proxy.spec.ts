@@ -1,6 +1,6 @@
-import { proxy } from "./proxy";
+import { proxy } from "./proxy.js";
 import { describe, it, expect, vitest } from "vitest";
-import { LISTENERS, SNAPSHOT } from "./utils";
+import { LISTENERS, SNAPSHOT } from "./utils.js";
 
 describe("proxy", () => {
   it("should be defined", () => {

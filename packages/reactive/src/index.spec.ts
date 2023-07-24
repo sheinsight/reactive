@@ -1,10 +1,10 @@
 import { describe, it, expect, vitest } from "vitest";
-import { create, proxy, subscribe, useSnapshot } from "./index";
+import { create, proxy, subscribe, useSnapshot } from "./index.js";
 
 describe("index", () => {
   it("create, proxy, useSnapshot and subscribe should be defined", () => {
     expect(create).toBeDefined();
-    
+
     expect(proxy).toBeDefined();
     expect(subscribe).toBeDefined();
     expect(useSnapshot).toBeDefined();
@@ -18,7 +18,7 @@ describe("index", () => {
       },
     });
 
-    expect(store.current).toMatchObject({
+    expect(store.mutate).toMatchObject({
       name: "Pikachu",
       address: {
         city: "NanJing",
@@ -26,14 +26,14 @@ describe("index", () => {
     });
 
     const snapshot = store.useSnapshot();
-    expect(snapshot).toEqual(store.current);
+    expect(snapshot).toEqual(store.mutate);
 
     const callback = vitest.fn();
     store.subscribe(callback);
     expect(callback).toHaveBeenCalledTimes(0);
 
     // 修改状态后，验证订阅回调被调用
-    store.current.name = "Charmander";
+    store.mutate.name = "Charmander";
     expect(callback).toHaveBeenCalledTimes(1);
   });
 });

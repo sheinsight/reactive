@@ -5,7 +5,7 @@
 - ⚡️ High rendering performance .
 - 😉 Simple API .
 - 🏄‍♂️ No dogmatism.
-- 🔐 Freeze your snapshot to avoid accidental modifications.
+- 🔐 Freeze your snapshot to avoid accidental mutate.
 
 # Install
 
@@ -65,7 +65,7 @@ const store = create({
 });
 
 const changeName = () => {
-  store.current.name = "Squirtle";
+  store.mutate.name = "Squirtle";
 };
 ```
 
@@ -83,13 +83,37 @@ export default function Children() {
       <h1>{state.name}</h1>
       <button
         onClick={() => {
-          // ❌ Error: Cannot modify frozen object
+          // ❌ Error: Cannot mutate frozen object
           state.name = "Squirtle";
           // ✅ OK
-          store.current.name = "Squirtle";
+          store.mutate.name = "Squirtle";
         }}
       >
         mutate name
+      </button>
+    </>
+  );
+}
+```
+
+You can easily restore the initial state.
+
+> We used the latest [`structuredClone`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) API. If your target browser version is too low, please ensure that the polyfill is loaded correctly.
+
+```tsx
+import { store } from "./store";
+
+export default function Children() {
+  const state = store.useSnapshot();
+  return (
+    <>
+      <h1>{state.name}</h1>
+      <button
+        onClick={() => {
+          store.restore();
+        }}
+      >
+        restore
       </button>
     </>
   );
