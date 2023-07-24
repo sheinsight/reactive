@@ -4,7 +4,9 @@ import {
   createObjectFromPrototype,
   getSnapshot,
   SNAPSHOT,
-} from "./utils.js";
+  LISTENERS,
+  REACTIVE,
+} from "./utils";
 import { describe, it, expect } from "vitest";
 
 describe("Object Utils", () => {
@@ -43,6 +45,10 @@ describe("Object Utils", () => {
       expect(canProxy(Symbol.iterator)).toBe(false);
     });
 
+    it("should return false for object with Symbol.iterator defined", () => {
+      expect(canProxy({ [Symbol.iterator]: () => {} })).toBe(false);
+    });
+
     it("should return false for instance of WeakMap, WeakSet, Error, Number, Date, String, RegExp, ArrayBuffer", () => {
       expect(canProxy(new WeakMap())).toBe(false);
       expect(canProxy(new WeakSet())).toBe(false);
@@ -64,6 +70,14 @@ describe("Object Utils", () => {
     it("should create new object for object prototype", () => {
       const newObject = createObjectFromPrototype({});
       expect(typeof newObject).toBe("object");
+    });
+  });
+
+  describe("Symbols: SNAPSHOT, LISTENERS, REACTIVE", () => {
+    it("should be defined", () => {
+      expect(SNAPSHOT).toBeDefined();
+      expect(LISTENERS).toBeDefined();
+      expect(REACTIVE).toBeDefined();
     });
   });
 
