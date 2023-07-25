@@ -42,6 +42,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@redux-devtools/extension": "^3.2.5",
     "@types/use-sync-external-store": "^0.0.3",
     "proxy-compare": "^2.5.1",
     "use-sync-external-store": "^1.2.0"
