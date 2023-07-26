@@ -3,8 +3,13 @@ import { Config as ReduxDevtoolConfig } from "@redux-devtools/extension";
 import { proxy } from "./proxy.js";
 import { useSnapshot } from "./use-snapshot.js";
 import { subscribe } from "./subscribe.js";
-import { DeepReadonly } from "./utils.js";
 import { enableDevtool } from "./devtool.js";
+
+import {
+  isProduction,
+  type DeepReadonly,
+  type DeepExpandType,
+} from "./utils.js";
 
 export type CreateReturn<T extends object> = Readonly<{
   mutate: T;
@@ -13,20 +18,22 @@ export type CreateReturn<T extends object> = Readonly<{
   restore: () => void;
 }>;
 
-/** initial options for creation */
-export interface CreateOptions extends ReduxDevtoolConfig {
-  /** devtool options, if set, will enable redux devtool */
-  devtool?: {
-    /**
-     * name of the store, will be displayed in devtool panel
-     */
+/** redux devtool options, if set, will enable redux devtool */
+export type DevtoolOptions = DeepExpandType<
+  {
+    /* name of the store, will be displayed as title in devtool switch panel */
     name: string;
     /**
      * if set to true, will enable forever whenever production or not
      * @default false
      * */
     forceEnable?: boolean;
-  };
+  } & ReduxDevtoolConfig
+>;
+
+/** initial options for creation */
+export interface CreateOptions {
+  devtool?: DevtoolOptions;
 }
 
 export function create<T extends object>(
@@ -47,11 +54,8 @@ export function create<T extends object>(
       throw new Error("devtool.name is required");
     }
 
-    // FIXME: need to be implemented
-    const isProduction = false;
-
     if (!isProduction || options?.devtool?.forceEnable) {
-      const disableDevtool = enableDevtool(state, options, restore);
+      const disableDevtool = enableDevtool(state, options.devtool, restore);
     }
   }
 

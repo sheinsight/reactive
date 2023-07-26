@@ -1,7 +1,8 @@
 import { proxy, subscribe } from "./index.js";
-import { getSnapshot } from "./utils.js";
+import { REACTIVE_STORE_CHANGED, getSnapshot } from "./utils.js";
 
-import type { CreateOptions } from "./index.js";
+import type { Config } from "@redux-devtools/extension";
+import type { DevtoolOptions } from "./index.js";
 
 export type ExtensionActionType =
   | "START"
@@ -35,48 +36,52 @@ const ext = window.__REDUX_DEVTOOLS_EXTENSION__;
 
 export function enableDevtool(
   state: ReturnType<typeof proxy>,
-  options: CreateOptions,
+  options: DevtoolOptions,
   restore: () => void
 ) {
   if (!ext) {
     const infos = [
-      "to enable it, make sure you've installed the redux devtool extension: ",
+      "to enable redux devtool, make sure you've installed it 👉",
       "https://github.com/reduxjs/redux-devtools#redux-devtools",
     ];
 
-    throw new Error(infos.join(""));
+    throw new Error(infos.join(" "));
   }
 
-  const name = options.devtool.name;
-  const devtool = ext.connect({ ...options, name }) as ConnectResponse;
+  const devtool = ext.connect(options as Config) as ConnectResponse;
 
   devtool.init(getSnapshot(state));
 
   devtool.subscribe((message) => {
     console.debug("message: ", message);
 
-    if (message.type !== "DISPATCH") {
-      return;
+    if (message.type !== "DISPATCH") return;
+    if (!message.payload) return;
+    if (message.payload.type === "RESET") restore();
+
+    if (message.payload.type === "COMMIT") {
+      devtool.init(getSnapshot(state));
     }
 
-    if (message.payload && message.payload.type === "RESET") {
-      restore();
-    } else {
-      if (!message.state) {
-        return;
-      }
+    const actions: ExtensionActionType[] = ["ROLLBACK", "JUMP_TO_ACTION"];
+    const isAction = actions.includes(message.payload.type);
+    const hasState = message.state && message.state !== "{}";
 
-      const actions = ["ROLLBACK", "COMMIT", "JUMP_TO_ACTION"];
-
-      if (actions.includes(message.payload.type)) {
-        Object.assign(state, JSON.parse(message.state || ""));
+    if (isAction && hasState) {
+      try {
+        Object.assign(state, JSON.parse(message.state));
+      } catch (e) {
+        devtool.error(e?.message || e?.toString() || JSON.stringify(e || ""));
       }
     }
   });
 
-  subscribe(state, () => {
-    devtool.send({ type: "STORE_CHANGED" }, getSnapshot(state));
+  const unsubscribe = subscribe(state, () => {
+    devtool.send({ type: REACTIVE_STORE_CHANGED }, getSnapshot(state));
   });
 
-  return () => devtool.unsubscribe();
+  return () => {
+    devtool.unsubscribe();
+    unsubscribe();
+  };
 }
