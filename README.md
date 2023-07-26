@@ -1,30 +1,26 @@
 # @shined/reactive
 
-> `@shined/reactive` proxy-based react state , Has high rendering performance. 🔥
+> unopinionated proxy-based state, with high rendering performance. 🔥
 
-- ⚡️ High rendering performance .
-- 😉 Simple API .
-- 🏄‍♂️ No dogmatism.
-- 🔐 Freeze your snapshot to avoid accidental mutate.
+## Features
 
-# Install
+- 😉 **Easy to use**: just several simple APIs.
+- ⚡️ **High performance**: use [Proxy](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy) to achieve high rendering
+- 🏄‍♂️ **Unopinionated**: works well in both React and Vanilla.
+- 🔐 **Secure**: `snapshot` can't be mutated directly.
+
+## Install
 
 ```bash
 # npm
 npm i @shined/reactive -S
-```
-
-```bash
 # yarn
 yarn add @shined/reactive -S
-```
-
-```bash
 # pnpm
 pnpm install @shined/reactive -S
 ```
 
-# How to use
+## Usage
 
 Create Store
 
@@ -36,9 +32,9 @@ const store = create({
 });
 ```
 
-Get snapshot in the component.
+Get snapshot
 
-> What needs to be noted is that the obtained snapshots are all frozen, so you cannot mutate.
+> NOTE: snapshots are all frozen, so you can only mutate state by modify `store.mutate` object.
 
 ```jsx
 import { store } from "./store";
@@ -53,7 +49,7 @@ export default function Children() {
 }
 ```
 
-You can mutate the status anywhere.
+You can mutate the state anywhere you like.
 
 For example, mutate directly in the store.
 
@@ -96,9 +92,9 @@ export default function Children() {
 }
 ```
 
-You can easily restore the initial state.
+You can easily restore to initial state.
 
-> We used the latest [`structuredClone`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) API. If your target browser version is too low, please ensure that the polyfill is loaded correctly.
+> The newer [`structuredClone`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) API is used, consider adding a polyfill if needed.
 
 ```tsx
 import { store } from "./store";
@@ -120,7 +116,11 @@ export default function Children() {
 }
 ```
 
-# example
+## Examples
 
 - [base-example](https://stackblitz.com/edit/vitejs-vite-zli31f?file=src%2Fmain.tsx)
 - [multi-store-example](https://stackblitz.com/edit/vitejs-vite-n5azuk?file=src%2Fmain.tsx)
+
+## License
+
+- [MIT](LICENSE)
