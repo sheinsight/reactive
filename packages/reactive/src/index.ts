@@ -1,15 +1,11 @@
-import { Config as ReduxDevtoolConfig } from "@redux-devtools/extension";
-
 import { proxy } from "./proxy.js";
 import { useSnapshot } from "./use-snapshot.js";
 import { subscribe } from "./subscribe.js";
 import { enableDevtool } from "./devtool.js";
+import { isProduction } from "./utils.js";
 
-import {
-  isProduction,
-  type DeepReadonly,
-  type DeepExpandType,
-} from "./utils.js";
+import type { Config as ReduxDevtoolConfig } from "@redux-devtools/extension";
+import type { DeepReadonly, DeepExpandType } from "./utils.js";
 
 export type CreateReturn<T extends object> = Readonly<{
   mutate: T;
