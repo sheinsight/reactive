@@ -2,19 +2,6 @@
 
 > Unopinionated proxy-based state, with high rendering performance. 🔥
 
-## Contents
-
-- [@shined/reactive](#shinedreactive)
-  - [Contents](#contents)
-  - [Features](#features)
-  - [Install](#install)
-  - [Usage](#usage)
-    - [1. Create a store](#1-create-a-store)
-    - [2. Get snapshot from store](#2-get-snapshot-from-store)
-    - [3. Mutate the store](#3-mutate-the-store)
-  - [Examples](#examples)
-  - [License](#license)
-
 ## Features
 
 - 😉 **Easy to use**: just several simple APIs.
@@ -53,10 +40,13 @@ const store = create(
   {
     devtool: {
       name: "Pikachu Store",
+      // ... other options here.
     },
   }
 );
 ```
+
+> Full devtools options see [Redux Devtools Extension Documentation](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md#options).
 
 ### 2. Get snapshot from store
 
