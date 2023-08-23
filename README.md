@@ -1,32 +1,29 @@
 # @shined/reactive
 
-> `@shined/reactive` proxy-based react state , Has high rendering performance. 🔥
+> Unopinionated proxy-based state, with high rendering performance. 🔥
 
-- ⚡️ High rendering performance .
-- 😉 Simple API .
-- 🏄‍♂️ No dogmatism.
-- 🔐 Freeze your snapshot to avoid accidental mutate.
+## Features
 
-# Install
+- 😉 **Easy to use**: just several simple APIs.
+- ⚡️ **High performance**: use [Proxy](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy) to achieve high rendering
+- 🏄‍♂️ **Unopinionated**: works well in both React and Vanilla JS/TS.
+- 🔐 **Secure**: `snapshot` can't be mutated directly.
+- 💻 **Redux Devtools Support**: partly support [Redux Devtools Extension](https://github.com/reduxjs/redux-devtools#redux-devtools).
+
+## Install
 
 ```bash
 # npm
-npm i @shined/reactive -S
-```
-
-```bash
+npm i @shined/reactive
 # yarn
-yarn add @shined/reactive -S
-```
-
-```bash
+yarn add @shined/reactive
 # pnpm
-pnpm install @shined/reactive -S
+pnpm add @shined/reactive
 ```
 
-# How to use
+## Usage
 
-Create Store
+### 1. Create a store
 
 ```jsx
 import { create } from "@shined/reactive";
@@ -34,17 +31,35 @@ import { create } from "@shined/reactive";
 const store = create({
   name: "Pikachu",
 });
+
+// or go with devtools enabled, make sure you've installed `redux-devtools-extension`
+const store = create(
+  {
+    name: "Pikachu",
+  },
+  {
+    devtool: {
+      name: "Pikachu Store",
+      // ... other options here.
+    },
+  }
+);
 ```
 
-Get snapshot in the component.
+> Full devtools options see [Redux Devtools Extension Documentation](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md#options).
 
-> What needs to be noted is that the obtained snapshots are all frozen, so you cannot mutate.
+### 2. Get snapshot from store
 
 ```jsx
 import { store } from "./store";
+// import { useSnapshot } from "@shined/reactive";
 
-export default function Children() {
+export default function Foo() {
   const state = store.useSnapshot();
+
+  // or get snapshot by `useSnapshot` hooks
+  // const state = useSnapshot(store);
+
   return (
     <>
       <h1>{state.name}</h1>
@@ -53,9 +68,13 @@ export default function Children() {
 }
 ```
 
-You can mutate the status anywhere.
+### 3. Mutate the store
 
-For example, mutate directly in the store.
+You can mutate the state anywhere you like.
+
+For example, mutate it in the same file with the store directly.
+
+> NOTE: snapshots are all frozen, so you can only mutate state by modify `store.mutate` object.
 
 ```jsx
 import { create } from "@shined/reactive";
@@ -69,58 +88,54 @@ const changeName = () => {
 };
 ```
 
-Or mutate in the component.
-
-> Note that you cannot mutate the snapshot, otherwise an error will be reported.
+Or mutate in components.
 
 ```jsx
 import { store } from "./store";
 
-export default function Children() {
+export default function Foo() {
   const state = store.useSnapshot();
+
+  function handleClick() {
+    // ❌ Error: Cannot mutate frozen object
+    state.name = "Squirtle";
+    // ✅ Works
+    store.mutate.name = "Squirtle";
+  }
+
   return (
     <>
       <h1>{state.name}</h1>
-      <button
-        onClick={() => {
-          // ❌ Error: Cannot mutate frozen object
-          state.name = "Squirtle";
-          // ✅ OK
-          store.mutate.name = "Squirtle";
-        }}
-      >
-        mutate name
-      </button>
+      <button onClick={handleClick}>mutate name</button>
     </>
   );
 }
 ```
 
-You can easily restore the initial state.
+You can easily restore to initial state.
 
-> We used the latest [`structuredClone`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) API. If your target browser version is too low, please ensure that the polyfill is loaded correctly.
+> The newer [`structuredClone`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) API is used in this function, so consider adding a polyfill if needed.
 
-```tsx
+```jsx
 import { store } from "./store";
 
-export default function Children() {
+export default function Foo() {
   const state = store.useSnapshot();
+
   return (
     <>
       <h1>{state.name}</h1>
-      <button
-        onClick={() => {
-          store.restore();
-        }}
-      >
-        restore
-      </button>
+      <button onClick={() => store.restore()}>restore</button>
     </>
   );
 }
 ```
 
-# example
+## Examples
 
 - [base-example](https://stackblitz.com/edit/vitejs-vite-zli31f?file=src%2Fmain.tsx)
 - [multi-store-example](https://stackblitz.com/edit/vitejs-vite-n5azuk?file=src%2Fmain.tsx)
+
+## License
+
+- [MIT](LICENSE)
