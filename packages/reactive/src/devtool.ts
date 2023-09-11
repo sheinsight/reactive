@@ -32,7 +32,7 @@ interface ConnectResponse {
   error: (...args: any[]) => any;
 }
 
-const ext = window.__REDUX_DEVTOOLS_EXTENSION__;
+const ext = globalThis.__REDUX_DEVTOOLS_EXTENSION__;
 
 export function enableDevtool(
   state: ReturnType<typeof proxy>,

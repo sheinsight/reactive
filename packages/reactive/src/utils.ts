@@ -35,6 +35,6 @@ export type DeepExpandType<T> = {
   [K in keyof T]: T[K] extends object ? DeepExpandType<T[K]> : T[K];
 };
 
-export const isProduction = process?.env?.NODE_ENV === "production";
+export const isProduction = process.env.NODE_ENV === "production";
 
 export const REACTIVE_STORE_CHANGED = "REACTIVE_STORE_CHANGED";
