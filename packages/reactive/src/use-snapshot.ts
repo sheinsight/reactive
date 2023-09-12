@@ -12,10 +12,10 @@ export function useSnapshot<T extends object>(proxyState: T): DeepReadonly<T> {
 
   const _subscribe = useCallback(
     (callback: () => void) => subscribe(proxyState, callback),
-    []
+    [proxyState]
   );
 
-  const _getSnapshot = useCallback(() => getSnapshot(proxyState), []);
+  const _getSnapshot = useCallback(() => getSnapshot(proxyState), [proxyState]);
 
   const snapshot = useSyncExternalStoreWithSelector(
     _subscribe,
