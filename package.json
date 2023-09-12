@@ -28,6 +28,10 @@
     "vitest": "^0.33.0",
     "write-pkg": "^6.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sheinsight/reactive.git"
+  },
   "readme": "ERROR: No README data found!",
   "_id": "reactive@0.0.9"
 }
