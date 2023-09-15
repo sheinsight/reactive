@@ -1,6 +1,6 @@
 {
   "name": "reactive",
-  "version": "0.0.12",
+  "version": "0.0.11",
   "author": {
     "name": "ityuany"
   },
@@ -33,7 +33,7 @@
     "url": "git+https://github.com/sheinsight/reactive.git"
   },
   "readme": "ERROR: No README data found!",
-  "_id": "reactive@0.0.11",
+  "_id": "reactive@0.0.10",
   "bugs": {
     "url": "https://github.com/sheinsight/reactive/issues"
   },
