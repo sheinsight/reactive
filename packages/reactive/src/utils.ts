@@ -31,6 +31,10 @@ export type DeepReadonly<T> = {
   readonly [K in keyof T]: T[K] extends object ? DeepReadonly<T[K]> : T[K];
 };
 
+export type DeepWritable<T> = {
+  -readonly [K in keyof T]: T[K] extends object ? DeepWritable<T[K]> : T[K];
+};
+
 export type DeepExpandType<T> = {
   [K in keyof T]: T[K] extends object ? DeepExpandType<T[K]> : T[K];
 };

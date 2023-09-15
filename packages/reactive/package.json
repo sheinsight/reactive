@@ -20,6 +20,9 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./hack-remove-readonly": {
+      "types": "./hack-remove-readonly.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "publishConfig": {
