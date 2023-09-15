@@ -131,6 +131,19 @@ export default function Foo() {
 }
 ```
 
+## FAQ
+
+### TS type error, `readonly` type can not be assigned to mutable type
+
+This error commonly occurs when using [shineout](https://github.com/sheinsight/shineout), [antd](https://github.com/ant-design/ant-design) or other UI component libraries.
+
+To resolve this issue, add following code to your entry file, and you can head to [PR#8](https://github.com/sheinsight/reactive/pull/8) for more details.
+
+```ts
+// add this line to your entry file, like `index.tsx`, `global.d.ts` or ect.
+import "@shined/reactive/hack-remove-readonly";
+```
+
 ## Examples
 
 - [base-example](https://stackblitz.com/edit/vitejs-vite-zli31f?file=src%2Fmain.tsx)
@@ -138,4 +151,4 @@ export default function Foo() {
 
 ## License
 
-- [MIT](LICENSE)
+- [MIT](./LICENSE)

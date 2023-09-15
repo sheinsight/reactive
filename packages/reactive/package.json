@@ -13,7 +13,8 @@
     "test:cov": "vitest run --coverage"
   },
   "files": [
-    "dist"
+    "./dist",
+    "./hack-remove-readonly.d.ts"
   ],
   "exports": {
     ".": {
