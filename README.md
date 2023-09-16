@@ -140,8 +140,8 @@ This error commonly occurs when using [shineout](https://github.com/sheinsight/s
 To resolve this issue, add following code to your entry file, and you can head to [PR#8](https://github.com/sheinsight/reactive/pull/8) for more details.
 
 ```ts
-// add this line to your entry file, like `index.tsx`, `global.d.ts` or ect.
-import "@shined/reactive/hack-remove-readonly";
+// Add this line to your global type file, such as `global.d.ts` or others.
+/// <reference types="@shined/reactive/hack-remove-readonly" />
 ```
 
 ## Examples
