@@ -145,7 +145,7 @@ Add following line to your **global types file**, such as `global.d.ts` or other
 // recommended
 import "@shined/reactive/hack-remove-readonly";
 
-// or use typescript `triple-slash directive`
+// or using typescript `triple-slash directive`
 /// <reference types="@shined/reactive/hack-remove-readonly" />
 ```
 
