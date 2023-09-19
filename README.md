@@ -151,6 +151,7 @@ The React philosophy is that **props should be immutable and top-down**. So, in 
 However, if you do need to do this for reasons such as high historical legacy, migration costs and others like these, you can use the following hook to address it, but it is **NOT** recommended to use it widely.
 
 ```tsx
+import { useEffect, useReducer } from "react";
 import { subscribe } from "@shined/reactive";
 
 type PlainObject = Record<PropertyKey, unknown>;
@@ -163,7 +164,10 @@ const useMutableState = <T extends PlainObject>(proxyObj: T) => {
 };
 
 export function Foo(props) {
+  // use `useMutableState` to get mutable state instead of `useSnapshot`
   const state = useMutableState(store.mutate);
+
+  // `AccidentallyChangePropsInsideComponent` will change the props value
   return <AccidentallyChangePropsInsideComponent prop={state} />;
 }
 ```
