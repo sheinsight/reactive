@@ -133,16 +133,43 @@ export default function Foo() {
 
 ## FAQ
 
-### TS type error, `readonly` type can not be assigned to mutable type
+### ❓ TS type error, `readonly` type can not be assigned to mutable type
 
-This error commonly occurs when using [shineout](https://github.com/sheinsight/shineout), [antd](https://github.com/ant-design/ant-design) or other UI component libraries.
+This error commonly occurs when using [shineout](https://github.com/sheinsight/shineout), [antd](https://github.com/ant-design/ant-design) or other UI component libraries and passing the `snapshot` to the component props, but the props type can not accept `readonly` type.
 
-To resolve this issue, add following code to your entry file, and you can head to [PR#8](https://github.com/sheinsight/reactive/pull/8) for more details.
-
-Add this line to your global type file, such as `global.d.ts` or others.
+To resolve this type issue, add following line to your **global types file**, such as `global.d.ts` or others, and you can head to [PR#8](https://github.com/sheinsight/reactive/pull/8) for more details.
 
 ```ts
+// add this typescript `triple-slash directive` to hack type
 /// <reference types="@shined/reactive/hack-remove-readonly" />
+```
+
+### ❓ Accidentally changed the props value in React component passed by parent components, which is frozen snapshot
+
+The React philosophy is that **props should be immutable and top-down**. So, in principle, you should **NOT** change the props value inside components.
+
+However, if you do need to do this for reasons such as high historical legacy, migration costs and others like these, you can use the following hook to address it, but it is **NOT** recommended to use it widely.
+
+```tsx
+import { useEffect, useReducer } from "react";
+import { subscribe } from "@shined/reactive";
+
+type PlainObject = Record<PropertyKey, unknown>;
+
+// in TS, if you use JS, you may need to eliminate the type
+const useMutableState = <T extends PlainObject>(proxyObj: T) => {
+  const [, forceUpdate] = useReducer((c: number) => c + 1, 0);
+  useEffect(() => subscribe(proxyObj, forceUpdate), [proxyObj]);
+  return proxyObject as T;
+};
+
+export function Foo(props) {
+  // use `useMutableState` to get mutable state instead of `useSnapshot`
+  const state = useMutableState(store.mutate);
+
+  // `AccidentallyChangePropsInsideComponent` will change the props value
+  return <AccidentallyChangePropsInsideComponent prop={state} />;
+}
 ```
 
 ## Examples
