@@ -1,20 +1,30 @@
 {
   "name": "reactive",
   "version": "0.0.12",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@8.6.7",
+  "homepage": "https://github.com/sheinsight/reactive#readme",
   "author": {
     "name": "ityuany"
   },
   "license": "MIT",
-  "packageManager": "pnpm@8.6.7",
-  "type": "module",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sheinsight/reactive.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sheinsight/reactive/issues"
+  },
   "scripts": {
     "build": "pnpm --filter '@shined/*' build ",
     "test": "pnpm  --filter '@shined/*' test",
+    "dev": "pnpm i && pnpm -r --parallel dev",
     "bump": "tsx ./scripts/bump.ts",
     "release": "tsx ./scripts/release.ts"
   },
   "devDependencies": {
+    "@types/node": "^20.4.5",
     "@types/semver": "^7.5.0",
     "@vitest/coverage-v8": "^0.33.0",
     "enquirer": "^2.3.6",
@@ -27,15 +37,5 @@
     "tsx": "^3.12.7",
     "vitest": "^0.33.0",
     "write-pkg": "^6.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sheinsight/reactive.git"
-  },
-  "readme": "ERROR: No README data found!",
-  "_id": "reactive@0.0.11",
-  "bugs": {
-    "url": "https://github.com/sheinsight/reactive/issues"
-  },
-  "homepage": "https://github.com/sheinsight/reactive#readme"
+  }
 }

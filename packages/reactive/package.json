@@ -6,9 +6,9 @@
   "module": "dist/index.js",
   "type": "module",
   "scripts": {
+    "dev": "tsup --watch",
     "build": "tsup",
-    "build:w": "tsup --watch",
-    "test": "vitest run ",
+    "test": "vitest run",
     "test:w": "vitest",
     "test:cov": "vitest run --coverage"
   },
@@ -66,7 +66,5 @@
   },
   "peerDependencies": {
     "react": "^16.9.0 || ^17.0.0 || ^18.0.0"
-  },
-  "readme": "ERROR: No README data found!",
-  "_id": "@shined/reactive@0.0.11"
+  }
 }

@@ -9,5 +9,6 @@
     "target": "ESNext",
     "module": "ESNext",
     "skipLibCheck": true
-  }
+  },
+  "include": ["./scripts/**/*"]
 }
