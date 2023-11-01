@@ -6,12 +6,20 @@ import { subscribe } from "./subscribe.js";
 
 import type { DeepReadonly } from "./utils.js";
 
-export function useSnapshot<T extends object>(proxyState: T): DeepReadonly<T> {
+export interface SnapshotOptions {
+  sync?: boolean;
+}
+
+export function useSnapshot<T extends object>(
+  proxyState: T,
+  options?: SnapshotOptions
+): DeepReadonly<T> {
+  const { sync: updateInSync = false } = options || {};
   const affected = new WeakMap();
   const lastAffected = useRef<typeof affected>(affected);
 
   const _subscribe = useCallback(
-    (callback: () => void) => subscribe(proxyState, callback),
+    (callback: () => void) => subscribe(proxyState, callback, updateInSync),
     [proxyState]
   );
 

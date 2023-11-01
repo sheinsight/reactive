@@ -8,6 +8,7 @@ interface StoreState {
     city: { name: string };
     [key: string]: unknown;
   };
+  inputValue: string;
   mutating: boolean;
   [key: string]: unknown;
 }
@@ -21,6 +22,7 @@ export const store = create<StoreState>({
       name: "Shanghai",
     },
   },
+  inputValue: "",
   mutating: false,
 });
 

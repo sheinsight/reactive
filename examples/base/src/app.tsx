@@ -10,8 +10,18 @@ import {
 } from "./store";
 
 export default function App() {
+  // const state = store.useSnapshot();
+  const state = store.useSnapshot({ sync: true });
+
   return (
     <>
+      <input
+        type="text"
+        value={state.inputValue}
+        onChange={(e) => {
+          store.mutate.inputValue = e.target.value;
+        }}
+      />
       <Children />
 
       <div>
