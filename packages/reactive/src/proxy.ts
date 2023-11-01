@@ -40,7 +40,7 @@ export function proxy<T extends object>(initState: T): T {
     let listener = propListenerMap.get(prop);
     if (!listener) {
       listener = {
-        mode: "sync",
+        mode: "async",
         callback: (nextVersion?: number) => notifyUpdate(nextVersion),
       };
       propListenerMap.set(prop, listener);
