@@ -2,6 +2,8 @@ import { proxy } from "./proxy.js";
 import { describe, it, expect, vitest } from "vitest";
 import { LISTENERS, SNAPSHOT } from "./utils.js";
 
+const runMacroTask = (fn: Function) => setTimeout(fn, 0);
+
 describe("proxy", () => {
   it("should be defined", () => {
     expect(proxy).toBeDefined();
@@ -19,7 +21,7 @@ describe("proxy", () => {
     const reactiveState = proxy(state);
 
     reactiveState.count = 5;
-    expect(reactiveState.count).toBe(5);
+    runMacroTask(() => expect(reactiveState.count).toBe(5));
   });
 
   it("should notify listeners when a property is set", () => {
@@ -27,11 +29,13 @@ describe("proxy", () => {
     const reactiveState = proxy(state);
     const listener = vitest.fn();
 
-    reactiveState[LISTENERS].add(listener);
+    reactiveState[LISTENERS].add({ callback: listener, mode: "async" });
     reactiveState.count = 10;
 
-    expect(listener).toHaveBeenCalledTimes(1);
-    expect(listener).toHaveBeenCalledWith();
+    runMacroTask(() => {
+      expect(listener).toHaveBeenCalledTimes(1);
+      expect(listener).toHaveBeenCalledWith();
+    });
   });
 
   it("should create a frozen snapshot with recursive properties", () => {
@@ -53,10 +57,13 @@ describe("proxy", () => {
     reactiveState.count = 5;
 
     const snapshot2 = reactiveState[SNAPSHOT];
-    expect(snapshot2.count).toBe(5);
 
-    // Snapshots should be different object references
-    expect(snapshot1).not.toBe(snapshot2);
+    runMacroTask(() => {
+      expect(snapshot2.count).toBe(5);
+
+      // Snapshots should be different object references
+      expect(snapshot1).not.toBe(snapshot2);
+    });
   });
 
   it("should handle nested objects and arrays", () => {
@@ -85,11 +92,13 @@ describe("proxy", () => {
     const reactiveState = proxy(state);
     const listener = vitest.fn();
 
-    reactiveState[LISTENERS].add(listener);
+    reactiveState[LISTENERS].add({ callback: listener, mode: "async" });
     delete reactiveState.count;
 
-    expect(listener).toHaveBeenCalledTimes(1);
-    expect(listener).toHaveBeenCalledWith();
+    runMacroTask(() => {
+      expect(listener).toHaveBeenCalledTimes(1);
+      expect(listener).toHaveBeenCalledWith();
+    });
   });
 
   it("should handle nested listeners correctly", () => {
@@ -98,13 +107,15 @@ describe("proxy", () => {
     const listener1 = vitest.fn();
     const listener2 = vitest.fn();
 
-    reactiveState.nested[LISTENERS].add(listener1);
-    reactiveState[LISTENERS].add(listener2);
+    reactiveState.nested[LISTENERS].add({ callback: listener1, mode: "async" });
+    reactiveState[LISTENERS].add({ callback: listener2, mode: "async" });
 
     reactiveState.nested.prop = 5;
 
-    expect(listener1).toHaveBeenCalledTimes(1);
-    expect(listener2).toHaveBeenCalledTimes(1);
+    runMacroTask(() => {
+      expect(listener1).toHaveBeenCalledTimes(1);
+      expect(listener2).toHaveBeenCalledTimes(1);
+    });
   });
 
   it("should not notify listeners when a property is not truly changed", () => {
@@ -115,6 +126,8 @@ describe("proxy", () => {
     reactiveState[LISTENERS].add(listener);
     reactiveState.count = 0;
 
-    expect(listener).toHaveBeenCalledTimes(0);
+    runMacroTask(() => {
+      expect(listener).toHaveBeenCalledTimes(0);
+    });
   });
 });

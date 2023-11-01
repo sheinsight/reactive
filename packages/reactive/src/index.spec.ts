@@ -3,6 +3,8 @@ import { create, proxy, subscribe, useSnapshot } from "./index.js";
 import { renderHook } from "@testing-library/react-hooks/dom/index.js";
 import { getSnapshot } from "./utils.js";
 
+const runMacroTask = (fn: Function) => setTimeout(fn, 0);
+
 describe("index", () => {
   it("create, proxy, useSnapshot and subscribe should be defined", () => {
     expect(create).toBeDefined();
@@ -32,10 +34,11 @@ describe("index", () => {
 
     const callback = vitest.fn();
     store.subscribe(callback);
+
     expect(callback).toHaveBeenCalledTimes(0);
 
     store.mutate.name = "Charmander";
-    expect(callback).toHaveBeenCalledTimes(1);
+    runMacroTask(() => expect(callback).toHaveBeenCalledTimes(1));
   });
 
   it("should restore state when restore function was called", () => {
@@ -49,12 +52,14 @@ describe("index", () => {
     store.mutate.name = "Charmander";
     store.restore();
 
-    expect(store.mutate).toMatchObject({
-      name: "Pikachu",
-      address: {
-        city: "NanJing",
-      },
-    });
+    runMacroTask(() =>
+      expect(store.mutate).toMatchObject({
+        name: "Pikachu",
+        address: {
+          city: "NanJing",
+        },
+      })
+    );
   });
 
   it("should subscribe and unsubscribe", () => {
@@ -69,11 +74,11 @@ describe("index", () => {
     const unsubscribe = store.subscribe(callback);
 
     store.mutate.name = "Charmander";
-    expect(callback).toHaveBeenCalledTimes(1);
+    runMacroTask(() => expect(callback).toHaveBeenCalledTimes(1));
 
     unsubscribe();
     store.mutate.name = "Pikachu";
-    expect(callback).toHaveBeenCalledTimes(1);
+    runMacroTask(() => expect(callback).toHaveBeenCalledTimes(1));
   });
 
   it("should notify when delete a property", () => {
@@ -88,6 +93,7 @@ describe("index", () => {
     store.subscribe(callback);
 
     delete store.mutate.name;
-    expect(callback).toHaveBeenCalledTimes(1);
+
+    runMacroTask(() => expect(callback).toHaveBeenCalledTimes(1));
   });
 });
