@@ -7,7 +7,11 @@ declare module "@shined/reactive" {
     [K in keyof T]: T[K] extends object ? DeepExpandType<T[K]> : T[K];
   };
 
-  function useSnapshot<T extends object>(proxyState: T): T;
+  interface SnapshotOptions {
+    sync?: boolean;
+  }
+
+  function useSnapshot<T extends object>(proxyState: T, options?: SnapshotOptions): T;
 
   function subscribe<T extends object>(
     proxyObject: T,
