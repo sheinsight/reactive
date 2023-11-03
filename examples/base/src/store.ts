@@ -53,5 +53,9 @@ export const asyncChangeName = async () => {
   await delay(1000);
 
   store.mutate.name = OTP();
+  store.mutate.name = OTP();
+  store.mutate.name = OTP();
+  store.mutate.name = OTP();
+  store.mutate.name = OTP();
   store.mutate.mutating = false;
 };

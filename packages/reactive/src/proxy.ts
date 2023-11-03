@@ -14,7 +14,7 @@ let globalVersion = 1;
 // Cache content used to store snapshots.
 const snapshotCache = new WeakMap<object, [version: number, snapshot: unknown]>();
 
-type Listener = { mode: "sync" | "async"; callback: (v?: number) => void };
+type Listener =  (v?: number) => void
 
 export function proxy<T extends object>(initState: T): T {
   let version = globalVersion;
@@ -24,12 +24,8 @@ export function proxy<T extends object>(initState: T): T {
     if (version !== nextVersion) {
       version = nextVersion;
 
-      listeners.forEach(({ callback, mode }) => {
-        if (mode === "sync") {
-          callback();
-        } else {
-          queueMicrotask(() => callback());
-        }
+      listeners.forEach((callback) => {
+        callback();
       });
     }
   };
@@ -39,10 +35,7 @@ export function proxy<T extends object>(initState: T): T {
   const getPropListener = (prop: PropertyKey) => {
     let listener = propListenerMap.get(prop);
     if (!listener) {
-      listener = {
-        mode: "async",
-        callback: (nextVersion?: number) => notifyUpdate(nextVersion),
-      };
+      listener =  (nextVersion?: number) => notifyUpdate(nextVersion)
       propListenerMap.set(prop, listener);
     }
     return listener;

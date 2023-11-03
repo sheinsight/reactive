@@ -8,6 +8,7 @@ import {
   pushToArray,
   store,
 } from "./store";
+import { memo } from "react"
 
 export default function App() {
   // const state = store.useSnapshot();
@@ -23,7 +24,7 @@ export default function App() {
         }}
       />
       <Children />
-
+        <C2 />
       <div>
         <button onClick={mutateTopProperty}>mutate top property</button>
         <button onClick={mutateNestedProperty}>mutate nested property</button>
@@ -51,3 +52,10 @@ function Children() {
 
   return <pre style={{ marginBottom: "2rem" }}>{content}</pre>;
 }
+
+
+const C2 = memo(() => {
+  const state = store.useSnapshot( );
+  console.log('render C2');
+  return <h1>{state.name}</h1>
+})

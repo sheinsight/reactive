@@ -20,7 +20,7 @@ export function useSnapshot<T extends object>(
 
   const _subscribe = useCallback(
     (callback: () => void) => subscribe(proxyState, callback, updateInSync),
-    [proxyState]
+    [proxyState,updateInSync]
   );
 
   const _getSnapshot = useCallback(() => getSnapshot(proxyState), [proxyState]);
