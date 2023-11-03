@@ -68,6 +68,12 @@ export default function Foo() {
 }
 ```
 
+> **NOTE** 🔥 🔥 🔥 If passing state to `input` element, an exception occurred while typing Chinese , You can use the `sync` option to solve this problem. see [FAQs](#FAQs) for more details.
+
+
+
+ 
+
 ### 3. Mutate the store
 
 You can mutate the state anywhere you like.
