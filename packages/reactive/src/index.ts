@@ -6,6 +6,7 @@ import { isProduction } from "./utils.js";
 import { ref } from "./ref.js";
 import type { Config as ReduxDevtoolConfig } from "@redux-devtools/extension";
 import type { DeepReadonly, DeepExpandType } from "./utils.js";
+import { useSubscribe } from "./use-subscribe.js";
 
 export type CreateReturn<T extends object> = Readonly<{
   mutate: T;
@@ -60,4 +61,4 @@ export function create<T extends object>(initState: T, options?: CreateOptions):
   };
 }
 
-export { proxy, subscribe, useSnapshot, ref };
+export { ref, proxy, subscribe, useSnapshot, useSubscribe };

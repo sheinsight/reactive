@@ -133,7 +133,43 @@ export default function Foo() {
 }
 ```
 
-### 4. Unproxied state in a reactive proxy
+### 4. Subscribe store in component
+
+You can listen to store changes in the component, and once the store changes, perform certain operations.
+
+```jsx
+import { store } from "./store";
+import { useSubscribe } from "@shined/reactive";
+
+export default function Foo() {
+  const snap = store.useSnapshot();
+
+  useSubscribe(
+    () => {
+      // do something when `store.users` changes
+
+      // ❌ Error: You will fall into an infinite loop.
+      store.mutate.users = [];
+    },
+    {
+      // watch changes of `store.users`
+      // 🤡 deps You must get from store, snap cannot be used as deps for useSubscribe.
+      deps: [store.mutate.users],
+
+      // By default, useSubscribe will be executed asynchronously. If you want to execute it synchronously, you can open this configuration option.
+      sync: true,
+    }
+  );
+
+  return (
+    <>
+      <h1>{state.name}</h1>
+    </>
+  );
+}
+```
+
+### 5. Unproxied state in a reactive proxy
 
 A ref is useful in the rare instances you to nest an object in a proxy that is not wrapped in an inner proxy and, therefore, is not tracked.
 
@@ -252,6 +288,33 @@ const snapshot = store.useSnapshot({ sync: true });
 
 </details>
 
+<details>
+  <summary>❓ When snapshot in useEffect deps , Component enters an infinite loop.</summary>
+  
+```tsx
+const snap = store.useSnapshot();
+
+// ❌ Error: You will fall into an infinite loop.
+useEffect(() => {
+// some side effect
+},[snap.address]);
+
+```
+
+🤔 Why ?
+
+Because the snapshot object is recreated every time, each time it is a new object, so useEffect will think that the value of snapshot.address has changed, thus entering an infinite loop.
+
+🤡 How to solve it ?
+
+You can use the `useSubscribe` hook to solve this problem. see [Subscribe store in component](#Subscribe-store-in-component) for more details.
+
+
+
+
+
+</details>
+
 ## Examples
 
 - [base-example](https://stackblitz.com/edit/vitejs-vite-zli31f?file=src%2Fmain.tsx)
@@ -260,3 +323,4 @@ const snapshot = store.useSnapshot({ sync: true });
 ## License
 
 - [MIT](./LICENSE)
+```
