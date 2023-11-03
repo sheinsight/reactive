@@ -29,7 +29,7 @@ describe("proxy", () => {
     const reactiveState = proxy(state);
     const listener = vitest.fn();
 
-    reactiveState[LISTENERS].add({ callback: listener, mode: "async" });
+    reactiveState[LISTENERS].add(listener);
     reactiveState.count = 10;
 
     runMacroTask(() => {
@@ -92,7 +92,7 @@ describe("proxy", () => {
     const reactiveState = proxy(state);
     const listener = vitest.fn();
 
-    reactiveState[LISTENERS].add({ callback: listener, mode: "async" });
+    reactiveState[LISTENERS].add(listener);
     delete reactiveState.count;
 
     runMacroTask(() => {
@@ -107,14 +107,47 @@ describe("proxy", () => {
     const listener1 = vitest.fn();
     const listener2 = vitest.fn();
 
-    reactiveState.nested[LISTENERS].add({ callback: listener1, mode: "async" });
-    reactiveState[LISTENERS].add({ callback: listener2, mode: "async" });
+    reactiveState.nested[LISTENERS].add(listener1);
+    reactiveState[LISTENERS].add(listener2);
 
     reactiveState.nested.prop = 5;
 
     runMacroTask(() => {
       expect(listener1).toHaveBeenCalledTimes(1);
       expect(listener2).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it("should be handled correctly deletion logic .", () => {
+    const state = { nested: { prop: 0 } };
+    const reactiveState = proxy(state);
+    const listener1 = vitest.fn();
+    const listener2 = vitest.fn();
+
+    reactiveState.nested[LISTENERS].add(listener1);
+    reactiveState[LISTENERS].add(listener2);
+
+    delete reactiveState.nested
+
+    runMacroTask(() => {
+      expect(listener1).not.toBeCalled();
+      expect(listener2).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it("should be handled correctly Use cached listeners.", () => {
+    const state = { nested: { prop: 0 } };
+    const reactiveState = proxy(state);
+    const listener1 = vitest.fn();
+
+    reactiveState.nested[LISTENERS].add(listener1);
+
+
+    reactiveState.nested = reactiveState.nested
+    reactiveState.nested.prop = 2 ;
+
+    runMacroTask(() => {
+      expect(listener1).toHaveBeenCalledTimes(1);
     });
   });
 
