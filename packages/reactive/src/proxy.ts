@@ -12,30 +12,37 @@ import {
 let globalVersion = 1;
 
 // Cache content used to store snapshots.
-const snapshotCache = new WeakMap<
-  object,
-  [version: number, snapshot: unknown]
->();
+const snapshotCache = new WeakMap<object, [version: number, snapshot: unknown]>();
+
+type Listener = { mode: "sync" | "async"; callback: (v?: number) => void };
 
 export function proxy<T extends object>(initState: T): T {
   let version = globalVersion;
-  const listeners = new Set<(v?: number) => void>();
+  const listeners = new Set<Listener>();
 
   const notifyUpdate = (nextVersion = ++globalVersion) => {
     if (version !== nextVersion) {
       version = nextVersion;
-      listeners.forEach((listener) => {
-        listener();
+
+      listeners.forEach(({ callback, mode }) => {
+        if (mode === "sync") {
+          callback();
+        } else {
+          queueMicrotask(() => callback());
+        }
       });
     }
   };
 
-  const propListenerMap = new Map<PropertyKey, () => void>();
+  const propListenerMap = new Map<PropertyKey, Listener>();
 
   const getPropListener = (prop: PropertyKey) => {
     let listener = propListenerMap.get(prop);
     if (!listener) {
-      listener = (nextVersion?: number) => notifyUpdate(nextVersion);
+      listener = {
+        mode: "async",
+        callback: (nextVersion?: number) => notifyUpdate(nextVersion),
+      };
       propListenerMap.set(prop, listener);
     }
     return listener;

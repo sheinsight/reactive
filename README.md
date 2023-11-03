@@ -58,7 +58,7 @@ export default function Foo() {
   const state = store.useSnapshot();
 
   // or get snapshot by `useSnapshot` hooks
-  // const state = useSnapshot(store);
+  // const state = useSnapshot(store.mutate);
 
   return (
     <>
@@ -131,9 +131,11 @@ export default function Foo() {
 }
 ```
 
-## FAQ
+## FAQs
 
-### ❓ TS type error, `readonly` type can not be assigned to mutable type
+<details>
+
+<summary>❓ TS type error, `readonly` type can not be assigned to mutable type</summary>
 
 This error commonly occurs when using [shineout](https://github.com/sheinsight/shineout), [antd](https://github.com/ant-design/ant-design) or other UI component libraries and passing the `snapshot` to the component props, but the props type can not accept `readonly` type.
 
@@ -144,7 +146,11 @@ To resolve this type issue, add following line to your **global types file**, su
 /// <reference types="@shined/reactive/hack-remove-readonly" />
 ```
 
-### ❓ Accidentally changed the props value in React component passed by parent components, which is frozen snapshot
+</details>
+
+<details>
+
+<summary>❓ Cannot mutate the snapshot props in Child components</summary>
 
 The React philosophy is that **props should be immutable and top-down**. So, in principle, you should **NOT** change the props value inside components.
 
@@ -165,12 +171,54 @@ const useMutableState = <T extends PlainObject>(proxyObj: T) => {
 
 export function Foo(props) {
   // use `useMutableState` to get mutable state instead of `useSnapshot`
-  const state = useMutableState(store.mutate);
+  const mutableState = useMutableState(store.mutate);
 
-  // `AccidentallyChangePropsInsideComponent` will change the props value
-  return <AccidentallyChangePropsInsideComponent prop={state} />;
+  // `ChangePropsInside` will change the props value
+  return <ChangePropsInside props={mutableState} />;
 }
 ```
+
+</details>
+
+<details>
+
+<summary>❓ Unrelated changes to the state cause component to re-render</summary>
+
+it's intentional. It means, it "uses" the entire snapshot object, and will trigger re-render if any changes to state.
+
+```ts
+// trigger re-render when any state changes
+const snapshot = store.useSnapshot();
+// same as above
+store.useSnapshot();
+```
+
+If you don't need this feature, you should **explicitly** access the properties you need.
+
+```ts
+// this will only trigger re-render when `name` changes.
+const snapshot = store.useSnapshot();
+snapshot.name; // use `.name` latter.
+
+// same as above
+const { name } = store.useSnapshot();
+// same as above
+const name = useSnapshot(store.mutate.name);
+```
+
+</details>
+
+<details>
+
+<summary>❓ When passing state to `input` element, an exception occurred while typing Chinese</summary>
+
+State mutations are batched synchronously by default before triggering re-render to optimize rendering. If you want to disable it (such as consumed by `<input>` element), you can set `sync` option to `true` when creating snapshot to avoid this issue.
+
+```tsx
+const snapshot = store.useSnapshot({ sync: true });
+```
+
+</details>
 
 ## Examples
 

@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "module": "ES2015",
-    "moduleResolution": "nodenext",
+    "module": "es6",
+    "moduleResolution": "bundler",
     "target": "esnext",
     "declaration": true
-  }
+  },
+  "include": ["./src"]
 }

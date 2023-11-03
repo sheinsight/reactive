@@ -1,5 +1,5 @@
 import { proxy } from "./proxy.js";
-import { useSnapshot } from "./use-snapshot.js";
+import { SnapshotOptions, useSnapshot } from "./use-snapshot.js";
 import { subscribe } from "./subscribe.js";
 import { enableDevtool } from "./devtool.js";
 import { isProduction } from "./utils.js";
@@ -9,7 +9,7 @@ import type { DeepReadonly, DeepExpandType } from "./utils.js";
 
 export type CreateReturn<T extends object> = Readonly<{
   mutate: T;
-  useSnapshot: () => DeepReadonly<T>;
+  useSnapshot: (options?: SnapshotOptions) => DeepReadonly<T>;
   subscribe: (callback: () => void) => () => void;
   restore: () => void;
 }>;
@@ -32,10 +32,7 @@ export interface CreateOptions {
   devtool?: DevtoolOptions;
 }
 
-export function create<T extends object>(
-  initState: T,
-  options?: CreateOptions
-): CreateReturn<T> {
+export function create<T extends object>(initState: T, options?: CreateOptions): CreateReturn<T> {
   const state = proxy(initState);
 
   const restore = () => {
@@ -57,7 +54,7 @@ export function create<T extends object>(
 
   return {
     mutate: state,
-    useSnapshot: (): DeepReadonly<T> => useSnapshot(state),
+    useSnapshot: (options): DeepReadonly<T> => useSnapshot(state, options),
     subscribe: (callback) => subscribe(state, callback),
     restore,
   };

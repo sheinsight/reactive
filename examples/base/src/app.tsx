@@ -1,15 +1,53 @@
-import "./App.css";
-import { onChange, store } from "./store";
-import Children from "./children";
+import {
+  addProperty,
+  asyncChangeName,
+  deleteProperty,
+  mutateNestedProperty,
+  mutateTopProperty,
+  popFromArray,
+  pushToArray,
+  store,
+} from "./store";
 
-function App() {
+export default function App() {
+  // const state = store.useSnapshot();
+  const state = store.useSnapshot({ sync: true });
+
   return (
     <>
+      <input
+        type="text"
+        value={state.inputValue}
+        onChange={(e) => {
+          store.mutate.inputValue = e.target.value;
+        }}
+      />
       <Children />
-      <button onClick={onChange}>Click me change name</button>
-      <button onClick={store.restore}>restore sate</button>
+
+      <div>
+        <button onClick={mutateTopProperty}>mutate top property</button>
+        <button onClick={mutateNestedProperty}>mutate nested property</button>
+      </div>
+
+      <div>
+        <button onClick={addProperty}>add property</button>
+        <button onClick={deleteProperty}>delete property</button>
+      </div>
+
+      <div>
+        <button onClick={pushToArray}>push to array</button>
+        <button onClick={popFromArray}>pop from array</button>
+      </div>
+
+      <button onClick={asyncChangeName}>async change name</button>
+      <button onClick={store.restore}>restore to initial state</button>
     </>
   );
 }
 
-export default App;
+function Children() {
+  const state = store.useSnapshot();
+  const content = JSON.stringify(state, null, 2);
+
+  return <pre style={{ marginBottom: "2rem" }}>{content}</pre>;
+}

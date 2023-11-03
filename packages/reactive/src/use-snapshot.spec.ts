@@ -11,7 +11,7 @@ describe("useSnapShot", () => {
     expect(result.current).toEqual(getSnapshot(proxyState));
   });
 
-  it("should return updated proxyState snapshot", () => {
+  it("should return updated proxyState snapshot", async () => {
     const proxyState = proxy({
       address: {
         city: {
@@ -20,11 +20,13 @@ describe("useSnapShot", () => {
       },
     });
 
-    const { result } = renderHook(() => useSnapshot(proxyState));
+    const { result, waitForNextUpdate } = renderHook(() => useSnapshot(proxyState));
 
     act(() => {
       proxyState.address.city.name = "北京";
     });
+
+    await waitForNextUpdate();
 
     expect(result.current.address.city.name).toEqual("北京");
   });
