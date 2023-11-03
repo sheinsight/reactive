@@ -182,7 +182,7 @@ export function Foo(props) {
 
 <details>
 
-<summary>❓ Unrelated changes to state cause component to re-render</summary>
+<summary>❓ Unrelated changes to the state cause component to re-render</summary>
 
 it's intentional. It means, it "uses" the entire snapshot object, and will trigger re-render if any changes to state.
 
@@ -197,7 +197,9 @@ If you don't need this feature, you should **explicitly** access the properties 
 
 ```ts
 // this will only trigger re-render when `name` changes.
-const snapshot = store.useSnapshot().name;
+const snapshot = store.useSnapshot();
+snapshot.name; // use `.name` latter.
+
 // same as above
 const { name } = store.useSnapshot();
 // same as above
