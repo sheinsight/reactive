@@ -1,8 +1,10 @@
-export const isObject = (x: unknown): x is object =>
-  typeof x === "object" && x !== null;
+import { hasRef } from "./ref";
+
+export const isObject = (x: unknown): x is object => typeof x === "object" && x !== null;
 
 export const canProxy = (x: unknown) =>
   isObject(x) &&
+  !hasRef(x) &&
   (Array.isArray(x) || !(Symbol.iterator in x)) &&
   !(x instanceof WeakMap) &&
   !(x instanceof WeakSet) &&
@@ -14,9 +16,7 @@ export const canProxy = (x: unknown) =>
   !(x instanceof ArrayBuffer);
 
 export const createObjectFromPrototype = <T extends object>(target: T): T => {
-  return Array.isArray(target)
-    ? []
-    : Object.create(Object.getPrototypeOf(target));
+  return Array.isArray(target) ? [] : Object.create(Object.getPrototypeOf(target));
 };
 
 export const SNAPSHOT = Symbol();

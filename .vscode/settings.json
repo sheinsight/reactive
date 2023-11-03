@@ -6,5 +6,6 @@
     "premajor",
     "Squirtle",
     "tsup"
-  ]
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
 }

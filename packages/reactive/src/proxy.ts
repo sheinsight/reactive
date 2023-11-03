@@ -1,4 +1,4 @@
-import { getUntracked } from "proxy-compare";
+import { getUntracked, markToTrack } from "proxy-compare";
 import {
   LISTENERS,
   REACTIVE,
@@ -8,13 +8,14 @@ import {
   isObject,
   getSnapshot,
 } from "./utils.js";
+import { hasRef } from "./ref.js";
 
 let globalVersion = 1;
 
 // Cache content used to store snapshots.
 const snapshotCache = new WeakMap<object, [version: number, snapshot: unknown]>();
 
-type Listener =  (v?: number) => void
+type Listener = (v?: number) => void;
 
 export function proxy<T extends object>(initState: T): T {
   let version = globalVersion;
@@ -35,7 +36,7 @@ export function proxy<T extends object>(initState: T): T {
   const getPropListener = (prop: PropertyKey) => {
     let listener = propListenerMap.get(prop);
     if (!listener) {
-      listener =  (nextVersion?: number) => notifyUpdate(nextVersion)
+      listener = (nextVersion?: number) => notifyUpdate(nextVersion);
       propListenerMap.set(prop, listener);
     }
     return listener;
@@ -56,13 +57,16 @@ export function proxy<T extends object>(initState: T): T {
 
     // create snapshot by target prototype
     const snapshot = createObjectFromPrototype(target);
-
+    markToTrack(snapshot, true); // mark to track
     snapshotCache.set(receiver, [version, snapshot]);
 
     Reflect.ownKeys(target).forEach((key) => {
       const value: any = Reflect.get(target, key, receiver);
-      // if has REACTIVE  , this's reactive proxy object
-      if (value?.[REACTIVE]) {
+      if (hasRef(value)) {
+        markToTrack(value, false); // mark not to track
+        snapshot[key] = value;
+      } else if (value?.[REACTIVE]) {
+        // if has REACTIVE  , this's reactive proxy object
         // recursive create snapshot because value is reactive proxy object
         snapshot[key] = getSnapshot(value);
       } else {

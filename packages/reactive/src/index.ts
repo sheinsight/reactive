@@ -3,7 +3,7 @@ import { SnapshotOptions, useSnapshot } from "./use-snapshot.js";
 import { subscribe } from "./subscribe.js";
 import { enableDevtool } from "./devtool.js";
 import { isProduction } from "./utils.js";
-
+import { ref } from "./ref.js";
 import type { Config as ReduxDevtoolConfig } from "@redux-devtools/extension";
 import type { DeepReadonly, DeepExpandType } from "./utils.js";
 
@@ -60,4 +60,4 @@ export function create<T extends object>(initState: T, options?: CreateOptions):
   };
 }
 
-export { proxy, subscribe, useSnapshot };
+export { proxy, subscribe, useSnapshot, ref };

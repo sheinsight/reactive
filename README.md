@@ -70,10 +70,6 @@ export default function Foo() {
 
 > **NOTE** 🔥 🔥 🔥 If passing state to `input` element, an exception occurred while typing Chinese , You can use the `sync` option to solve this problem. see [FAQs](#FAQs) for more details.
 
-
-
- 
-
 ### 3. Mutate the store
 
 You can mutate the state anywhere you like.
@@ -136,6 +132,36 @@ export default function Foo() {
   );
 }
 ```
+
+### 4. Unproxied state in a reactive proxy
+
+A ref is useful in the rare instances you to nest an object in a proxy that is not wrapped in an inner proxy and, therefore, is not tracked.
+
+```jsx
+import { create } from "@shined/reactive";
+
+const store = create({
+  users: [{ id: 1, name: "Pikachu", component: ref({ table: null }) }],
+});
+```
+
+Once an object is wrapped in a ref, it should be mutated without resetting the object or rewrapping in a new ref.
+
+```tsx
+// do mutate
+store.users[0].component.table = document.querySelector("#table");
+// do reset
+store.users[0].component.table = null;
+
+// don't ❌
+store.users[0].component = {};
+```
+
+**Typical application scenarios :**
+
+You want to share an instance of a component among multiple components in order to call imperative APIs.
+
+> Once you use ref to wrap an object, the object will not follow the reactive rendering rules, and reactive will not collect dependencies of that object. At the same time, it will not listen to changes on that object. Therefore, you cannot reassign a ref object but can modify its properties. You also cannot reset it to a non-ref object.
 
 ## FAQs
 
