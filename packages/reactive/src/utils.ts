@@ -19,9 +19,10 @@ export const createObjectFromPrototype = <T extends object>(target: T): T => {
   return Array.isArray(target) ? [] : Object.create(Object.getPrototypeOf(target));
 };
 
-export const SNAPSHOT = Symbol();
-export const LISTENERS = Symbol();
-export const REACTIVE = Symbol();
+export const SNAPSHOT = Symbol("SNAPSHOT");
+export const LISTENERS = Symbol("LISTENERS");
+export const REACTIVE = Symbol("REACTIVE");
+export const ORIGINAL = Symbol("ORIGINAL");
 
 export function getSnapshot<T extends object>(proxyState: T): T {
   return proxyState[SNAPSHOT];

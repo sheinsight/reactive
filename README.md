@@ -144,22 +144,13 @@ import { useSubscribe } from "@shined/reactive";
 export default function Foo() {
   const snap = store.useSnapshot();
 
-  useSubscribe(
-    () => {
-      // do something when `store.users` changes
+  // Use "original" to obtain the raw data within the snapshot.
+  // This data can be applied to the deps of useEffect to avoid infinite execution of useEffect.
+  const address = original(snap.user.address);
 
-      // ❌ Error: You will fall into an infinite loop.
-      store.mutate.users = [];
-    },
-    {
-      // watch changes of `store.users`
-      // 🤡 deps You must get from store, snap cannot be used as deps for useSubscribe.
-      deps: [store.mutate.users],
-
-      // By default, useSubscribe will be executed asynchronously. If you want to execute it synchronously, you can open this configuration option.
-      sync: true,
-    }
-  );
+  useEffect(() => {
+    console.log(address);
+  }, [address]);
 
   return (
     <>
@@ -307,7 +298,7 @@ Because the snapshot object is recreated every time, each time it is a new objec
 
 🤡 How to solve it ?
 
-You can use the `useSubscribe` hook to solve this problem. see [Subscribe store in component](#Subscribe-store-in-component) for more details.
+You can use the `original` function to solve this problem. see [Subscribe store in component](#Subscribe-store-in-component) for more details.
 
 
 

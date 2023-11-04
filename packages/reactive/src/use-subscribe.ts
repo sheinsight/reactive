@@ -9,6 +9,11 @@ export interface UseSubscribeOptions {
   deps?: any[];
 }
 
+/**
+ * @deprecated
+ * @param callback
+ * @param options
+ */
 export function useSubscribe(callback: any, options: UseSubscribeOptions) {
   if (options.deps[REACTIVE]) {
     throw new Error(`can't use reactive store as dependency , must be primitive array.`);

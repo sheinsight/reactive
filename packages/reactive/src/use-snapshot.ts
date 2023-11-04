@@ -1,7 +1,7 @@
 import { useCallback, useRef } from "react";
 import { createProxy, isChanged } from "proxy-compare";
 import { useSyncExternalStoreWithSelector } from "use-sync-external-store/shim/with-selector.js";
-import { getSnapshot } from "./utils.js";
+import { SNAPSHOT, getSnapshot } from "./utils.js";
 import { subscribe } from "./subscribe.js";
 
 import type { DeepReadonly } from "./utils.js";
@@ -35,5 +35,7 @@ export function useSnapshot<T extends object>(
 
   lastAffected.current = affected;
 
-  return createProxy(snapshot, affected);
+  const proxy = createProxy(snapshot, affected);
+
+  return proxy;
 }

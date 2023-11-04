@@ -7,6 +7,7 @@ import {
   createObjectFromPrototype,
   isObject,
   getSnapshot,
+  ORIGINAL,
 } from "./utils.js";
 import { hasRef } from "./ref.js";
 
@@ -73,6 +74,7 @@ export function proxy<T extends object>(initState: T): T {
         snapshot[key] = value;
       }
     });
+    snapshot[ORIGINAL] = () => snapshot;
     Object.freeze(snapshot);
     return snapshot;
   };
