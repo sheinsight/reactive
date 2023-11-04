@@ -1,7 +1,7 @@
 {
   "name": "examples",
   "private": true,
-  "version": "0.0.15",
+  "version": "0.0.16",
   "packageManager": "pnpm@8.6.7",
   "scripts": {
     "dev": "vite",
@@ -27,5 +27,5 @@
     "vite": "^4.3.9"
   },
   "readme": "ERROR: No README data found!",
-  "_id": "examples@0.0.14"
+  "_id": "examples@0.0.15"
 }
