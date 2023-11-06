@@ -193,7 +193,6 @@ You want to share an instance of a component among multiple components in order 
 ## FAQs
 
 <details>
-
 <summary>❓ TS type error, `readonly` type can not be assigned to mutable type</summary>
 
 This error commonly occurs when using [shineout](https://github.com/sheinsight/shineout), [antd](https://github.com/ant-design/ant-design) or other UI component libraries and passing the `snapshot` to the component props, but the props type can not accept `readonly` type.
@@ -208,7 +207,6 @@ To resolve this type issue, add following line to your **global types file**, su
 </details>
 
 <details>
-
 <summary>❓ Cannot mutate the snapshot props in Child components</summary>
 
 The React philosophy is that **props should be immutable and top-down**. So, in principle, you should **NOT** change the props value inside components.
@@ -240,12 +238,11 @@ export function Foo(props) {
 </details>
 
 <details>
-
 <summary>❓ Unrelated changes to the state cause component to re-render</summary>
 
-it's intentional. It means, it "uses" the entire snapshot object, and will trigger re-render if any changes to state.
+It's intentional, which means it "uses" the entire snapshot object, and will trigger re-render if any changes to state.
 
-```ts
+```js
 // trigger re-render when any state changes
 const snapshot = store.useSnapshot();
 // same as above
@@ -254,7 +251,7 @@ store.useSnapshot();
 
 If you don't need this feature, you should **explicitly** access the properties you need.
 
-```ts
+```js
 // this will only trigger re-render when `name` changes.
 const snapshot = store.useSnapshot();
 snapshot.name; // use `.name` latter.
@@ -268,7 +265,6 @@ const name = useSnapshot(store.mutate.name);
 </details>
 
 <details>
-
 <summary>❓ When passing state to `input` element, an exception occurred while typing Chinese</summary>
 
 State mutations are batched synchronously by default before triggering re-render to optimize rendering. If you want to disable it (such as consumed by `<input>` element), you can set `sync` option to `true` when creating snapshot to avoid this issue.
@@ -280,29 +276,24 @@ const snapshot = store.useSnapshot({ sync: true });
 </details>
 
 <details>
-  <summary>❓ When snapshot in useEffect deps , Component enters an infinite loop.</summary>
-  
+<summary>❓ When snapshot in useEffect deps, Component enters an infinite loop.</summary>
+
 ```tsx
 const snap = store.useSnapshot();
 
 // ❌ Error: You will fall into an infinite loop.
 useEffect(() => {
-// some side effect
-},[snap.address]);
-
+  // some side effect
+}, [snap.address]);
 ```
 
-🤔 Why ?
+🤔 Why?
 
 Because the snapshot object is recreated every time, each time it is a new object, so useEffect will think that the value of snapshot.address has changed, thus entering an infinite loop.
 
-🤡 How to solve it ?
+🤡 How to solve it?
 
 You can use the `original` function to solve this problem. see [Subscribe store in component](#Subscribe-store-in-component) for more details.
-
-
-
-
 
 </details>
 
@@ -314,4 +305,3 @@ You can use the `original` function to solve this problem. see [Subscribe store 
 ## License
 
 - [MIT](./LICENSE)
-```

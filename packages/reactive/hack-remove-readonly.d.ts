@@ -1,26 +1,13 @@
 declare module "@shined/reactive" {
-  import { Config } from "@redux-devtools/extension";
-
-  function proxy<T extends object>(initState: T): T;
+  import type { Config } from "@redux-devtools/extension";
 
   type DeepExpandType<T> = {
     [K in keyof T]: T[K] extends object ? DeepExpandType<T[K]> : T[K];
   };
 
-  interface SnapshotOptions {
-    sync?: boolean;
-  }
-
-  function useSnapshot<T extends object>(proxyState: T, options?: SnapshotOptions): T;
-
-  function subscribe<T extends object>(
-    proxyObject: T,
-    callback: () => void
-  ): () => void;
-
   type CreateReturn<T extends object> = Readonly<{
     mutate: T;
-    useSnapshot: () => T;
+    useSnapshot: (options?: SnapshotOptions) => T;
     subscribe: (callback: () => void) => () => void;
     restore: () => void;
   }>;
@@ -42,18 +29,35 @@ declare module "@shined/reactive" {
     devtool?: DevtoolOptions;
   }
 
-  function create<T extends object>(
-    initState: T,
-    options?: CreateOptions
-  ): CreateReturn<T>;
+  interface UseSubscribeOptions {
+    sync?: boolean;
+    deps?: any[];
+  }
+
+  interface SnapshotOptions {
+    sync?: boolean;
+  }
+
+  function ref<T extends object>(o: T): T;
+  function proxy<T extends object>(initState: T): T;
+  function create<T extends object>(initState: T, options?: CreateOptions): CreateReturn<T>;
+  function subscribe<T extends object>(proxyObject: T, callback: () => void): () => void;
+  function original<T extends object>(object: T): T;
+  function useSnapshot<T extends object>(proxyState: T, options?: SnapshotOptions): T;
+
+  /** @deprecated */
+  function useSubscribe(callback: any, options: UseSubscribeOptions): void;
 
   export {
-    CreateOptions,
-    CreateReturn,
-    DevtoolOptions,
+    type CreateOptions,
+    type CreateReturn,
+    type DevtoolOptions,
     create,
     proxy,
+    ref,
     subscribe,
+    original,
     useSnapshot,
+    useSubscribe,
   };
 }
