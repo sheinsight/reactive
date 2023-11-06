@@ -55,7 +55,7 @@ function Children() {
 
 
 const C2 = memo(() => {
-  const state = store.useSnapshot( );
+  const state = store.useSnapshot();
   console.log('render C2');
   return <h1>{state.name}</h1>
 })
