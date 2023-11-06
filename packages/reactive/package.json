@@ -1,6 +1,6 @@
 {
   "name": "@shined/reactive",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "A reactive react state management library based on Proxy",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -68,5 +68,5 @@
     "react": "^16.9.0 || ^17.0.0 || ^18.0.0"
   },
   "readme": "ERROR: No README data found!",
-  "_id": "@shined/reactive@0.0.15"
+  "_id": "@shined/reactive@0.0.16"
 }
