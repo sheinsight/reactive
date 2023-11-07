@@ -1,7 +1,7 @@
 import { useCallback, useRef } from "react";
 import { createProxy, isChanged } from "proxy-compare";
 import { useSyncExternalStoreWithSelector } from "use-sync-external-store/shim/with-selector.js";
-import { SNAPSHOT, getSnapshot } from "./utils.js";
+import { getSnapshot } from "./utils.js";
 import { subscribe } from "./subscribe.js";
 
 import type { DeepReadonly } from "./utils.js";
@@ -9,6 +9,9 @@ import type { DeepReadonly } from "./utils.js";
 export interface SnapshotOptions {
   sync?: boolean;
 }
+
+const globalTargetCache = new WeakMap<object, any>();
+const globalProxyCache = new WeakMap<object, any>();
 
 export function useSnapshot<T extends object>(
   proxyState: T,
@@ -35,7 +38,5 @@ export function useSnapshot<T extends object>(
 
   lastAffected.current = affected;
 
-  const proxy = createProxy(snapshot, affected);
-
-  return proxy;
+  return createProxy(snapshot, affected, globalProxyCache, globalTargetCache);
 }

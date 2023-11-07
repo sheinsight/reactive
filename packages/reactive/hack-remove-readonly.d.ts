@@ -42,9 +42,10 @@ declare module "@shined/reactive" {
   function proxy<T extends object>(initState: T): T;
   function create<T extends object>(initState: T, options?: CreateOptions): CreateReturn<T>;
   function subscribe<T extends object>(proxyObject: T, callback: () => void): () => void;
-  function original<T extends object>(object: T): T;
   function useSnapshot<T extends object>(proxyState: T, options?: SnapshotOptions): T;
 
+  /** @deprecated */
+  function original<T extends object>(object: T): T;
   /** @deprecated */
   function useSubscribe(callback: any, options: UseSubscribeOptions): void;
 
@@ -56,8 +57,8 @@ declare module "@shined/reactive" {
     proxy,
     ref,
     subscribe,
-    original,
     useSnapshot,
+    original,
     useSubscribe,
   };
 }

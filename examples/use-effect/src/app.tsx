@@ -1,12 +1,12 @@
+import { useEffect } from "react";
+// import { original } from "@shined/reactive";
+
 import { store } from "./store";
 import "./app.css";
-import { useEffect } from "react";
-import { original } from "@shined/reactive";
 
 export default function App() {
   const snap = store.useSnapshot();
-
-  const address = original(snap.user.address);
+  const address = snap.user.address;
 
   useEffect(() => {
     console.log(address);

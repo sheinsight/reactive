@@ -12,6 +12,7 @@ export function subscribe<T extends object>(
       callback();
       return;
     }
+
     if (!promise) {
       promise = Promise.resolve().then(() => {
         promise = undefined;
@@ -19,8 +20,10 @@ export function subscribe<T extends object>(
       });
     }
   };
-  (proxyObject as any)[LISTENERS].add(listener);
+
+  proxyObject[LISTENERS].add(listener);
+
   return () => {
-    (proxyObject as any)[LISTENERS].delete(listener);
+    proxyObject[LISTENERS].delete(listener);
   };
 }
