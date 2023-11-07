@@ -133,34 +133,7 @@ export default function Foo() {
 }
 ```
 
-### 4. Subscribe store in component
-
-You can listen to store changes in the component, and once the store changes, perform certain operations.
-
-```jsx
-import { store } from "./store";
-import { useSubscribe } from "@shined/reactive";
-
-export default function Foo() {
-  const snap = store.useSnapshot();
-
-  // Use "original" to obtain the raw data within the snapshot.
-  // This data can be applied to the deps of useEffect to avoid infinite execution of useEffect.
-  const address = original(snap.user.address);
-
-  useEffect(() => {
-    console.log(address);
-  }, [address]);
-
-  return (
-    <>
-      <h1>{state.name}</h1>
-    </>
-  );
-}
-```
-
-### 5. Unproxied state in a reactive proxy
+### 4. Unproxied state in a reactive proxy
 
 A ref is useful in the rare instances you to nest an object in a proxy that is not wrapped in an inner proxy and, therefore, is not tracked.
 
