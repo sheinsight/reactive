@@ -1,20 +1,15 @@
-import { proxy } from "./proxy.js";
-import { SnapshotOptions, useSnapshot } from "./use-snapshot.js";
-import { subscribe } from "./subscribe.js";
-import { enableDevtool } from "./devtool.js";
-import { isProduction } from "./utils.js";
 import { ref } from "./ref.js";
+import { proxy } from "./proxy.js";
+import { original } from "./original.js";
+import { subscribe } from "./subscribe.js";
+import { useSnapshot } from "./use-snapshot.js";
+import { isProduction } from "./utils.js";
+import { useSubscribe } from "./use-subscribe.js";
+import { enableDevtool } from "./devtool.js";
+
 import type { Config as ReduxDevtoolConfig } from "@redux-devtools/extension";
 import type { DeepReadonly, DeepExpandType } from "./utils.js";
-import { useSubscribe } from "./use-subscribe.js";
-import { original } from "./original.js";
-
-export type CreateReturn<T extends object> = Readonly<{
-  mutate: T;
-  useSnapshot: (options?: SnapshotOptions) => DeepReadonly<T>;
-  subscribe: (callback: () => void) => () => void;
-  restore: () => void;
-}>;
+import type { SnapshotOptions } from "./use-snapshot.js";
 
 /** redux devtool options, if set, will enable redux devtool */
 export type DevtoolOptions = DeepExpandType<
@@ -34,7 +29,14 @@ export interface CreateOptions {
   devtool?: DevtoolOptions;
 }
 
-export function create<T extends object>(initState: T, options?: CreateOptions): CreateReturn<T> {
+export type CreateReturn<T extends object> = Readonly<{
+  mutate: T;
+  useSnapshot: (options?: SnapshotOptions) => DeepReadonly<T>;
+  subscribe: (callback: () => void) => () => void;
+  restore: () => void;
+}>;
+
+function create<T extends object>(initState: T, options?: CreateOptions): CreateReturn<T> {
   const state = proxy(initState);
 
   const restore = () => {
@@ -44,13 +46,17 @@ export function create<T extends object>(initState: T, options?: CreateOptions):
     });
   };
 
+  let disableDevtool: false | (() => void) = () => {};
+
   if (options?.devtool) {
     if (!options?.devtool.name) {
       throw new Error("devtool.name is required");
     }
 
-    if (!isProduction || options?.devtool?.forceEnable) {
-      const disableDevtool = enableDevtool(state, options.devtool, restore);
+    const isForceEnable = !!options?.devtool?.forceEnable;
+
+    if (!isProduction || isForceEnable) {
+      disableDevtool = enableDevtool(state, options.devtool, restore);
     }
   }
 
@@ -62,4 +68,4 @@ export function create<T extends object>(initState: T, options?: CreateOptions):
   };
 }
 
-export { ref, proxy, subscribe, useSnapshot, useSubscribe, original };
+export { create, ref, proxy, subscribe, useSnapshot, useSubscribe, original };

@@ -38,14 +38,16 @@ export function enableDevtool(
   state: ReturnType<typeof proxy>,
   options: DevtoolOptions,
   restore: () => void
-) {
+): false | (() => void) {
   if (!ext) {
     const infos = [
-      "to enable redux devtool, make sure you've installed it 👉",
+      "to enable redux devtools, make sure you've installed it 👉",
       "https://github.com/reduxjs/redux-devtools#redux-devtools",
     ];
 
-    throw new Error(infos.join(" "));
+    console.error(infos.join(" "));
+
+    return false;
   }
 
   const devtool = ext.connect(options as Config) as ConnectResponse;
