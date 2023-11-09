@@ -29,36 +29,28 @@ declare module "@shined/reactive" {
     devtool?: DevtoolOptions;
   }
 
-  interface UseSubscribeOptions {
-    sync?: boolean;
-    deps?: any[];
-  }
-
   interface SnapshotOptions {
     sync?: boolean;
   }
 
-  function ref<T extends object>(o: T): T;
-  function proxy<T extends object>(initState: T): T;
   function create<T extends object>(initState: T, options?: CreateOptions): CreateReturn<T>;
+
+  export { type CreateOptions, type CreateReturn, type DevtoolOptions, create };
+}
+
+declare module "@shined/reactive/utils" {
+  interface SnapshotOptions {
+    sync?: boolean;
+  }
+
+  interface ProxyOptions {
+    deepFreeze?: boolean;
+  }
+
+  function ref<T extends object>(obj: T): T;
+  function proxy<T extends object>(initState: T, options?: ProxyOptions): T;
   function subscribe<T extends object>(proxyObject: T, callback: () => void): () => void;
   function useSnapshot<T extends object>(proxyState: T, options?: SnapshotOptions): T;
 
-  /** @deprecated */
-  function original<T extends object>(object: T): T;
-  /** @deprecated */
-  function useSubscribe(callback: any, options: UseSubscribeOptions): void;
-
-  export {
-    type CreateOptions,
-    type CreateReturn,
-    type DevtoolOptions,
-    create,
-    proxy,
-    ref,
-    subscribe,
-    useSnapshot,
-    original,
-    useSubscribe,
-  };
+  export { proxy, ref, subscribe, useSnapshot };
 }
