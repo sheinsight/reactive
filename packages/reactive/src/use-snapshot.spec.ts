@@ -1,8 +1,9 @@
-import { act, renderHook } from "@testing-library/react-hooks/dom";
-import { useSnapshot } from "./use-snapshot.js";
-import { getSnapshot } from "./utils.js";
 import { describe, it, expect } from "vitest";
+import { act, renderHook } from "@testing-library/react-hooks/dom";
+
 import { proxy } from "./proxy.js";
+import { getSnapshot } from "./snapshot.js";
+import { useSnapshot } from "./use-snapshot.js";
 
 describe("useSnapShot", () => {
   it("should return proxyState snapshot", () => {
