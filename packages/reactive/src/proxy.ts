@@ -1,4 +1,5 @@
 import { getUntracked, markToTrack } from "proxy-compare";
+
 import {
   LISTENERS,
   REACTIVE,
@@ -6,10 +7,9 @@ import {
   canProxy,
   createObjectFromPrototype,
   isObject,
-  getSnapshot,
-  ORIGINAL,
-} from "./utils.js";
+} from "./internal-utils.js";
 import { hasRef } from "./ref.js";
+import { getSnapshot } from "./snapshot.js";
 
 let globalVersion = 1;
 
@@ -18,7 +18,14 @@ const snapshotCache = new WeakMap<object, [version: number, snapshot: unknown]>(
 
 type Listener = (v?: number) => void;
 
-export function proxy<T extends object>(initState: T): T {
+interface ProxyOptions {
+  deepFreeze?: boolean;
+}
+
+export function proxy<T extends object>(initState: T, options?: ProxyOptions): T {
+  options = options ?? {};
+  options.deepFreeze = options?.deepFreeze ?? true;
+
   let version = globalVersion;
   const listeners = new Set<Listener>();
 
@@ -62,6 +69,8 @@ export function proxy<T extends object>(initState: T): T {
     snapshotCache.set(receiver, [version, snapshot]);
 
     Reflect.ownKeys(target).forEach((key) => {
+      if (key === REACTIVE) return;
+
       const value: any = Reflect.get(target, key, receiver);
       if (hasRef(value)) {
         markToTrack(value, false); // mark not to track
@@ -74,8 +83,12 @@ export function proxy<T extends object>(initState: T): T {
         snapshot[key] = value;
       }
     });
-    snapshot[ORIGINAL] = () => snapshot;
-    Object.freeze(snapshot);
+    // snapshot[ORIGINAL] = () => snapshot;
+
+    if (options.deepFreeze) {
+      Object.freeze(snapshot);
+    }
+
     return snapshot;
   };
 
@@ -118,7 +131,7 @@ export function proxy<T extends object>(initState: T): T {
         nextValue = value;
         nextValue[LISTENERS].add(getPropListener(prop));
       } else if (canProxy(value)) {
-        nextValue = proxy(value);
+        nextValue = proxy(value, options);
         nextValue[REACTIVE] = true;
         nextValue[LISTENERS].add(getPropListener(prop));
       } else {

@@ -1,14 +1,12 @@
 import { ref } from "./ref.js";
 import { proxy } from "./proxy.js";
-import { original } from "./original.js";
 import { subscribe } from "./subscribe.js";
 import { useSnapshot } from "./use-snapshot.js";
-import { isProduction } from "./utils.js";
-import { useSubscribe } from "./use-subscribe.js";
+import { isProduction } from "./internal-utils.js";
 import { enableDevtool } from "./devtool.js";
 
 import type { Config as ReduxDevtoolConfig } from "@redux-devtools/extension";
-import type { DeepReadonly, DeepExpandType } from "./utils.js";
+import type { DeepReadonly, DeepExpandType } from "./internal-utils.js";
 import type { SnapshotOptions } from "./use-snapshot.js";
 
 /** redux devtool options, if set, will enable redux devtool */
@@ -68,4 +66,4 @@ function create<T extends object>(initState: T, options?: CreateOptions): Create
   };
 }
 
-export { create, ref, proxy, subscribe, useSnapshot, useSubscribe, original };
+export { create, ref };

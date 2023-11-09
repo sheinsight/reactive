@@ -1,5 +1,7 @@
-import { proxy, subscribe } from "./index.js";
-import { REACTIVE_STORE_CHANGED, getSnapshot } from "./utils.js";
+import { proxy } from "./proxy.js";
+import { subscribe } from "./subscribe.js";
+import { getSnapshot } from "./snapshot.js";
+import { REACTIVE_STORE_CHANGED } from "./internal-utils.js";
 
 import type { Config } from "@redux-devtools/extension";
 import type { DevtoolOptions } from "./index.js";
@@ -45,7 +47,7 @@ export function enableDevtool(
       "https://github.com/reduxjs/redux-devtools#redux-devtools",
     ];
 
-    console.error(infos.join(" "));
+    console.warn(infos.join(" "));
 
     return false;
   }
@@ -55,7 +57,7 @@ export function enableDevtool(
   devtool.init(getSnapshot(state));
 
   devtool.subscribe((message) => {
-    console.debug("message: ", message);
+    console.debug("[reactive] message: ", message);
 
     if (message.type !== "DISPATCH") return;
     if (!message.payload) return;
