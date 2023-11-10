@@ -5,6 +5,11 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "type": "module",
+  "homepage": "https://github.com/sheinsight/reactive#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sheinsight/reactive.git"
+  },
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
