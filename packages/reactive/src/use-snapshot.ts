@@ -35,7 +35,7 @@ export function useSnapshot<T extends object>(
     (snap) => snap,
     (a, b) => {
       /**
-       *  disable rendering optimization temporarily to avoid render issue caused by`proxy-compare`
+       *  disable rendering optimization temporarily to avoid render issue caused by `proxy-compare`
        *  @see https://github.com/dai-shi/proxy-compare/issues/65
        */
       return false;
