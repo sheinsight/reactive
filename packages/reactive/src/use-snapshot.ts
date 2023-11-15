@@ -33,7 +33,15 @@ export function useSnapshot<T extends object>(
     _getSnapshot,
     _getSnapshot,
     (snap) => snap,
-    (a, b) => !isChanged(a, b, lastAffected.current, new WeakMap())
+    (a, b) => {
+      /**
+       *  disable rendering optimization temporarily to avoid render issue caused by`proxy-compare`
+       *  @see https://github.com/dai-shi/proxy-compare/issues/65
+       */
+      return false;
+
+      // return !isChanged(a, b, lastAffected.current, new WeakMap());
+    }
   );
 
   lastAffected.current = affected;
