@@ -255,4 +255,4 @@ const snapshot = store.useSnapshot({ sync: true });
 
 ## License
 
-- [MIT](./LICENSE)
+- [MIT](./LICENSE) License.
