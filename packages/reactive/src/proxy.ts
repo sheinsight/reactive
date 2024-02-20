@@ -1,4 +1,5 @@
-import { getUntracked, markToTrack } from "proxy-compare";
+import { getUntracked } from "proxy-compare";
+
 import {
   LISTENERS,
   REACTIVE,
@@ -6,10 +7,9 @@ import {
   canProxy,
   createObjectFromPrototype,
   isObject,
-  getSnapshot,
-  ORIGINAL,
-} from "./utils.js";
+} from "./internal-utils.js";
 import { hasRef } from "./ref.js";
+import { getSnapshot } from "./snapshot.js";
 
 let globalVersion = 1;
 
@@ -52,30 +52,32 @@ export function proxy<T extends object>(initState: T): T {
   const createSnapshot = <T extends object>(target: T, receiver: any) => {
     // if cache exists and version is equal then return cache
     const cache = snapshotCache.get(receiver);
-    if (cache?.[0] === version) {
-      return cache[1];
-    }
+    if (cache?.[0] === version) return cache[1];
 
     // create snapshot by target prototype
     const snapshot = createObjectFromPrototype(target);
-    markToTrack(snapshot, true); // mark to track
+    // markToTrack(snapshot, true); // mark to track
     snapshotCache.set(receiver, [version, snapshot]);
 
     Reflect.ownKeys(target).forEach((key) => {
+      if (key === REACTIVE) return;
+
       const value: any = Reflect.get(target, key, receiver);
+
       if (hasRef(value)) {
-        markToTrack(value, false); // mark not to track
+        // markToTrack(value, false); // mark not to track
         snapshot[key] = value;
       } else if (value?.[REACTIVE]) {
-        // if has REACTIVE  , this's reactive proxy object
-        // recursive create snapshot because value is reactive proxy object
+        // if it already has REACTIVE symbol, it's a reactive proxy object, recursively create snapshot
         snapshot[key] = getSnapshot(value);
       } else {
         snapshot[key] = value;
       }
     });
-    snapshot[ORIGINAL] = () => snapshot;
-    Object.freeze(snapshot);
+
+    // Object.freeze(snapshot);
+    Object.preventExtensions(snapshot);
+
     return snapshot;
   };
 
@@ -124,21 +126,16 @@ export function proxy<T extends object>(initState: T): T {
       } else {
         nextValue = value;
       }
+
       let success = Reflect.set(target, prop, nextValue, receiver);
-      if (success) {
-        notifyUpdate();
-      }
+      success && notifyUpdate();
       return success;
     },
     deleteProperty(target: T, prop: string | symbol) {
       const childListeners = Reflect.get(target, prop)?.[LISTENERS];
-      if (childListeners) {
-        childListeners.delete(popPropListener(prop));
-      }
+      childListeners && childListeners.delete(popPropListener(prop));
       const success = Reflect.deleteProperty(target, prop);
-      if (success) {
-        notifyUpdate();
-      }
+      success && notifyUpdate();
       return success;
     },
   });

@@ -1,26 +1,19 @@
-import enquirer from "enquirer";
-import { readPackage } from "read-pkg";
-import { writePackage } from "write-pkg";
-import semver from "semver";
 import { $ } from "execa";
 import { findPackages } from "find-packages";
-import readYamlFile from "read-yaml-file";
+import { readPackage } from "read-pkg";
+import { writePackage } from "write-pkg";
+import enquirer from "enquirer";
 import path from "node:path";
+import readYamlFile from "read-yaml-file";
+import semver from "semver";
 
 const packageJson = await readPackage();
 
 const res = await $`git rev-parse --short HEAD`;
 
-const choices = (<const>[
-  "major",
-  "minor",
-  "patch",
-  "premajor",
-  "preminor",
-  "prepatch",
-  "prerelease",
-  "snapshot",
-]).map((type) => {
+const choices = (
+  ["major", "minor", "patch", "premajor", "preminor", "prepatch", "prerelease", "snapshot"] as const
+).map((type) => {
   if (type === "snapshot") {
     const next = `0.0.0-snapshot.${res.stdout}`;
     return {
@@ -66,7 +59,13 @@ if (isSure) {
     for (const iterator of packagesMeta) {
       const json = await readPackage({ cwd: iterator.dir });
       json.version = v;
-      await writePackage(path.join(iterator.dir, "package.json"), json);
+
+      const pkgJson: Record<string, string | boolean | number> = { ...json };
+
+      delete pkgJson._id;
+      delete pkgJson.readme;
+
+      await writePackage(path.join(iterator.dir, "package.json"), pkgJson);
     }
     await $`git add .`;
     await $`git commit -m ${v}`;

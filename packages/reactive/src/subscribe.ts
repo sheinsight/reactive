@@ -1,4 +1,4 @@
-import { LISTENERS } from "./utils.js";
+import { LISTENERS } from "./internal-utils.js";
 
 export function subscribe<T extends object>(
   proxyObject: T,
@@ -7,10 +7,9 @@ export function subscribe<T extends object>(
 ) {
   let promise: Promise<void> | undefined;
 
-  const listener = (op) => {
+  const listener = () => {
     if (notifyInSync) {
-      callback();
-      return;
+      return void callback();
     }
 
     if (!promise) {

@@ -1,6 +1,7 @@
+import { describe, it, expect, vi } from "vitest";
+
 import { proxy } from "./proxy.js";
-import { describe, it, expect, vitest } from "vitest";
-import { LISTENERS, SNAPSHOT } from "./utils.js";
+import { LISTENERS, SNAPSHOT } from "./internal-utils.js";
 
 const runMacroTask = (fn: Function) => setTimeout(fn, 0);
 
@@ -27,7 +28,7 @@ describe("proxy", () => {
   it("should notify listeners when a property is set", () => {
     const state = { count: 0 };
     const reactiveState = proxy(state);
-    const listener = vitest.fn();
+    const listener = vi.fn();
 
     reactiveState[LISTENERS].add(listener);
     reactiveState.count = 10;
@@ -44,7 +45,7 @@ describe("proxy", () => {
     const snapshot = proxyObj[SNAPSHOT];
 
     expect(snapshot).toMatchObject(initState);
-    expect(Object.isFrozen(snapshot)).toBe(true);
+    expect(Object.isExtensible(snapshot)).toBe(false);
   });
 
   it("should create a snapshot of the state", () => {
@@ -90,7 +91,7 @@ describe("proxy", () => {
   it("should notify listeners when a property is deleted", () => {
     const state = { count: 0 };
     const reactiveState = proxy(state);
-    const listener = vitest.fn();
+    const listener = vi.fn();
 
     reactiveState[LISTENERS].add(listener);
     delete reactiveState.count;
@@ -104,8 +105,8 @@ describe("proxy", () => {
   it("should handle nested listeners correctly", () => {
     const state = { nested: { prop: 0 } };
     const reactiveState = proxy(state);
-    const listener1 = vitest.fn();
-    const listener2 = vitest.fn();
+    const listener1 = vi.fn();
+    const listener2 = vi.fn();
 
     reactiveState.nested[LISTENERS].add(listener1);
     reactiveState[LISTENERS].add(listener2);
@@ -121,13 +122,13 @@ describe("proxy", () => {
   it("should be handled correctly deletion logic .", () => {
     const state = { nested: { prop: 0 } };
     const reactiveState = proxy(state);
-    const listener1 = vitest.fn();
-    const listener2 = vitest.fn();
+    const listener1 = vi.fn();
+    const listener2 = vi.fn();
 
     reactiveState.nested[LISTENERS].add(listener1);
     reactiveState[LISTENERS].add(listener2);
 
-    delete reactiveState.nested
+    delete reactiveState.nested;
 
     runMacroTask(() => {
       expect(listener1).not.toBeCalled();
@@ -138,13 +139,12 @@ describe("proxy", () => {
   it("should be handled correctly Use cached listeners.", () => {
     const state = { nested: { prop: 0 } };
     const reactiveState = proxy(state);
-    const listener1 = vitest.fn();
+    const listener1 = vi.fn();
 
     reactiveState.nested[LISTENERS].add(listener1);
 
-
-    reactiveState.nested = reactiveState.nested
-    reactiveState.nested.prop = 2 ;
+    reactiveState.nested = reactiveState.nested;
+    reactiveState.nested.prop = 2;
 
     runMacroTask(() => {
       expect(listener1).toHaveBeenCalledTimes(1);
@@ -154,7 +154,7 @@ describe("proxy", () => {
   it("should not notify listeners when a property is not truly changed", () => {
     const state = { count: 0 };
     const reactiveState = proxy(state);
-    const listener = vitest.fn();
+    const listener = vi.fn();
 
     reactiveState[LISTENERS].add(listener);
     reactiveState.count = 0;

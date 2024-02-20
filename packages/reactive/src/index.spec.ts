@@ -1,18 +1,15 @@
 import { describe, it, expect, vitest } from "vitest";
 import { renderHook } from "@testing-library/react-hooks/dom";
 
-import { create, proxy, subscribe, useSnapshot } from "./index.js";
-import { getSnapshot } from "./utils.js";
+import { create } from "./index.js";
+import { getSnapshot } from "./snapshot.js";
+import { useSnapshot } from "./use-snapshot.js";
 
 const runMacroTask = (fn: Function) => setTimeout(fn, 0);
 
 describe("index", () => {
   it("create, proxy, useSnapshot and subscribe should be defined", () => {
     expect(create).toBeDefined();
-
-    expect(proxy).toBeDefined();
-    expect(subscribe).toBeDefined();
-    expect(useSnapshot).toBeDefined();
   });
 
   it("should return mutate, useSnapshot and subscribe by current state", () => {

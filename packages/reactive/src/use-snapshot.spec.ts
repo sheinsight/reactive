@@ -1,8 +1,9 @@
-import { act, renderHook } from "@testing-library/react-hooks/dom";
-import { useSnapshot } from "./use-snapshot.js";
-import { getSnapshot } from "./utils.js";
 import { describe, it, expect } from "vitest";
+import { act, renderHook } from "@testing-library/react-hooks/dom";
+
 import { proxy } from "./proxy.js";
+import { getSnapshot } from "./snapshot.js";
+import { useSnapshot } from "./use-snapshot.js";
 
 describe("useSnapShot", () => {
   it("should return proxyState snapshot", () => {
@@ -31,7 +32,7 @@ describe("useSnapShot", () => {
     expect(result.current.address.city.name).toEqual("北京");
   });
 
-  it("snapshot can not be updated", () => {
+  it("snapshot can not be extend", () => {
     const proxyState = proxy({
       address: {
         city: {
@@ -44,11 +45,12 @@ describe("useSnapShot", () => {
 
     expect(() => {
       act(() => {
-        // @ts-expect-error: for test
-        result.current.address.city.name = "北京";
+        // @ts-expect-error for test
+        result.current.address.city.hi = "北京";
       });
     }).toThrowError();
 
-    expect(result.current.address.city.name).toEqual("上海");
+    // @ts-expect-error for test
+    expect(result.current.address.city.hi).toEqual(undefined);
   });
 });

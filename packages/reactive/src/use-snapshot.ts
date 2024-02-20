@@ -1,25 +1,21 @@
 import { useCallback, useRef } from "react";
-import { createProxy, isChanged } from "proxy-compare";
+// import { createProxy, isChanged } from "proxy-compare";
 import { useSyncExternalStoreWithSelector } from "use-sync-external-store/shim/with-selector.js";
-import { getSnapshot } from "./utils.js";
-import { subscribe } from "./subscribe.js";
 
-import type { DeepReadonly } from "./utils.js";
+import { subscribe } from "./subscribe.js";
+import { getSnapshot } from "./snapshot.js";
 
 export interface SnapshotOptions {
   sync?: boolean;
 }
 
-const globalTargetCache = new WeakMap<object, any>();
-const globalProxyCache = new WeakMap<object, any>();
+// const globalTargetCache = new WeakMap<object, unknown>();
+// const globalProxyCache = new WeakMap<object, unknown>();
 
-export function useSnapshot<T extends object>(
-  proxyState: T,
-  options?: SnapshotOptions
-): DeepReadonly<T> {
+export function useSnapshot<T extends object>(proxyState: T, options?: SnapshotOptions): T {
   const { sync: updateInSync = false } = options || {};
-  const affected = new WeakMap();
-  const lastAffected = useRef<typeof affected>(affected);
+  // const affected = new WeakMap();
+  // const lastAffected = useRef<typeof affected>(affected);
 
   const _subscribe = useCallback(
     (callback: () => void) => subscribe(proxyState, callback, updateInSync),
@@ -44,7 +40,9 @@ export function useSnapshot<T extends object>(
     }
   );
 
-  lastAffected.current = affected;
+  // lastAffected.current = affected;
 
-  return createProxy(snapshot, affected, globalProxyCache, globalTargetCache);
+  // return createProxy(snapshot, affected, globalProxyCache, globalTargetCache);
+
+  return snapshot;
 }
