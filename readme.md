@@ -165,10 +165,9 @@ const snapshot = store.useSnapshot({ sync: true });
 
 </details>
 
-## Examples
+## Online Example
 
-- [base-example](https://stackblitz.com/edit/vitejs-vite-zli31f?file=src%2Fmain.tsx)
-- [multi-store-example](https://stackblitz.com/edit/vitejs-vite-n5azuk?file=src%2Fmain.tsx)
+- [StackBlitz](https://stackblitz.com/edit/vitejs-vite-a5xzre?file=src%2Fapp.tsx)
 
 ## License
 
