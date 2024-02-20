@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "packageManager": "pnpm@8.15.3",
+  "license": "MIT",
   "author": {
     "name": "ityuany"
   },
@@ -17,16 +18,14 @@
   "devDependencies": {
     "@types/node": "^20.11.19",
     "@types/semver": "^7.5.7",
-    "@vitest/coverage-v8": "^0.33.0",
     "enquirer": "^2.4.1",
-    "execa": "^7.2.0",
+    "execa": "^8.0.1",
     "find-packages": "^10.0.4",
-    "happy-dom": "^10.11.2",
-    "read-pkg": "^8.1.0",
+    "happy-dom": "^13.3.8",
+    "read-pkg": "^9.0.1",
     "read-yaml-file": "^2.1.0",
     "semver": "^7.6.0",
-    "tsx": "^3.14.0",
-    "vitest": "^0.33.0",
-    "write-pkg": "^6.0.1"
+    "tsx": "^4.7.1",
+    "write-package": "^7.0.0"
   }
 }

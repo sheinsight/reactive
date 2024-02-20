@@ -1,5 +1,5 @@
 import { describe, it, expect, vitest } from "vitest";
-import { renderHook } from "@testing-library/react-hooks/dom";
+import { renderHook } from "@testing-library/react";
 
 import { create } from "./index.js";
 import { getSnapshot } from "./snapshot.js";

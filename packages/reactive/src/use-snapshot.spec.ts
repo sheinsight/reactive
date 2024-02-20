@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { act, renderHook } from "@testing-library/react-hooks/dom";
+import { act, waitFor, renderHook } from "@testing-library/react";
 
 import { proxy } from "./proxy.js";
 import { getSnapshot } from "./snapshot.js";
@@ -21,15 +21,15 @@ describe("useSnapShot", () => {
       },
     });
 
-    const { result, waitForNextUpdate } = renderHook(() => useSnapshot(proxyState));
+    const { result } = renderHook(() => useSnapshot(proxyState));
 
     act(() => {
       proxyState.address.city.name = "北京";
     });
 
-    await waitForNextUpdate();
-
-    expect(result.current.address.city.name).toEqual("北京");
+    await waitFor(() => {
+      expect(result.current.address.city.name).toEqual("北京");
+    });
   });
 
   it("snapshot can not be extend", () => {

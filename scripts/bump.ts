@@ -1,7 +1,7 @@
 import { $ } from "execa";
 import { findPackages } from "find-packages";
 import { readPackage } from "read-pkg";
-import { writePackage } from "write-pkg";
+import { writePackage } from "write-package";
 import enquirer from "enquirer";
 import path from "node:path";
 import readYamlFile from "read-yaml-file";
