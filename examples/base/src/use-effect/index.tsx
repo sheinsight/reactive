@@ -15,8 +15,15 @@ export default function UseEffectDemo() {
   return (
     <div>
       <div>
-        <h1>name: {snap.name}</h1>
-        <pre>引用：{JSON.stringify(snap.user, null, 2)}</pre>
+        <pre>name: {snap.name}</pre>
+        <pre>user: {JSON.stringify(snap.user, null, 2)}</pre>
+        <button
+          onClick={() => {
+            store.mutate.name = Math.random() + "";
+          }}
+        >
+          修改顶层基础类型
+        </button>
         <button
           onClick={() => {
             store.mutate.user.address = {
@@ -24,21 +31,14 @@ export default function UseEffectDemo() {
             };
           }}
         >
-          修改引用类型
+          修改引用类型（替换 address）
         </button>
         <button
           onClick={() => {
             store.mutate.user.address.city = Math.random() + "";
           }}
         >
-          修改基础类型
-        </button>
-        <button
-          onClick={() => {
-            store.mutate.name = "lll" + Math.random();
-          }}
-        >
-          改其他字段
+          修改嵌套基础类型
         </button>
       </div>
     </div>

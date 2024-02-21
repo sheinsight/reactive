@@ -1,5 +1,3 @@
-import { memo } from "react";
-
 import {
   addProperty,
   asyncChangeName,
@@ -12,19 +10,10 @@ import {
 } from "./store";
 
 export default function BasicDemo() {
-  const state = store.useSnapshot({ sync: true });
-
   return (
     <>
-      <input
-        type="text"
-        value={state.inputValue}
-        onChange={(e) => {
-          store.mutate.inputValue = e.target.value;
-        }}
-      />
+      <Children2 />
       <Children />
-      <C2 />
       <div>
         <button onClick={mutateTopProperty}>mutate top property</button>
         <button onClick={mutateNestedProperty}>mutate nested property</button>
@@ -47,14 +36,25 @@ export default function BasicDemo() {
 }
 
 function Children() {
-  const state = store.useSnapshot();
+  const state = store.useSnapshot({ sync: true });
   const content = JSON.stringify(state, null, 2);
 
-  return <pre style={{ marginBottom: "2rem" }}>{content}</pre>;
+  return (
+    <div>
+      <input
+        type="text"
+        value={state.inputValue}
+        onChange={(e) => {
+          store.mutate.inputValue = e.target.value;
+        }}
+      />
+      <pre style={{ marginBottom: "2rem" }}>{content}</pre>
+    </div>
+  );
 }
 
-const C2 = memo(() => {
+const Children2 = () => {
   const state = store.useSnapshot();
   console.log("render C2");
   return <h1>{state.name}</h1>;
-});
+};
