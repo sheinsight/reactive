@@ -2,9 +2,9 @@ import { useEffect } from "react";
 // import { original } from "@shined/reactive";
 
 import { store } from "./store";
-import "./app.css";
+import "./index.css";
 
-export default function App() {
+export default function UseEffectDemo() {
   const snap = store.useSnapshot();
   const address = snap.user.address;
 
@@ -15,22 +15,23 @@ export default function App() {
   return (
     <div>
       <div>
-        <h1>{snap.name}</h1>
+        <h1>name: {snap.name}</h1>
+        <pre>引用：{JSON.stringify(snap.user, null, 2)}</pre>
         <button
           onClick={() => {
             store.mutate.user.address = {
-              city: "上海",
+              city: Math.random() + "",
             };
           }}
         >
-          改引用
+          修改引用类型
         </button>
         <button
           onClick={() => {
-            store.mutate.user.address.city = "上海";
+            store.mutate.user.address.city = Math.random() + "";
           }}
         >
-          改引用里面的名字
+          修改基础类型
         </button>
         <button
           onClick={() => {

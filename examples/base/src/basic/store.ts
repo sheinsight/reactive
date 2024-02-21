@@ -26,17 +26,17 @@ export const store = create<StoreState>({
   mutating: false,
 });
 
-const OTP = () => Math.random().toString().slice(2, 8);
+const hash = () => Math.random().toString(16).toUpperCase().slice(2, 8);
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-export const mutateTopProperty = () => (store.mutate.name = OTP());
-export const mutateNestedProperty = () => (store.mutate.address.city.name = OTP());
-export const pushToArray = () => store.mutate.hobbies.push(OTP());
+export const mutateTopProperty = () => (store.mutate.name = hash());
+export const mutateNestedProperty = () => (store.mutate.address.city.name = hash());
+export const pushToArray = () => store.mutate.hobbies.push(hash());
 export const popFromArray = () => store.mutate.hobbies.pop();
 
 export const addProperty = () => {
-  store.mutate.newProperty = OTP();
-  store.mutate.address.newProperty = OTP();
+  store.mutate.newProperty = hash();
+  store.mutate.address.newProperty = hash();
 };
 
 export const deleteProperty = () => {
@@ -52,10 +52,11 @@ export const asyncChangeName = async () => {
 
   await delay(1000);
 
-  store.mutate.name = OTP();
-  store.mutate.name = OTP();
-  store.mutate.name = OTP();
-  store.mutate.name = OTP();
-  store.mutate.name = OTP();
+  store.mutate.name = hash();
+  store.mutate.name = hash();
+  store.mutate.name = hash();
+  store.mutate.name = hash();
+  store.mutate.name = hash();
+
   store.mutate.mutating = false;
 };

@@ -6,7 +6,7 @@ export default function Children2() {
 
   return (
     <ChildrenContainer>
-      <h1>我是老二</h1>
+      <h3>我是老二</h3>
       {snap.children2.name}
     </ChildrenContainer>
   );

@@ -4,9 +4,10 @@ import Children3 from "./children-3";
 import Children4 from "./children-4";
 import Children5 from "./children-5";
 import { store } from "./store";
-import "./app.css";
 
-export default function App() {
+import "./index.css";
+
+export default function PerformanceDemo() {
   // const state = store.useSnapshot();
   // const state = store.useSnapshot({ sync: true });
 
@@ -18,7 +19,6 @@ export default function App() {
         // width: 1000,
         // height: 200,
         padding: "10px 10px 10px 10px",
-        border: "1px solid red",
         // backgroundColor: "#dedede",
         display: "flex",
         flexDirection: "column",
