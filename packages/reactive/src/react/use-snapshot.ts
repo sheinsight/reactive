@@ -1,9 +1,8 @@
 import { useCallback } from "react";
 import { useSyncExternalStoreWithSelector } from "use-sync-external-store/shim/with-selector.js";
 
-import { shallowEqual } from "./utils.js";
-import { subscribe } from "./subscribe.js";
-import { getSnapshot } from "./snapshot.js";
+import { shallowEqual } from "../utils/index.js";
+import { subscribe, getSnapshot } from "../vanilla";
 
 export interface SnapshotOptions {
   sync?: boolean;

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { SNAPSHOT } from "./internal-utils.js";
+import { SNAPSHOT } from "../utils/index.js";
 import { getSnapshot } from "./snapshot.js";
 
 describe("getSnapshot", () => {

@@ -1,11 +1,11 @@
-import { proxy } from "./proxy.js";
-import { subscribe } from "./subscribe.js";
-import { getSnapshot } from "./snapshot.js";
-import { REACTIVE_STORE_CHANGED, isProduction } from "./internal-utils.js";
+import { proxy } from "./vanilla/proxy.js";
+import { subscribe } from "./vanilla/subscribe.js";
+import { getSnapshot } from "./vanilla/snapshot.js";
+import { REACTIVE_STORE_CHANGED, isProduction } from "./utils/index.js";
 
 import type { Config } from "@redux-devtools/extension";
 import type { Config as ReduxDevtoolConfig } from "@redux-devtools/extension";
-import type { DeepExpandType } from "./internal-utils.js";
+import type { DeepExpandType } from "./utils/index.js";
 
 /** redux devtool options, if set, will enable redux devtool */
 export type DevtoolsOptions = DeepExpandType<
@@ -48,13 +48,13 @@ interface ConnectResponse {
   error: (...args: any[]) => any;
 }
 
-const ext = globalThis.__REDUX_DEVTOOLS_EXTENSION__;
-
 export function enableDevtools(
   proxyState: ReturnType<typeof proxy>,
   options: DevtoolsOptions,
   restore: () => void
 ): () => void {
+  const ext = globalThis.__REDUX_DEVTOOLS_EXTENSION__;
+
   if (!ext) {
     const infos = [
       "to enable redux devtools, make sure you've installed it 👉",

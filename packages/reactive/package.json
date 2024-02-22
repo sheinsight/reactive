@@ -32,6 +32,10 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./vanilla": {
+      "import": "./dist/vanilla/index.js",
+      "default": "./dist/vanilla/index.js"
+    },
     "./package.json": "./package.json"
   },
   "publishConfig": {

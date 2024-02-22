@@ -5,7 +5,7 @@ export default defineConfig({
   /**
    * @issue https://github.com/egoist/tsup/issues/1000
    */
-  entry: ["src/index.ts", "src/utils.ts"], // export `./utils` entry in `package.json`
+  entry: ["src/index.ts", "src/vanilla/index.ts"], // export `./utils` entry in `package.json`
   splitting: true,
   sourcemap: true,
   clean: true,

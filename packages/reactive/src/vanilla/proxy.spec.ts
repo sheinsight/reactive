@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 
 import { proxy } from "./proxy.js";
-import { LISTENERS, SNAPSHOT } from "./internal-utils.js";
+import { LISTENERS, SNAPSHOT } from "../utils/index.js";
 
 const runMacroTask = (fn: Function) => setTimeout(fn, 0);
 

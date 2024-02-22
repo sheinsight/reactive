@@ -1,4 +1,4 @@
-import { LISTENERS } from "./internal-utils.js";
+import { LISTENERS } from "../utils/index.js";
 
 export function subscribe<T extends object>(
   proxyObject: T,

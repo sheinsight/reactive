@@ -7,7 +7,7 @@ import {
   canProxy,
   createObjectFromPrototype,
   isObject,
-} from "./internal-utils.js";
+} from "../utils/index.js";
 import { hasRef } from "./ref.js";
 import { getSnapshot } from "./snapshot.js";
 

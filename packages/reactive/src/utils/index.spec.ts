@@ -7,7 +7,7 @@ import {
   SNAPSHOT,
   LISTENERS,
   REACTIVE,
-} from "./internal-utils.js";
+} from "./index.js";
 
 describe("Object Utils", () => {
   describe("isObject", () => {
