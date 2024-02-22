@@ -1,16 +1,14 @@
-import { useCallback, useRef } from "react";
-// import { createProxy, isChanged } from "proxy-compare";
+import { useCallback } from "react";
 import { useSyncExternalStoreWithSelector } from "use-sync-external-store/shim/with-selector.js";
 
+import { shallowEqual } from "./utils.js";
 import { subscribe } from "./subscribe.js";
 import { getSnapshot } from "./snapshot.js";
 
 export interface SnapshotOptions {
   sync?: boolean;
+  isEqual?: (a: unknown, b: unknown) => boolean;
 }
-
-// const globalTargetCache = new WeakMap<object, unknown>();
-// const globalProxyCache = new WeakMap<object, unknown>();
 
 export type Selector<State, StateSlice> = (state: State) => State | StateSlice;
 
@@ -24,9 +22,7 @@ export function useSnapshot<State extends object, StateSlice = State>(
     selectorOrOption = (s: State) => s;
   }
 
-  const { sync: updateInSync = false } = maybeOptions || {};
-  // const affected = new WeakMap();
-  // const lastAffected = useRef<typeof affected>(affected);
+  const { sync: updateInSync = false, isEqual = shallowEqual } = maybeOptions || {};
 
   const _subscribe = useCallback(
     (callback: () => void) => subscribe(proxyState, callback, updateInSync),
@@ -40,20 +36,8 @@ export function useSnapshot<State extends object, StateSlice = State>(
     _getSnapshot,
     _getSnapshot,
     selectorOrOption,
-    (a, b) => {
-      /**
-       *  disable rendering optimization temporarily to avoid render issue caused by `proxy-compare`
-       *  @see https://github.com/dai-shi/proxy-compare/issues/65
-       */
-      return false;
-
-      // return !isChanged(a, b, lastAffected.current, new WeakMap());
-    }
+    isEqual
   );
-
-  // lastAffected.current = affected;
-
-  // return createProxy(snapshot, affected, globalProxyCache, globalTargetCache);
 
   return snapshot as StateSlice;
 }

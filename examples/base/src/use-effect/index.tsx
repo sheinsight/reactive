@@ -1,16 +1,22 @@
 import { useEffect } from "react";
-// import { original } from "@shined/reactive";
 
 import { store } from "./store";
-import "./index.css";
 
 export default function UseEffectDemo() {
   const snap = store.useSnapshot();
   const address = snap.user.address;
 
   useEffect(() => {
-    console.log(address);
+    console.log("name changed:", name);
+  }, [snap.name]);
+
+  useEffect(() => {
+    console.log("address changed:", address);
   }, [address]);
+
+  useEffect(() => {
+    console.log("address.city changed:", address.city);
+  }, [address.city]);
 
   return (
     <div>

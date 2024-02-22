@@ -5,27 +5,15 @@ import Children4 from "./children-4";
 import Children5 from "./children-5";
 import { store } from "./store";
 
-import "./index.css";
-
 export default function PerformanceDemo() {
-  // const state = store.useSnapshot();
-  // const state = store.useSnapshot({ sync: true });
-
   const snap = store.useSnapshot();
 
   return (
     <div
       style={{
-        // width: 1000,
-        // height: 200,
         padding: "10px 10px 10px 10px",
-        // backgroundColor: "#dedede",
         display: "flex",
         flexDirection: "column",
-
-        // justifyContent: "space-around",
-        // alignContent: "center",
-        // alignItems: "center",
       }}
     >
       <div style={{ height: 100 }}>
