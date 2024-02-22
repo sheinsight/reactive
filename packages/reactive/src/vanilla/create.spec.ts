@@ -2,7 +2,7 @@ import { describe, it, expect, vitest } from "vitest";
 import { renderHook } from "@testing-library/react";
 
 import { create } from "./create.js";
-import { getSnapshot } from "./snapshot.js";
+import { getSnapshot } from "./get-snapshot.js";
 import { useSnapshot } from "../react/use-snapshot.js";
 
 const runMacroTask = (fn: Function) => setTimeout(fn, 0);

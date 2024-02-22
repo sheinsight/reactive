@@ -9,7 +9,7 @@ import {
   isObject,
 } from "../utils/index.js";
 import { hasRef } from "./ref.js";
-import { getSnapshot } from "./snapshot.js";
+import { getSnapshot } from "./get-snapshot.js";
 
 let globalVersion = 1;
 

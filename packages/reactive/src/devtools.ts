@@ -1,6 +1,6 @@
 import { proxy } from "./vanilla/proxy.js";
 import { subscribe } from "./vanilla/subscribe.js";
-import { getSnapshot } from "./vanilla/snapshot.js";
+import { getSnapshot } from "./vanilla/get-snapshot.js";
 import { REACTIVE_STORE_CHANGED, isProduction } from "./utils/index.js";
 
 import type { Config } from "@redux-devtools/extension";
