@@ -7,7 +7,7 @@ export default function UseEffectDemo() {
   const address = snap.user.address;
 
   useEffect(() => {
-    console.log("name changed:", name);
+    console.log("name changed:", snap.name);
   }, [snap.name]);
 
   useEffect(() => {
