@@ -12,8 +12,19 @@ export interface SnapshotOptions {
 // const globalTargetCache = new WeakMap<object, unknown>();
 // const globalProxyCache = new WeakMap<object, unknown>();
 
-export function useSnapshot<T extends object>(proxyState: T, options?: SnapshotOptions): T {
-  const { sync: updateInSync = false } = options || {};
+export type Selector<State, StateSlice> = (state: State) => State | StateSlice;
+
+export function useSnapshot<State extends object, StateSlice = State>(
+  proxyState: State,
+  selectorOrOption?: SnapshotOptions | Selector<State, StateSlice>,
+  maybeOptions?: SnapshotOptions
+): StateSlice {
+  if (typeof selectorOrOption !== "function") {
+    maybeOptions = selectorOrOption;
+    selectorOrOption = (s: State) => s;
+  }
+
+  const { sync: updateInSync = false } = maybeOptions || {};
   // const affected = new WeakMap();
   // const lastAffected = useRef<typeof affected>(affected);
 
@@ -28,7 +39,7 @@ export function useSnapshot<T extends object>(proxyState: T, options?: SnapshotO
     _subscribe,
     _getSnapshot,
     _getSnapshot,
-    (snap) => snap,
+    selectorOrOption,
     (a, b) => {
       /**
        *  disable rendering optimization temporarily to avoid render issue caused by `proxy-compare`
@@ -44,5 +55,5 @@ export function useSnapshot<T extends object>(proxyState: T, options?: SnapshotO
 
   // return createProxy(snapshot, affected, globalProxyCache, globalTargetCache);
 
-  return snapshot;
+  return snapshot as StateSlice;
 }

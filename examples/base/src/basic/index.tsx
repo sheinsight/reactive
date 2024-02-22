@@ -12,8 +12,16 @@ import {
 export default function BasicDemo() {
   return (
     <>
-      <Children2 />
       <Children />
+      <Children2 />
+      <OperationArea />
+    </>
+  );
+}
+
+const OperationArea = () => {
+  return (
+    <>
       <div>
         <button onClick={mutateTopProperty}>mutate top property</button>
         <button onClick={mutateNestedProperty}>mutate nested property</button>
@@ -33,9 +41,9 @@ export default function BasicDemo() {
       <button onClick={store.restore}>restore to initial state</button>
     </>
   );
-}
+};
 
-function Children() {
+const Children = () => {
   const state = store.useSnapshot({ sync: true });
   const content = JSON.stringify(state, null, 2);
 
@@ -51,10 +59,10 @@ function Children() {
       <pre style={{ marginBottom: "2rem" }}>{content}</pre>
     </div>
   );
-}
+};
 
 const Children2 = () => {
-  const state = store.useSnapshot();
+  const [name] = store.useSnapshot((s) => [s.name, s.address.city] as const);
   console.log("render C2");
-  return <h1>{state.name}</h1>;
+  return <h1>{name}</h1>;
 };
