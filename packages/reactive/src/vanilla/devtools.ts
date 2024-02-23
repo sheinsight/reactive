@@ -74,6 +74,7 @@ export function devtools(
     return () => {};
   }
 
+  const name = options.name ?? "untitled";
   const devtools = ext.connect(options as Config) as ConnectResponse;
   const initialState = getSnapshot(proxyState);
 
@@ -129,16 +130,20 @@ export function devtools(
 
       devtools.send(payload, snapshot);
 
-      console.debug(`[reactive] [${canProxy(current) ? "replace" : "set"}] ${propsPath}`, current);
+      console.debug(`[reactive] [${name}] [${getActionType(current)}] ${propsPath}`, current);
     },
     true
   );
 
-  console.debug(`[reactive][${options.name ?? "untitled"}] devtools is enabled`);
+  console.debug(`[reactive] [${name}] devtools is enabled`);
 
   return () => {
     devtools.unsubscribe();
     unsubscribe();
-    console.debug(`[reactive][${options.name ?? "untitled"}] devtools is disabled`);
+    console.debug(`[reactive] [${name}] devtools is disabled`);
   };
+}
+
+function getActionType(state: any) {
+  return canProxy(state) ? "replace" : "set";
 }
