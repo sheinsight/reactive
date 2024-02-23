@@ -26,6 +26,7 @@ export type ExtensionActionType =
   | "ROLLBACK"
   | "RESET"
   | "COMMIT"
+  | "TOGGLE_ACTION"
   | "JUMP_TO_ACTION"
   | "TOGGLE_ACTION";
 
@@ -55,6 +56,9 @@ export function devtools(
 ): () => void {
   const ext = window.__REDUX_DEVTOOLS_EXTENSION__;
   const enable = options?.enable ?? true;
+
+  // this variable is used to filter out the mutate operation by devtools itself
+  let isMutatingStoreByDevtools = false;
 
   if (!enable) return () => {};
 
@@ -86,7 +90,11 @@ export function devtools(
     if (message.payload.type === "RESET") devtools.init(initialState);
     if (message.payload.type === "COMMIT") devtools.init(getSnapshot(proxyState));
 
+    isMutatingStoreByDevtools = true;
+
+    // if (message.payload.type === ""TOGGLE_ACTION"") void 0;
     const actions: ExtensionActionType[] = ["ROLLBACK", "JUMP_TO_ACTION"];
+
     const isAction = actions.includes(message.payload.type);
     const hasState = message.state && message.state !== "{}";
 
@@ -97,22 +105,30 @@ export function devtools(
         devtools.error(e?.message || e?.toString() || JSON.stringify(e || ""));
       }
     }
+
+    isMutatingStoreByDevtools = false;
   });
 
-  const unsubscribe = subscribe(proxyState, (changes, version) => {
-    const { propsPath, previous, current, snapshot } = changes;
+  const unsubscribe = subscribe(
+    proxyState,
+    (changes, version) => {
+      const { propsPath, previous, current, snapshot } = changes;
 
-    devtools.send(
-      {
-        type: `[set] ${propsPath}`,
-        payload: current,
-        _previousValue: previous,
-        _updatedAt: new Date().toLocaleString(),
-        _innerVersion: version,
-      },
-      snapshot
-    );
-  });
+      if (isMutatingStoreByDevtools) return;
+
+      devtools.send(
+        {
+          type: `[set] ${propsPath}`,
+          payload: current,
+          _previousValue: previous,
+          _updatedAt: new Date().toLocaleString(),
+          _innerVersion: version,
+        },
+        snapshot
+      );
+    },
+    true
+  );
 
   console.debug(`[reactive][${options.name ?? "untitled"}] devtools is enabled`);
 
