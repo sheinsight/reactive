@@ -31,6 +31,35 @@ export const canProxy = (x: unknown) =>
   !(x instanceof RegExp) &&
   !(x instanceof ArrayBuffer);
 
+const numberReg = /^\d+$/;
+
+export const propertyKeysToPath = (keys: PropertyKey[]) => {
+  let path = "";
+  const { length } = keys;
+  for (let i = 0; i < length; i++) {
+    const key = keys[i];
+    if (typeof key === "string" && numberReg.test(key)) {
+      path += `[${key}]`;
+    } else {
+      path += (i === 0 ? "" : ".") + String(key);
+    }
+  }
+  return path;
+};
+
+export function get(
+  object: object,
+  path: PropertyKey | PropertyKey[],
+  defaultValue: any = undefined
+): any {
+  const keys = Array.isArray(path) ? path : [path];
+  for (const key of keys) {
+    if (!(key in object)) return defaultValue;
+    object = object[key];
+  }
+  return object;
+}
+
 export const shallowEqual = <T>(objA: T, objB: T) => {
   if (Object.is(objA, objB)) {
     return true;

@@ -1,5 +1,3 @@
-import { getUntracked } from "proxy-compare";
-
 import {
   LISTENERS,
   REACTIVE,
@@ -13,31 +11,30 @@ import { getSnapshot } from "./get-snapshot.js";
 
 let globalVersion = 1;
 
-// Cache content used to store snapshots.
 const snapshotCache = new WeakMap<object, [version: number, snapshot: unknown]>();
 
-type Listener = (v?: number) => void;
+export type Listener = (props: PropertyKey[], version?: number) => void;
 
-export function proxy<T extends object>(initState: T): T {
+export function proxy<T extends object>(initState: T, parentProps: PropertyKey[] = []): T {
   let version = globalVersion;
+
+  // for all changes including nested objects, stored in `proxyState[LISTENERS]`
   const listeners = new Set<Listener>();
 
-  const notifyUpdate = (nextVersion = ++globalVersion) => {
+  // only for changes in the current object, stored in function scope
+  const propListenerMap = new Map<PropertyKey, Listener>();
+
+  const notifyUpdate = (props: PropertyKey[], nextVersion = ++globalVersion) => {
     if (version !== nextVersion) {
       version = nextVersion;
-
-      listeners.forEach((callback) => {
-        callback();
-      });
+      listeners.forEach((callback) => void callback(props, version));
     }
   };
-
-  const propListenerMap = new Map<PropertyKey, Listener>();
 
   const getPropListener = (prop: PropertyKey) => {
     let listener = propListenerMap.get(prop);
     if (!listener) {
-      listener = (nextVersion?: number) => notifyUpdate(nextVersion);
+      listener = (props: PropertyKey[]) => void notifyUpdate(props);
       propListenerMap.set(prop, listener);
     }
     return listener;
@@ -50,13 +47,10 @@ export function proxy<T extends object>(initState: T): T {
   };
 
   const createSnapshot = <T extends object>(target: T, receiver: any) => {
-    // if cache exists and version is equal then return cache
     const cache = snapshotCache.get(receiver);
     if (cache?.[0] === version) return cache[1];
 
-    // create snapshot by target prototype
     const snapshot = createObjectFromPrototype(target);
-    // markToTrack(snapshot, true); // mark to track
     snapshotCache.set(receiver, [version, snapshot]);
 
     Reflect.ownKeys(target).forEach((key) => {
@@ -65,23 +59,19 @@ export function proxy<T extends object>(initState: T): T {
       const value: any = Reflect.get(target, key, receiver);
 
       if (hasRef(value)) {
-        // markToTrack(value, false); // mark not to track
         snapshot[key] = value;
       } else if (value?.[REACTIVE]) {
-        // if it already has REACTIVE symbol, it's a reactive proxy object, recursively create snapshot
         snapshot[key] = getSnapshot(value);
       } else {
         snapshot[key] = value;
       }
     });
 
-    // Object.freeze(snapshot);
     Object.preventExtensions(snapshot);
 
     return snapshot;
   };
 
-  // create baseObject by initState prototype
   const baseObject = createObjectFromPrototype(initState);
 
   const proxyState = new Proxy(baseObject, {
@@ -90,52 +80,48 @@ export function proxy<T extends object>(initState: T): T {
         return listeners;
       }
       if (prop === SNAPSHOT) {
-        // recursive create snapshot to object.freeze
         return createSnapshot(target, receiver);
       }
       return Reflect.get(target, prop, receiver);
     },
     set(target, prop, value, receiver) {
-      // if current value has LISTENERS , delete child listeners
-      const childListeners = Reflect.get(target, prop, receiver)?.[LISTENERS];
-      if (childListeners) {
-        childListeners.delete(popPropListener(prop));
+      const props = [...parentProps, prop];
+      const preValue = Reflect.get(target, prop, receiver);
+
+      // when set a new object to `prop`, we need to remove the old listeners
+      // in outdated object in `prop`, which is not in proxy state anymore
+      // meanwhile, we need to pop the old listener from `propListenerMap`
+      const childListeners = preValue?.[LISTENERS];
+      childListeners && childListeners.delete(popPropListener(prop));
+
+      if (!isObject(value) && Object.is(preValue, value)) {
+        // `return true` means the operation is successful,
+        // but we don't need to notify the update here,
+        // because the value is basic value, and it's the same as before
+        return true;
       }
 
       let nextValue = value;
 
-      if (isObject(value)) {
-        // handle reference type
-        nextValue = getUntracked(nextValue) || nextValue;
-      } else {
-        // handle basic type
-        const preValue = Reflect.get(target, prop, receiver);
-
-        if (Object.is(preValue, value)) {
-          return true;
-        }
-      }
-
-      if (value?.[LISTENERS]) {
-        nextValue = value;
+      if (nextValue?.[LISTENERS]) {
+        // if the value is a proxy object, we need to merge the listeners
         nextValue[LISTENERS].add(getPropListener(prop));
       } else if (canProxy(value)) {
-        nextValue = proxy(value);
+        nextValue = proxy(value, props);
         nextValue[REACTIVE] = true;
         nextValue[LISTENERS].add(getPropListener(prop));
-      } else {
-        nextValue = value;
       }
 
       let success = Reflect.set(target, prop, nextValue, receiver);
-      success && notifyUpdate();
+      success && notifyUpdate(props);
       return success;
     },
     deleteProperty(target: T, prop: string | symbol) {
+      const props = [...parentProps, prop];
       const childListeners = Reflect.get(target, prop)?.[LISTENERS];
       childListeners && childListeners.delete(popPropListener(prop));
       const success = Reflect.deleteProperty(target, prop);
-      success && notifyUpdate();
+      success && notifyUpdate(props);
       return success;
     },
   });

@@ -1,4 +1,4 @@
-import { create } from "@shined/reactive";
+import { create, devtools } from "@shined/reactive";
 
 export const store = create({
   user: {
@@ -8,3 +8,5 @@ export const store = create({
   },
   name: "Bob",
 });
+
+devtools(store, { name: "test" });

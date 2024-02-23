@@ -1,10 +1,10 @@
 import { proxy } from "./proxy.js";
 import { getSnapshot } from "./get-snapshot.js";
 
-export function produce<T extends object>(obj: T, handler: (draft: T) => void) {
+export function produce<T extends object>(obj: T, draftHandler: (draft: T) => void) {
   let state = proxy(obj);
-  handler(state);
-  const snapshot = getSnapshot(state) as T;
+  draftHandler(state);
+  const snapshot = getSnapshot(state);
   state = null;
-  return snapshot;
+  return snapshot as T;
 }

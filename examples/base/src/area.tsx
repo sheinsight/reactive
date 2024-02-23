@@ -7,7 +7,7 @@ export const Area = ({ name, children }: PropsWithChildren<{ name: string }>) =>
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        border: "1px solid green",
+        border: "1px solid greenyellow",
         marginBottom: "40px",
         padding: "16px",
       }}
@@ -15,7 +15,7 @@ export const Area = ({ name, children }: PropsWithChildren<{ name: string }>) =>
       <h1>{name}</h1>
       <div
         style={{
-          border: "1px solid tomato",
+          border: "1px solid darkorange",
           padding: "12px",
         }}
       >

@@ -1,4 +1,4 @@
-import { create } from "@shined/reactive";
+import { devtools, create } from "@shined/reactive";
 
 interface StoreState {
   name: string;

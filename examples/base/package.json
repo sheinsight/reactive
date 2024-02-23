@@ -10,7 +10,8 @@
   "dependencies": {
     "@shined/reactive": "workspace:*",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "valtio": "^1.13.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",

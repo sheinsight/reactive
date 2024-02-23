@@ -18,6 +18,8 @@ export default function UseEffectDemo() {
     console.log("address.city changed:", address.city);
   }, [address.city]);
 
+  console.log("render");
+
   return (
     <div>
       <div>
@@ -38,6 +40,16 @@ export default function UseEffectDemo() {
           }}
         >
           修改引用类型（替换 address）
+        </button>
+        <button
+          onClick={async () => {
+            store.mutate.user.address = {
+              city: Math.random() + "",
+            };
+            store.mutate.name = Math.random() + "";
+          }}
+        >
+          异步修改
         </button>
         <button
           onClick={() => {
