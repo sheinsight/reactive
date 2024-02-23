@@ -1,5 +1,6 @@
 import { proxy } from "./proxy.js";
 import { subscribe } from "./subscribe.js";
+import { canProxy } from "../utils/index.js";
 import { getSnapshot } from "./get-snapshot.js";
 
 import type {} from "@redux-devtools/extension";
@@ -79,7 +80,7 @@ export function devtools(
   devtools.init(initialState);
 
   devtools.subscribe((message) => {
-    console.debug("[reactive] message: ", message);
+    console.debug("[reactive] message from devtools: ", message);
 
     // if (message.type === "START") void 0;
     if (message.type !== "DISPATCH") return;
@@ -100,7 +101,9 @@ export function devtools(
 
     if (isAction && hasState) {
       try {
-        Object.assign(proxyState, JSON.parse(message.state || "{}"));
+        const newState = JSON.parse(message.state || "{}");
+        Object.assign(proxyState, newState);
+        console.debug("[reactive] mutate state by devtools: ", newState);
       } catch (e: any) {
         devtools.error(e?.message || e?.toString() || JSON.stringify(e || ""));
       }
@@ -116,16 +119,17 @@ export function devtools(
 
       if (isMutatingStoreByDevtools) return;
 
-      devtools.send(
-        {
-          type: `[set] ${propsPath}`,
-          payload: current,
-          _previousValue: previous,
-          _updatedAt: new Date().toLocaleString(),
-          _innerVersion: version,
-        },
-        snapshot
-      );
+      const payload = {
+        type: `[${canProxy(current) ? "replace" : "set"}] ${propsPath}`,
+        payload: current,
+        _previousValue: previous,
+        _updatedAt: new Date().toLocaleString(),
+        _innerVersion: version,
+      };
+
+      devtools.send(payload, snapshot);
+
+      console.debug(`[reactive] [${canProxy(current) ? "replace" : "set"}] ${propsPath}`, current);
     },
     true
   );
@@ -135,5 +139,6 @@ export function devtools(
   return () => {
     devtools.unsubscribe();
     unsubscribe();
+    console.debug(`[reactive][${options.name ?? "untitled"}] devtools is disabled`);
   };
 }

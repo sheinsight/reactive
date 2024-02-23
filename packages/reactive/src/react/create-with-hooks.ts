@@ -1,7 +1,7 @@
-import { useSnapshot } from "./use-snapshot";
-import { create as createVanilla } from "../vanilla";
+import { useSnapshot } from "./use-snapshot.js";
+import { create as createVanilla } from "../vanilla/create.js";
 
-import type { CreateOptions } from "../vanilla";
+import type { CreateOptions } from "../vanilla/create.js";
 import type { Selector, SnapshotOptions } from "./use-snapshot.js";
 
 interface StoreUseSnapshot<State extends object> {

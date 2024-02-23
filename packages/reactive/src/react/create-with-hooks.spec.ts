@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { renderHook } from "@testing-library/react";
 
-import { createWithHooks } from "./create-with-hooks";
+import { createWithHooks } from "./create-with-hooks.js";
 
 describe("createWithHooks", () => {
   it("should be defined", () => {

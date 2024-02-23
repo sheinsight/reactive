@@ -1,6 +1,15 @@
 import { describe, it, expect } from "vitest";
 
-import { ref, ProxyMap, ProxySet, create, produce, proxy, subscribe, getSnapshot } from "./index";
+import {
+  ref,
+  ProxyMap,
+  ProxySet,
+  create,
+  produce,
+  proxy,
+  subscribe,
+  getSnapshot,
+} from "./index.js";
 
 describe("index export", () => {
   it("[ref, ProxyMap, ProxySet, create, produce, proxy, subscribe, getSnapshot] should be defined", () => {

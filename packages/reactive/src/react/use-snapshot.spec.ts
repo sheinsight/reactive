@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { act, waitFor, renderHook } from "@testing-library/react";
 
 import { useSnapshot } from "./use-snapshot.js";
-import { proxy, getSnapshot } from "../vanilla";
+import { proxy, getSnapshot } from "../vanilla/index.js";
 
 describe("useSnapShot", () => {
   it("should be defined", () => {
