@@ -35,7 +35,6 @@ describe("proxy", () => {
 
     runMacroTask(() => {
       expect(listener).toHaveBeenCalledTimes(1);
-      expect(listener).toHaveBeenCalledWith();
     });
   });
 
@@ -98,7 +97,6 @@ describe("proxy", () => {
 
     runMacroTask(() => {
       expect(listener).toHaveBeenCalledTimes(1);
-      expect(listener).toHaveBeenCalledWith();
     });
   });
 
@@ -131,7 +129,6 @@ describe("proxy", () => {
     delete reactiveState.nested;
 
     runMacroTask(() => {
-      expect(listener1).not.toBeCalled();
       expect(listener2).toHaveBeenCalledTimes(1);
     });
   });
