@@ -11,7 +11,7 @@ export type SubscribeCallback<T> = (
     current: unknown;
     snapshot: T;
   },
-  version: number
+  version?: number
 ) => void;
 
 export function subscribe<T extends object>(
@@ -29,7 +29,7 @@ export function subscribe<T extends object>(
     previousState = getSnapshot(proxyState);
   };
 
-  const listener = (props: PropertyKey[], version: number) => {
+  const listener = (props: PropertyKey[], version?: number) => {
     const currentState = getSnapshot(proxyState);
 
     const changes = {
@@ -55,9 +55,9 @@ export function subscribe<T extends object>(
   };
 
   // FIXME: 只监听全局 store
-  (proxyState[LISTENERS] as Set<Listener>).add(listener);
+  ((proxyState as any)[LISTENERS] as Set<Listener>).add(listener);
 
   return () => {
-    (proxyState[LISTENERS] as Set<Listener>).delete(listener);
+    ((proxyState as any)[LISTENERS] as Set<Listener>).delete(listener);
   };
 }

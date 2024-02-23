@@ -55,7 +55,7 @@ export function get(
   const keys = Array.isArray(path) ? path : [path];
   for (const key of keys) {
     if (!(key in object)) return defaultValue;
-    object = object[key];
+    object = object[key as never];
   }
   return object;
 }

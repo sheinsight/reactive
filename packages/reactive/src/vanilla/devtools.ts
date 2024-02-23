@@ -1,7 +1,6 @@
 import { proxy } from "./proxy.js";
 import { subscribe } from "./subscribe.js";
 import { getSnapshot } from "./get-snapshot.js";
-import { REACTIVE_STORE_CHANGED, get, propertyKeysToPath } from "../utils/index.js";
 
 import type {} from "@redux-devtools/extension";
 import type { DeepExpandType } from "../utils/index.js";
@@ -81,10 +80,9 @@ export function devtools(
     // if (message.type === "START") void 0;
     if (message.type !== "DISPATCH") return;
 
-    // if (message.payload.type === "SWEEP") void 0;
-
     if (!message.payload) return;
 
+    // if (message.payload.type === "SWEEP") void 0;
     if (message.payload.type === "RESET") devtools.init(initialState);
     if (message.payload.type === "COMMIT") devtools.init(getSnapshot(proxyState));
 
@@ -94,15 +92,15 @@ export function devtools(
 
     if (isAction && hasState) {
       try {
-        Object.assign(proxyState, JSON.parse(message.state));
-      } catch (e) {
+        Object.assign(proxyState, JSON.parse(message.state || "{}"));
+      } catch (e: any) {
         devtools.error(e?.message || e?.toString() || JSON.stringify(e || ""));
       }
     }
   });
 
   const unsubscribe = subscribe(proxyState, (changes, version) => {
-    const { propsPath, previous, current } = changes;
+    const { propsPath, previous, current, snapshot } = changes;
 
     devtools.send(
       {
@@ -112,11 +110,11 @@ export function devtools(
         _updatedAt: new Date().toLocaleString(),
         _innerVersion: version,
       },
-      changes.snapshot
+      snapshot
     );
   });
 
-  console.log(`[reactive][${options.name ?? "untitled"}] devtools is enabled`);
+  console.debug(`[reactive][${options.name ?? "untitled"}] devtools is enabled`);
 
   return () => {
     devtools.unsubscribe();

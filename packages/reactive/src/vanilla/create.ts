@@ -10,7 +10,7 @@ export function create<T extends object>(initState: T, options?: CreateOptions) 
 
   const restore = () => {
     const _ = structuredClone(initState);
-    Object.keys(_).forEach((k) => void (proxyState[k] = _[k]));
+    Object.keys(_).forEach((k) => void (proxyState[k as keyof T] = _[k as keyof T]));
   };
 
   options ??= {};

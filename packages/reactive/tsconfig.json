@@ -3,6 +3,7 @@
     "module": "es6",
     "moduleResolution": "bundler",
     "target": "esnext",
+    "strict": true,
     "declaration": true
   },
   "include": ["./src"]

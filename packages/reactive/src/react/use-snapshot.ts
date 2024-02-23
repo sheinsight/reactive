@@ -9,19 +9,30 @@ export interface SnapshotOptions {
   isEqual?: (a: unknown, b: unknown) => boolean;
 }
 
-export type Selector<State, StateSlice> = (state: State) => State | StateSlice;
+export type Selector<State, StateSlice> = (state: State) => StateSlice;
 
-export function useSnapshot<State extends object, StateSlice = State>(
+interface UseSnapshot {
+  <State extends object, StateSlice>(state: State): State;
+  <State extends object, StateSlice>(state: State, s: SnapshotOptions): State;
+  <State extends object, StateSlice>(state: State, s: Selector<State, StateSlice>): StateSlice;
+  <State extends object, StateSlice>(
+    state: State,
+    s: Selector<State, StateSlice>,
+    o: SnapshotOptions
+  ): StateSlice;
+}
+
+export const useSnapshot: UseSnapshot = <State extends object, StateSlice>(
   proxyState: State,
   selectorOrOption?: SnapshotOptions | Selector<State, StateSlice>,
   maybeOptions?: SnapshotOptions
-): StateSlice {
+) => {
   if (typeof selectorOrOption !== "function") {
     maybeOptions = selectorOrOption;
-    selectorOrOption = (s: State) => s;
+    selectorOrOption = undefined;
   }
 
-  const { sync: updateInSync = false, isEqual = shallowEqual } = maybeOptions || {};
+  const { sync: updateInSync = false, isEqual = shallowEqual } = maybeOptions ?? {};
 
   const _subscribe = useCallback(
     (callback: SubscribeCallback<State>) => subscribe(proxyState, callback, updateInSync),
@@ -30,13 +41,28 @@ export function useSnapshot<State extends object, StateSlice = State>(
 
   const _getSnapshot = useCallback(() => getSnapshot(proxyState), [proxyState]);
 
-  const snapshot = useSyncExternalStoreWithSelector(
+  const selector = (selectorOrOption || ((s) => s)) as (state: State) => StateSlice;
+
+  const snapshot = useSyncExternalStoreWithSelector<State, StateSlice>(
     _subscribe,
     _getSnapshot,
     _getSnapshot,
-    selectorOrOption,
+    selector,
     isEqual
   );
 
-  return snapshot as StateSlice;
-}
+  return snapshot;
+};
+
+// const state = useSnapshot({ name: 123 });
+// const state2 = useSnapshot({ name: 123 }, (s) => s);
+// const state3 = useSnapshot({ name: 123 }, (s) => s, {});
+// const state4 = useSnapshot({ name: 123 }, {});
+// const name = useSnapshot({ name: 123 }, (s) => s.name);
+// const name2 = useSnapshot({ name: 123 }, (s) => s.name, {});
+// const [name3, age] = useSnapshot({ name: "123", age: 2 }, (s) => [s.name, s.age], {});
+
+// const { name: name4, age: age2 } = useSnapshot({ name: "123", age: 2 }, (s) => ({
+//   name: s.name,
+//   age: s.age,
+// }));

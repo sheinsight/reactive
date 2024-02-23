@@ -59,11 +59,11 @@ export function proxy<T extends object>(initState: T, parentProps: PropertyKey[]
       const value: any = Reflect.get(target, key, receiver);
 
       if (hasRef(value)) {
-        snapshot[key] = value;
+        snapshot[key as keyof T] = value;
       } else if (value?.[REACTIVE]) {
-        snapshot[key] = getSnapshot(value);
+        snapshot[key as keyof T] = getSnapshot(value);
       } else {
-        snapshot[key] = value;
+        snapshot[key as keyof T] = value;
       }
     });
 
@@ -91,7 +91,7 @@ export function proxy<T extends object>(initState: T, parentProps: PropertyKey[]
       // when set a new object to `prop`, we need to remove the old listeners
       // in outdated object in `prop`, which is not in proxy state anymore
       // meanwhile, we need to pop the old listener from `propListenerMap`
-      const childListeners = preValue?.[LISTENERS];
+      const childListeners = (preValue as any)?.[LISTENERS];
       childListeners && childListeners.delete(popPropListener(prop));
 
       if (!isObject(value) && Object.is(preValue, value)) {
@@ -118,7 +118,7 @@ export function proxy<T extends object>(initState: T, parentProps: PropertyKey[]
     },
     deleteProperty(target: T, prop: string | symbol) {
       const props = [...parentProps, prop];
-      const childListeners = Reflect.get(target, prop)?.[LISTENERS];
+      const childListeners = (Reflect.get(target, prop) as any)?.[LISTENERS];
       childListeners && childListeners.delete(popPropListener(prop));
       const success = Reflect.deleteProperty(target, prop);
       success && notifyUpdate(props);
@@ -127,7 +127,7 @@ export function proxy<T extends object>(initState: T, parentProps: PropertyKey[]
   });
 
   Reflect.ownKeys(initState).forEach((key) => {
-    proxyState[key] = initState[key];
+    proxyState[key as keyof T] = initState[key as keyof T];
   });
 
   return proxyState;

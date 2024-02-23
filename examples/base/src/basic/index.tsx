@@ -62,7 +62,13 @@ const Children = () => {
 };
 
 const Children2 = () => {
-  const [name] = store.useSnapshot((s) => [s.name, s.address.city] as const);
-  console.log("render C2");
-  return <h1>{name}</h1>;
+  const res = store.useSnapshot((s) => [s.name, s.address.city]);
+  const [name, city] = store.useSnapshot((s) => [s.name, s.address.city]);
+
+  return (
+    <div>
+      <h1>{name}</h1>
+      <div>{city.name}</div>
+    </div>
+  );
 };
