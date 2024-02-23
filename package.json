@@ -11,6 +11,7 @@
   "scripts": {
     "build": "pnpm --filter '@shined/*' build ",
     "test": "pnpm  --filter '@shined/*' test",
+    "test:w": "pnpm  --filter '@shined/*' test:w",
     "dev": "pnpm i && pnpm -r --parallel dev",
     "bump": "tsx ./scripts/bump.ts",
     "release": "tsx ./scripts/release.ts"

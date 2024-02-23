@@ -47,18 +47,18 @@ export const propertyKeysToPath = (keys: PropertyKey[]) => {
   return path;
 };
 
-export function get(
+export const get = (
   object: object,
   path: PropertyKey | PropertyKey[],
-  defaultValue: any = undefined
-): any {
+  defaultValue: unknown = undefined
+) => {
   const keys = Array.isArray(path) ? path : [path];
   for (const key of keys) {
     if (!(key in object)) return defaultValue;
     object = object[key as never];
   }
   return object;
-}
+};
 
 export const shallowEqual = <T>(objA: T, objB: T) => {
   if (Object.is(objA, objB)) {

@@ -13,7 +13,10 @@ describe("ref", () => {
   it("should has ref", () => {
     const obj = { a: 1 };
     const refObj = ref(obj);
-
     expect(hasRef(refObj)).toBe(true);
+  });
+
+  it("should not be ref", () => {
+    expect(hasRef({})).toBe(false);
   });
 });
