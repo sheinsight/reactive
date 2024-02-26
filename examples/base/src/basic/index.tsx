@@ -12,9 +12,9 @@ import {
 export default function BasicDemo() {
   return (
     <>
-      <Children />
-      <Children2 />
       <OperationArea />
+      <Children />
+      <MainView />
     </>
   )
 }
@@ -43,12 +43,13 @@ const OperationArea = () => {
   )
 }
 
-const Children = () => {
+const MainView = () => {
   const state = store.useSnapshot({ sync: true })
   const content = JSON.stringify(state, null, 2)
 
   return (
     <div>
+      <h4>Input anything here 👇</h4>
       <input
         type="text"
         value={state.inputValue}
@@ -56,19 +57,30 @@ const Children = () => {
           store.mutate.inputValue = e.target.value
         }}
       />
+      <h4>Full Store Snapshot 👇</h4>
       <pre style={{ marginBottom: '2rem' }}>{content}</pre>
     </div>
   )
 }
 
-const Children2 = () => {
-  const res = store.useSnapshot((s) => [s.name, s.address.city])
+const Children = () => {
+  const [hobbies, isLoading, text] = store.useSnapshot((s) => [s.hobbies, s.mutating, s.inputValue])
   const [name, city] = store.useSnapshot((s) => [s.name, s.address.city])
 
   return (
     <div>
-      <h1>{name}</h1>
-      <div>{city.name}</div>
+      <h4>Some State Slice 👇</h4>
+      <pre>name: {isLoading ? 'loading...' : name}</pre>
+      <pre>address.city.name: {city.name}</pre>
+      <pre>inputValue: {text}</pre>
+      <h4>Hobbies 👇</h4>
+      <div>
+        {hobbies.map((hobby, idx) => (
+          <div key={hobby}>
+            {idx + 1}. {hobby}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
