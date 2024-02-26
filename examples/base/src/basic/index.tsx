@@ -7,7 +7,7 @@ import {
   popFromArray,
   pushToArray,
   store,
-} from "./store";
+} from './store'
 
 export default function BasicDemo() {
   return (
@@ -16,7 +16,7 @@ export default function BasicDemo() {
       <Children2 />
       <OperationArea />
     </>
-  );
+  )
 }
 
 const OperationArea = () => {
@@ -40,12 +40,12 @@ const OperationArea = () => {
       <button onClick={asyncChangeName}>async change name</button>
       <button onClick={store.restore}>restore to initial state</button>
     </>
-  );
-};
+  )
+}
 
 const Children = () => {
-  const state = store.useSnapshot({ sync: true });
-  const content = JSON.stringify(state, null, 2);
+  const state = store.useSnapshot({ sync: true })
+  const content = JSON.stringify(state, null, 2)
 
   return (
     <div>
@@ -53,22 +53,22 @@ const Children = () => {
         type="text"
         value={state.inputValue}
         onChange={(e) => {
-          store.mutate.inputValue = e.target.value;
+          store.mutate.inputValue = e.target.value
         }}
       />
-      <pre style={{ marginBottom: "2rem" }}>{content}</pre>
+      <pre style={{ marginBottom: '2rem' }}>{content}</pre>
     </div>
-  );
-};
+  )
+}
 
 const Children2 = () => {
-  const res = store.useSnapshot((s) => [s.name, s.address.city]);
-  const [name, city] = store.useSnapshot((s) => [s.name, s.address.city]);
+  const res = store.useSnapshot((s) => [s.name, s.address.city])
+  const [name, city] = store.useSnapshot((s) => [s.name, s.address.city])
 
   return (
     <div>
       <h1>{name}</h1>
       <div>{city.name}</div>
     </div>
-  );
-};
+  )
+}

@@ -1,9 +1,9 @@
-import ChildrenContainer from "./children-container";
-import { store } from "./store";
-import { memo } from "react";
+import ChildrenContainer from './children-container'
+import { store } from './store'
+import { memo } from 'react'
 
 export default memo(function Children4() {
-  const snap = store.useSnapshot();
+  const snap = store.useSnapshot()
 
   return (
     <ChildrenContainer>
@@ -12,5 +12,5 @@ export default memo(function Children4() {
       <span>我带了一个帽子</span>
       <pre>React.memo</pre>
     </ChildrenContainer>
-  );
-});
+  )
+})

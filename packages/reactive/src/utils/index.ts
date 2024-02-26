@@ -1,22 +1,22 @@
-import { hasRef } from "../vanilla/ref.js";
+import { hasRef } from '../vanilla/ref.js'
 
 export type DeepExpandType<T> = {
-  [K in keyof T]: T[K] extends object ? DeepExpandType<T[K]> : T[K];
-};
+  [K in keyof T]: T[K] extends object ? DeepExpandType<T[K]> : T[K]
+}
 
-export const SNAPSHOT = Symbol("SNAPSHOT");
-export const LISTENERS = Symbol("LISTENERS");
-export const REACTIVE = Symbol("REACTIVE");
+export const SNAPSHOT = Symbol('SNAPSHOT')
+export const LISTENERS = Symbol('LISTENERS')
+export const REACTIVE = Symbol('REACTIVE')
 
-export const isProduction = process.env.NODE_ENV === "production";
-export const REACTIVE_STORE_CHANGED = "REACTIVE_STORE_CHANGED";
+export const isProduction = process.env.NODE_ENV === 'production'
+export const REACTIVE_STORE_CHANGED = 'REACTIVE_STORE_CHANGED'
 
-export const hasOwn = Object.prototype.hasOwnProperty;
-export const isObject = (x: unknown): x is object => typeof x === "object" && x !== null;
+export const hasOwn = Object.prototype.hasOwnProperty
+export const isObject = (x: unknown): x is object => typeof x === 'object' && x !== null
 
 export const createObjectFromPrototype = <T extends object>(target: T): T => {
-  return Array.isArray(target) ? [] : Object.create(Object.getPrototypeOf(target));
-};
+  return Array.isArray(target) ? [] : Object.create(Object.getPrototypeOf(target))
+}
 
 export const canProxy = (x: unknown) =>
   isObject(x) &&
@@ -29,73 +29,73 @@ export const canProxy = (x: unknown) =>
   !(x instanceof Date) &&
   !(x instanceof String) &&
   !(x instanceof RegExp) &&
-  !(x instanceof ArrayBuffer);
+  !(x instanceof ArrayBuffer)
 
-const numberReg = /^\d+$/;
+const numberReg = /^\d+$/
 
 export const propertyKeysToPath = (keys: PropertyKey[]) => {
-  let path = "";
-  const { length } = keys;
+  let path = ''
+  const { length } = keys
   for (let i = 0; i < length; i++) {
-    const key = keys[i];
-    if (typeof key === "string" && numberReg.test(key)) {
-      path += `[${key}]`;
+    const key = keys[i]
+    if (typeof key === 'string' && numberReg.test(key)) {
+      path += `[${key}]`
     } else {
-      path += (i === 0 ? "" : ".") + String(key);
+      path += (i === 0 ? '' : '.') + String(key)
     }
   }
-  return path;
-};
+  return path
+}
 
 export const get = (
   object: object,
   path: PropertyKey | PropertyKey[],
-  defaultValue: unknown = undefined
+  defaultValue: unknown = undefined,
 ) => {
-  const keys = Array.isArray(path) ? path : [path];
+  const keys = Array.isArray(path) ? path : [path]
   for (const key of keys) {
-    if (!(key in object)) return defaultValue;
-    object = object[key as never];
+    if (!(key in object)) return defaultValue
+    object = object[key as never]
   }
-  return object;
-};
+  return object
+}
 
 export const shallowEqual = <T>(objA: T, objB: T) => {
   if (Object.is(objA, objB)) {
-    return true;
+    return true
   }
 
-  if (typeof objA !== "object" || objA === null || typeof objB !== "object" || objB === null) {
-    return false;
+  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
+    return false
   }
 
   if (objA instanceof Map && objB instanceof Map) {
-    if (objA.size !== objB.size) return false;
+    if (objA.size !== objB.size) return false
 
     for (const [key, value] of objA) {
       if (!Object.is(value, objB.get(key))) {
-        return false;
+        return false
       }
     }
-    return true;
+    return true
   }
 
   if (objA instanceof Set && objB instanceof Set) {
-    if (objA.size !== objB.size) return false;
+    if (objA.size !== objB.size) return false
 
     for (const value of objA) {
       if (!objB.has(value)) {
-        return false;
+        return false
       }
     }
 
-    return true;
+    return true
   }
 
-  const keysA = Object.keys(objA);
+  const keysA = Object.keys(objA)
 
   if (keysA.length !== Object.keys(objB).length) {
-    return false;
+    return false
   }
 
   for (let i = 0; i < keysA.length; i++) {
@@ -103,8 +103,8 @@ export const shallowEqual = <T>(objA: T, objB: T) => {
       !hasOwn.call(objB, keysA[i] as string) ||
       !Object.is(objA[keysA[i] as keyof T], objB[keysA[i] as keyof T])
     ) {
-      return false;
+      return false
     }
   }
-  return true;
-};
+  return true
+}

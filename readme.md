@@ -26,12 +26,12 @@ pnpm add @shined/reactive
 ### Step 1. Create a store
 
 ```jsx
-import { create } from "@shined/reactive";
+import { create } from '@shined/reactive'
 
-const store = create({ name: "Pikachu" });
+const store = create({ name: 'Pikachu' })
 
 // or go with devtools enabled
-const store = create({ name: "Pikachu" }, { devtools: { name: "store" } });
+const store = create({ name: 'Pikachu' }, { devtools: { name: 'store' } })
 ```
 
 > [!NOTE]
@@ -40,12 +40,12 @@ const store = create({ name: "Pikachu" }, { devtools: { name: "store" } });
 ### Step 2. Get snapshot from store
 
 ```jsx
-import { store } from "./store";
+import { store } from './store'
 
 export default function Foo() {
-  const snap = store.useSnapshot();
+  const snap = store.useSnapshot()
 
-  return <h1>{snap.name}</h1>;
+  return <h1>{snap.name}</h1>
 }
 ```
 
@@ -60,31 +60,31 @@ You can mutate the state anywhere you like. For example, mutate it in the same f
 > Snapshots are not extensible, you can only mutate state by modify `store.mutate` object.
 
 ```jsx
-import { create } from "@shined/reactive";
+import { create } from '@shined/reactive'
 
 const store = create({
-  name: "Pikachu",
-});
+  name: 'Pikachu',
+})
 
 const changeName = () => {
-  store.mutate.name = "Squirtle";
-};
+  store.mutate.name = 'Squirtle'
+}
 ```
 
 Or mutate in components directly.
 
 ```jsx
-import { store } from "./store";
+import { store } from './store'
 
 export default function Foo() {
-  const snap = store.useSnapshot();
+  const snap = store.useSnapshot()
 
   function handleClick() {
     // ❌ Error, changes in snapshot will not trigger re-render
     // snap.name = "Squirtle";
 
     // ✅ Works, you should always mutate the `store.mutate` object
-    store.mutate.name = "Squirtle";
+    store.mutate.name = 'Squirtle'
   }
 
   return (
@@ -92,7 +92,7 @@ export default function Foo() {
       <h1>{snap.name}</h1>
       <button onClick={handleClick}>mutate name</button>
     </>
-  );
+  )
 }
 ```
 
@@ -101,17 +101,17 @@ You can also easily **restore** to initial state.
 > The newer [`structuredClone`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) API is used in this function, so consider adding a [polyfill](https://github.com/ungap/structured-clone) if needed.
 
 ```jsx
-import { store } from "./store";
+import { store } from './store'
 
 export default function Foo() {
-  const snap = store.useSnapshot();
+  const snap = store.useSnapshot()
 
   return (
     <>
       <h1>{snap.name}</h1>
       <button onClick={store.restore}>restore</button>
     </>
-  );
+  )
 }
 ```
 
@@ -123,29 +123,29 @@ export default function Foo() {
 A ref is useful in the rare instances you to nest an object in a proxy that is not wrapped in an inner proxy and, therefore, is not tracked.
 
 ```jsx
-import { create } from "@shined/reactive";
+import { create } from '@shined/reactive'
 
 const store = create({
   users: [
     {
       id: 1,
-      name: "Pikachu",
+      name: 'Pikachu',
       component: ref({ table: null }),
     },
   ],
-});
+})
 ```
 
 Once an object is wrapped in a ref, it should be mutated without resetting the object or rewrapping in a new ref.
 
 ```jsx
 // do mutate
-store.mutate.users[0].component.table = document.querySelector("#table");
+store.mutate.users[0].component.table = document.querySelector('#table')
 // do reset
-store.mutate.users[0].component.table = null;
+store.mutate.users[0].component.table = null
 
 // don't ❌
-store.mutate.users[0].component = {};
+store.mutate.users[0].component = {}
 ```
 
 **Typical application scenarios**: share an instance of a component among multiple components in order to call imperative APIs.
@@ -160,7 +160,7 @@ store.mutate.users[0].component = {};
 State mutations are batched synchronously by default before triggering re-render to optimize rendering. If you want to disable it (such as consumed by `<input>` element), you can set `sync` option to `true` when creating snapshot to avoid this issue.
 
 ```tsx
-const snapshot = store.useSnapshot({ sync: true });
+const snapshot = store.useSnapshot({ sync: true })
 ```
 
 </details>

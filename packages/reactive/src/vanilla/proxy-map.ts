@@ -2,6 +2,6 @@
 
 export class ProxyMap {
   constructor() {
-    return {};
+    return {}
   }
 }

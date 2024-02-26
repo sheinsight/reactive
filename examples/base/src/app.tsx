@@ -1,8 +1,8 @@
-import BasicDemo from "./basic";
-import UseEffectDemo from "./use-effect";
-import PerformanceDemo from "./performance";
-import { Area } from "./area";
-import { ValtioDemo } from './valtio';
+import BasicDemo from './basic'
+import UseEffectDemo from './use-effect'
+import PerformanceDemo from './performance'
+import { Area } from './area'
+import { ValtioDemo } from './valtio'
 
 export default function App() {
   return (
@@ -25,5 +25,5 @@ export default function App() {
         <ValtioDemo />
       </Area>
     </div>
-  );
+  )
 }

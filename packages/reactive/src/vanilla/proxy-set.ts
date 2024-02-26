@@ -2,6 +2,6 @@
 
 export class ProxySet {
   constructor() {
-    return {};
+    return {}
   }
 }

@@ -1,24 +1,24 @@
-import { useEffect } from "react";
+import { useEffect } from 'react'
 
-import { store } from "./store";
+import { store } from './store'
 
 export default function UseEffectDemo() {
-  const snap = store.useSnapshot();
-  const address = snap.user.address;
+  const snap = store.useSnapshot()
+  const address = snap.user.address
 
   useEffect(() => {
-    console.log("name changed:", snap.name);
-  }, [snap.name]);
+    console.log('name changed:', snap.name)
+  }, [snap.name])
 
   useEffect(() => {
-    console.log("address changed:", address);
-  }, [address]);
+    console.log('address changed:', address)
+  }, [address])
 
   useEffect(() => {
-    console.log("address.city changed:", address.city);
-  }, [address.city]);
+    console.log('address.city changed:', address.city)
+  }, [address.city])
 
-  console.log("render");
+  console.log('render')
 
   return (
     <div>
@@ -27,7 +27,7 @@ export default function UseEffectDemo() {
         <pre>user: {JSON.stringify(snap.user, null, 2)}</pre>
         <button
           onClick={() => {
-            store.mutate.name = Math.random() + "";
+            store.mutate.name = Math.random() + ''
           }}
         >
           修改顶层基础类型
@@ -35,8 +35,8 @@ export default function UseEffectDemo() {
         <button
           onClick={() => {
             store.mutate.user.address = {
-              city: Math.random() + "",
-            };
+              city: Math.random() + '',
+            }
           }}
         >
           修改引用类型（替换 address）
@@ -44,21 +44,21 @@ export default function UseEffectDemo() {
         <button
           onClick={async () => {
             store.mutate.user.address = {
-              city: Math.random() + "",
-            };
-            store.mutate.name = Math.random() + "";
+              city: Math.random() + '',
+            }
+            store.mutate.name = Math.random() + ''
           }}
         >
           异步修改
         </button>
         <button
           onClick={() => {
-            store.mutate.user.address.city = Math.random() + "";
+            store.mutate.user.address.city = Math.random() + ''
           }}
         >
           修改嵌套基础类型
         </button>
       </div>
     </div>
-  );
+  )
 }
