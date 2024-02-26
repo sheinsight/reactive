@@ -6,11 +6,17 @@ import { getSnapshot } from './get-snapshot.js'
 import type {} from '@redux-devtools/extension'
 import type { DeepExpandType } from '../utils/index.js'
 
-type Config = Parameters<
-  (Window extends { __REDUX_DEVTOOLS_EXTENSION__?: infer T }
-    ? T
-    : { connect: (param: any) => any })['connect']
->[0]
+export type Extension = (Window extends { __REDUX_DEVTOOLS_EXTENSION__?: infer T }
+  ? T
+  : { connect: (param: any) => any })['connect']
+
+export type ExtConfig = Parameters<Extension>[0]
+
+export type ConnectResponse = ReturnType<Extension> & {
+  unsubscribe: () => void
+  subscribe: (fn: (message: any) => void) => void
+  error: (message: string) => void
+}
 
 /** redux devtool options, if set, will enable redux devtool */
 export type DevtoolsOptions = DeepExpandType<
@@ -19,37 +25,8 @@ export type DevtoolsOptions = DeepExpandType<
     name: string
     /** @default true */
     enable?: boolean
-  } & Config
+  } & ExtConfig
 >
-
-export type ExtensionActionType =
-  | 'SWEEP'
-  | 'ROLLBACK'
-  | 'RESET'
-  | 'COMMIT'
-  | 'TOGGLE_ACTION'
-  | 'JUMP_TO_ACTION'
-  | 'TOGGLE_ACTION'
-
-export interface DevtoolsMessage {
-  type: 'DISPATCH' | 'START'
-  source: string | undefined
-  id: string | undefined
-  state: string | undefined
-  payload: {
-    type: ExtensionActionType
-    timestamp: number
-    actionId?: string
-  }
-}
-
-interface ConnectResponse {
-  init: (state: unknown) => void
-  send: (action: { type: string; [x: string]: unknown }, state: unknown) => void
-  subscribe: (handler: (message: DevtoolsMessage) => void) => any
-  unsubscribe: (...args: any[]) => any
-  error: (...args: any[]) => any
-}
 
 export function devtools(
   { mutate: proxyState }: { mutate: ReturnType<typeof proxy> },
@@ -74,8 +51,8 @@ export function devtools(
     return () => {}
   }
 
-  const name = options.name ?? 'untitled'
-  const devtools = ext.connect(options as Config) as ConnectResponse
+  const name = options?.name ?? 'untitled'
+  const devtools = ext.connect(options) as ConnectResponse
   const initialState = getSnapshot(proxyState)
 
   devtools.init(initialState)
@@ -92,25 +69,25 @@ export function devtools(
     if (message.payload.type === 'RESET') devtools.init(initialState)
     if (message.payload.type === 'COMMIT') devtools.init(getSnapshot(proxyState))
 
-    isMutatingStoreByDevtools = true
-
     // if (message.payload.type === ""TOGGLE_ACTION"") void 0;
-    const actions: ExtensionActionType[] = ['ROLLBACK', 'JUMP_TO_ACTION']
+    const actions = ['ROLLBACK', 'JUMP_TO_ACTION'] as const
 
     const isAction = actions.includes(message.payload.type)
     const hasState = message.state && message.state !== '{}'
 
     if (isAction && hasState) {
       try {
+        isMutatingStoreByDevtools = true
+
         const newState = JSON.parse(message.state || '{}')
         Object.assign(proxyState, newState)
         console.debug('[reactive] mutate state by devtools: ', newState)
       } catch (e: any) {
         devtools.error(e?.message || e?.toString() || JSON.stringify(e || ''))
+      } finally {
+        isMutatingStoreByDevtools = false
       }
     }
-
-    isMutatingStoreByDevtools = false
   })
 
   const unsubscribe = subscribe(
@@ -129,7 +106,6 @@ export function devtools(
       }
 
       devtools.send(payload, snapshot)
-
       console.debug(`[reactive] [${name}] [${getActionType(current)}] ${propsPath}`, current)
     },
     true,
