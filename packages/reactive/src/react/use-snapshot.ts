@@ -4,16 +4,16 @@ import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/w
 import { shallowEqual } from '../utils/index.js'
 import { subscribe, getSnapshot, type SubscribeCallback } from '../vanilla'
 
-export interface SnapshotOptions {
+export interface SnapshotOptions<StateSlice> {
   sync?: boolean
-  isEqual?: (a: unknown, b: unknown) => boolean
+  isEqual?: (a: StateSlice, b: StateSlice) => boolean
 }
 
 export type Selector<State, StateSlice> = (state: State) => StateSlice
 
 interface UseSnapshot {
   <State extends object>(state: State): State
-  <State extends object>(state: State, options?: SnapshotOptions): State
+  <State extends object>(state: State, options?: SnapshotOptions<State>): State
   <State extends object, StateSlice>(
     state: State,
     selector?: Selector<State, StateSlice>,
@@ -21,14 +21,14 @@ interface UseSnapshot {
   <State extends object, StateSlice>(
     state: State,
     selector?: Selector<State, StateSlice>,
-    options?: SnapshotOptions,
+    options?: SnapshotOptions<StateSlice>,
   ): StateSlice
 }
 
 export const useSnapshot: UseSnapshot = <State extends object, StateSlice>(
   proxyState: State,
-  selectorOrOption?: SnapshotOptions | Selector<State, StateSlice>,
-  maybeOptions?: SnapshotOptions,
+  selectorOrOption?: SnapshotOptions<StateSlice> | Selector<State, StateSlice>,
+  maybeOptions?: SnapshotOptions<StateSlice>,
 ) => {
   if (typeof selectorOrOption !== 'function') {
     maybeOptions = selectorOrOption

@@ -93,13 +93,15 @@ describe('useSnapShot', () => {
       },
     })
 
-    const { result } = renderHook(() => useSnapshot(proxyState, { isEqual: (a, b) => a === b }))
+    const { result } = renderHook(() =>
+      useSnapshot(proxyState, (s) => s.address.city, { isEqual: (a, b) => a === b }),
+    )
 
     act(() => {
       proxyState.address.city.name = 'Nanjing'
     })
 
     // update are sync, in this sync context, it will be "Shanghai"
-    expect(result.current.address.city.name).toEqual('Shanghai')
+    expect(result.current.name).toEqual('Shanghai')
   })
 })

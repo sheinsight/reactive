@@ -6,9 +6,12 @@ import type { Selector, SnapshotOptions } from './use-snapshot.js'
 
 interface StoreUseSnapshot<State extends object> {
   (): State
-  (options?: SnapshotOptions): State
+  (options?: SnapshotOptions<State>): State
   <StateSlice>(selector?: Selector<State, StateSlice>): StateSlice
-  <StateSlice>(selector?: Selector<State, StateSlice>, options?: SnapshotOptions): StateSlice
+  <StateSlice>(
+    selector?: Selector<State, StateSlice>,
+    options?: SnapshotOptions<StateSlice>,
+  ): StateSlice
 }
 
 export const createWithHooks = <State extends object>(
@@ -18,8 +21,8 @@ export const createWithHooks = <State extends object>(
   const store = createVanilla(initState, options)
 
   const _useSnapshot: StoreUseSnapshot<State> = <StateSlice>(
-    selectorOrOption?: SnapshotOptions | Selector<State, StateSlice>,
-    maybeOptions?: SnapshotOptions,
+    selectorOrOption?: SnapshotOptions<StateSlice> | Selector<State, StateSlice>,
+    maybeOptions?: SnapshotOptions<StateSlice>,
   ) => {
     if (typeof selectorOrOption !== 'function') {
       maybeOptions = selectorOrOption
