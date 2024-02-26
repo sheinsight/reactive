@@ -12,6 +12,7 @@ export type Extension = (Window extends { __REDUX_DEVTOOLS_EXTENSION__?: infer T
 
 export type ExtConfig = Parameters<Extension>[0]
 
+// FIXME: https://github.com/reduxjs/redux-devtools/issues/1097
 export type ConnectResponse = ReturnType<Extension> & {
   unsubscribe: () => void
   subscribe: (fn: (message: any) => void) => void
