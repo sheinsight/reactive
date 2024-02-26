@@ -1,12 +1,9 @@
-import { create, devtools } from "@shined/reactive";
+import { create, devtools } from '@shined/reactive'
 
 export const store = create({
-  user: {
-    address: {
-      city: "Bob",
-    },
-  },
-  name: "Bob",
-});
+  count: 0,
+  user: [{ name: 'Bob' }],
+  unused: 'unused',
+})
 
-devtools(store, { name: "test" });
+devtools(store, { name: 'store' })

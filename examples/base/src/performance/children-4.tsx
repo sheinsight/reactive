@@ -8,8 +8,8 @@ export default memo(function Children4() {
   return (
     <ChildrenContainer>
       <h3>Child 4</h3>
-      {snap.children4.name}
       <pre>with React.memo</pre>
+      {snap.children4.name}
     </ChildrenContainer>
   )
 })

@@ -3,6 +3,11 @@
   animation-iteration-count: 1;
 }
 
+h3,
+pre {
+  margin: 2px !important;
+}
+
 @keyframes shake {
   0% {
     transform: translate(0px, 0px);

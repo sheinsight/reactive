@@ -16,9 +16,9 @@ export default function PerformanceDemo() {
         flexDirection: 'column',
       }}
     >
-      <div style={{ height: 100 }}>
+      <div>
         <button
-          style={{ marginLeft: 20, marginRight: 20 }}
+          style={{ marginRight: 20 }}
           onClick={() => {
             store.mutate.parent.name = String(Math.random().toFixed(4))
           }}
