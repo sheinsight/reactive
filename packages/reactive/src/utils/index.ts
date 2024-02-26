@@ -9,7 +9,6 @@ export const LISTENERS = Symbol('LISTENERS')
 export const REACTIVE = Symbol('REACTIVE')
 
 export const isProduction = process.env.NODE_ENV === 'production'
-export const REACTIVE_STORE_CHANGED = 'REACTIVE_STORE_CHANGED'
 
 export const hasOwn = Object.prototype.hasOwnProperty
 export const isObject = (x: unknown): x is object => typeof x === 'object' && x !== null
@@ -38,7 +37,7 @@ export const propertyKeysToPath = (keys: PropertyKey[]) => {
   const { length } = keys
   for (let i = 0; i < length; i++) {
     const key = keys[i]
-    if (typeof key === 'string' && numberReg.test(key)) {
+    if (typeof key === 'number' || (typeof key === 'string' && numberReg.test(key))) {
       path += `[${key}]`
     } else {
       path += (i === 0 ? '' : '.') + String(key)
@@ -98,7 +97,9 @@ export const shallowEqual = <T>(objA: T, objB: T) => {
     return false
   }
 
-  for (let i = 0; i < keysA.length; i++) {
+  const keysLength = keysA.length
+
+  for (let i = 0; i < keysLength; i++) {
     if (
       !hasOwn.call(objB, keysA[i] as string) ||
       !Object.is(objA[keysA[i] as keyof T], objB[keysA[i] as keyof T])
@@ -106,5 +107,6 @@ export const shallowEqual = <T>(objA: T, objB: T) => {
       return false
     }
   }
+
   return true
 }

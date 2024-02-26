@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 
 import { proxy } from './proxy.js'
 import { LISTENERS, SNAPSHOT } from '../utils/index.js'
+import { ref } from './ref.js'
 
 const runMacroTask = (fn: Function) => setTimeout(fn, 0)
 
@@ -25,8 +26,21 @@ describe('proxy', () => {
     runMacroTask(() => expect(reactiveState.count).toBe(5))
   })
 
+  it('should not update the reactive state when a property is ref', () => {
+    const state = { name: 0, refKey: ref({ count: 1 }) } as any
+    const reactiveState = proxy(state)
+    const snapshot = reactiveState[SNAPSHOT]
+
+    reactiveState.refKey.count++
+
+    // when change ref, snapshot should not be updated, return cached value
+    runMacroTask(() => expect(snapshot).toBe(reactiveState[SNAPSHOT]))
+    // ref should be updated, but will not trigger listeners
+    runMacroTask(() => expect(snapshot.refKey.count).toBe(2))
+  })
+
   it('should notify listeners when a property is set', () => {
-    const state = { count: 0 }
+    const state = { count: 0 } as any
     const reactiveState = proxy(state)
     const listener = vi.fn()
 
@@ -39,7 +53,7 @@ describe('proxy', () => {
   })
 
   it('should create a frozen snapshot with recursive properties', () => {
-    const initState = { person: { name: 'John' } }
+    const initState = { person: { name: 'John' } } as any
     const proxyObj = proxy(initState)
     const snapshot = proxyObj[SNAPSHOT]
 
@@ -51,12 +65,12 @@ describe('proxy', () => {
     const state = { count: 0 }
     const reactiveState = proxy(state)
 
-    const snapshot1 = reactiveState[SNAPSHOT]
+    const snapshot1 = (reactiveState as any)[SNAPSHOT]
     expect(snapshot1.count).toBe(0)
 
     reactiveState.count = 5
 
-    const snapshot2 = reactiveState[SNAPSHOT]
+    const snapshot2 = (reactiveState as any)[SNAPSHOT]
 
     runMacroTask(() => {
       expect(snapshot2.count).toBe(5)
@@ -79,7 +93,7 @@ describe('proxy', () => {
   })
 
   it('should delete a property from the state', () => {
-    const state = { count: 0 }
+    const state = { count: 0 } as any
     const reactiveState = proxy(state)
 
     delete reactiveState.count
@@ -88,11 +102,11 @@ describe('proxy', () => {
   })
 
   it('should notify listeners when a property is deleted', () => {
-    const state = { count: 0 }
+    const state = { count: 0 } as any
     const reactiveState = proxy(state)
     const listener = vi.fn()
 
-    reactiveState[LISTENERS].add(listener)
+    ;(reactiveState as any)[LISTENERS].add(listener)
     delete reactiveState.count
 
     runMacroTask(() => {
@@ -101,7 +115,7 @@ describe('proxy', () => {
   })
 
   it('should handle nested listeners correctly', () => {
-    const state = { nested: { prop: 0 } }
+    const state = { nested: { prop: 0 } } as any
     const reactiveState = proxy(state)
     const listener1 = vi.fn()
     const listener2 = vi.fn()
@@ -117,8 +131,8 @@ describe('proxy', () => {
     })
   })
 
-  it('should be handled correctly deletion logic .', () => {
-    const state = { nested: { prop: 0 } }
+  it('should be handled correctly deletion logic', () => {
+    const state = { nested: { prop: 0 } } as any
     const reactiveState = proxy(state)
     const listener1 = vi.fn()
     const listener2 = vi.fn()
@@ -133,8 +147,8 @@ describe('proxy', () => {
     })
   })
 
-  it('should be handled correctly Use cached listeners.', () => {
-    const state = { nested: { prop: 0 } }
+  it('should be handled correctly Use cached listeners', () => {
+    const state = { nested: { prop: 0 } } as any
     const reactiveState = proxy(state)
     const listener1 = vi.fn()
 
@@ -149,7 +163,7 @@ describe('proxy', () => {
   })
 
   it('should not notify listeners when a property is not truly changed', () => {
-    const state = { count: 0 }
+    const state = { count: 0 } as any
     const reactiveState = proxy(state)
     const listener = vi.fn()
 
