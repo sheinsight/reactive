@@ -6,4 +6,4 @@ export const store = create({
   unused: 'unused',
 })
 
-devtools(store, { name: 'store' })
+devtools(store, { name: 'UseEffect Store' })

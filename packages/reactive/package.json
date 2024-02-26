@@ -46,17 +46,14 @@
   "sideEffects": false,
   "keywords": [
     "react",
-    "reactive",
     "hooks",
+    "reactive",
     "state",
     "store",
-    "use-sync-external-store",
-    "proxy-compare"
+    "use-sync-external-store"
   ],
   "license": "MIT",
   "dependencies": {
-    "@types/use-sync-external-store": "^0.0.6",
-    "proxy-compare": "^2.6.0",
     "use-sync-external-store": "^1.2.0"
   },
   "devDependencies": {
@@ -65,6 +62,7 @@
     "@testing-library/react": "^14.2.1",
     "@types/node": "^20.11.20",
     "@types/react": "18.2.57",
+    "@types/use-sync-external-store": "^0.0.6",
     "@vitest/coverage-v8": "^1.3.1",
     "prettier": "^3.2.5",
     "react": "^18.2.0",
