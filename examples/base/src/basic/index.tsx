@@ -64,15 +64,17 @@ const MainView = () => {
 }
 
 const Children = () => {
-  const [hobbies, isLoading, text] = store.useSnapshot((s) => [s.hobbies, s.mutating, s.inputValue])
-  const [name, city] = store.useSnapshot((s) => [s.name, s.address.city])
+  const isLoading = store.useSnapshot((s) => s.mutating)
+  const { name, city } = store.useSnapshot((s) => ({ name: s.name, city: s.address.city }))
+  const [hobbies, text] = store.useSnapshot((s) => [s.hobbies, s.inputValue])
 
   return (
     <div>
       <h4>Some State Slice 👇</h4>
-      <pre>name: {isLoading ? 'loading...' : name}</pre>
+      <pre>name: {name}</pre>
       <pre>address.city.name: {city.name}</pre>
-      <pre>inputValue: {text}</pre>
+      <pre>inputValue: {isLoading ? 'loading...' : text}</pre>
+
       <h4>Hobbies 👇</h4>
       <div>
         {hobbies.map((hobby, idx) => (
