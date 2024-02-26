@@ -7,10 +7,9 @@ export default memo(function Children4() {
 
   return (
     <ChildrenContainer>
-      <h3>我是老四</h3>
+      <h3>Child 4</h3>
       {snap.children4.name}
-      <span>我带了一个帽子</span>
-      <pre>React.memo</pre>
+      <pre>with React.memo</pre>
     </ChildrenContainer>
   )
 })

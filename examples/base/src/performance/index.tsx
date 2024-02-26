@@ -23,9 +23,9 @@ export default function PerformanceDemo() {
             store.mutate.parent.name = String(Math.random().toFixed(4))
           }}
         >
-          揍爸爸
+          kick father
         </button>
-        我是父容器: {snap.parent.name}
+        Father: {snap.parent.name}
       </div>
 
       <div
@@ -41,35 +41,35 @@ export default function PerformanceDemo() {
             store.mutate.children1.name = String(Math.random().toFixed(4))
           }}
         >
-          揍老大
+          kick child1
         </button>
         <button
           onClick={() => {
             store.mutate.children2.name = String(Math.random().toFixed(4))
           }}
         >
-          揍老二
+          kick child2
         </button>
         <button
           onClick={() => {
             store.mutate.children3.name = String(Math.random().toFixed(4))
           }}
         >
-          揍老三
+          kick child3
         </button>
         <button
           onClick={() => {
             store.mutate.children4.name = String(Math.random().toFixed(4))
           }}
         >
-          揍老四
+          kick child4
         </button>
         <button
           onClick={() => {
             store.mutate.children5.name = String(Math.random().toFixed(4))
           }}
         >
-          揍老五
+          kick child5
         </button>
       </div>
       <div

@@ -3,7 +3,7 @@ export default function ChildrenContainer(props: PropsWithChildren<HTMLAttribute
   return (
     <div
       style={{
-        width: 120,
+        width: 132,
         height: 150,
         border: '1px solid gray',
         display: 'flex',

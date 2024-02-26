@@ -30,7 +30,7 @@ export default function UseEffectDemo() {
             store.mutate.name = Math.random() + ''
           }}
         >
-          修改顶层基础类型
+          mutate top basic
         </button>
         <button
           onClick={() => {
@@ -39,7 +39,7 @@ export default function UseEffectDemo() {
             }
           }}
         >
-          修改引用类型（替换 address）
+          replace object
         </button>
         <button
           onClick={async () => {
@@ -49,14 +49,14 @@ export default function UseEffectDemo() {
             store.mutate.name = Math.random() + ''
           }}
         >
-          异步修改
+          mutate async
         </button>
         <button
           onClick={() => {
             store.mutate.user.address.city = Math.random() + ''
           }}
         >
-          修改嵌套基础类型
+          mutate nested
         </button>
       </div>
     </div>

@@ -15,7 +15,7 @@ export default function Children1() {
       className={`box ${shake ? 'shake' : ''}`}
       onAnimationEnd={() => setShake(false)}
     >
-      <h3>我是老大</h3>
+      <h3>Child 1</h3>
       {snap.children1.name}
     </ChildrenContainer>
   )
