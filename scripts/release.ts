@@ -1,17 +1,33 @@
 import { $ } from 'execa'
 import { findPackages } from 'find-packages'
-import { readPackage } from 'read-pkg'
+import { readPackage, type NormalizedPackageJson } from 'read-pkg'
 import { writePackage } from 'write-package'
 import path from 'node:path'
 import process from 'node:process'
 import readYamlFile from 'read-yaml-file'
-import { getUpdatedPackageJson } from './bump'
 
 const gitTag = process.env.GITHUB_REF_NAME
 
 if (!gitTag) {
-  console.error('please run this script in GitHub Actions')
+  console.error(
+    'This script is intended to be run in GitHub Action. If you want to release packages, please run `pnpm bump`.'
+  )
+
   process.exit(1)
+}
+
+const getUpdatedPackageJson = (
+  json: NormalizedPackageJson,
+  v: string
+): Record<string, string | boolean | number> => {
+  const pkgJson: Record<string, string | boolean | number> = { ...json }
+
+  delete pkgJson._id
+  delete pkgJson.readme
+
+  pkgJson.version = v
+
+  return pkgJson
 }
 
 function extractVersionTag(version: string): string {

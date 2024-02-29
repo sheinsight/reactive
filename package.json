@@ -15,8 +15,8 @@
     "test:watch": "pnpm --filter '@shined/*' test:watch",
     "lint": "prettier --check . --no-error-on-unmatched-pattern",
     "lint:fix": "prettier --write . --no-error-on-unmatched-pattern",
-    "bump": "tsx ./scripts/bump.ts",
-    "release": "tsx ./scripts/release.ts",
+    "release:bump": "tsx ./scripts/bump.ts",
+    "release:action": "tsx ./scripts/release.ts",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"

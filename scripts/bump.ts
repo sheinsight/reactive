@@ -57,7 +57,7 @@ if (!isSure) process.exit(0)
 
 const isSnapshot = v.includes('snapshot')
 
-export const getUpdatedPackageJson = (
+const getUpdatedPackageJson = (
   json: NormalizedPackageJson,
   v: string
 ): Record<string, string | boolean | number> => {

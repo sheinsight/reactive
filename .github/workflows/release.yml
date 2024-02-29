@@ -1,4 +1,4 @@
-name: Publish to NPM Registry
+name: Publish to npm registry
 
 on:
   release:
@@ -19,9 +19,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 18 # 你可以选择所需的 Node.js 版本
+          node-version: 20 # 你可以选择所需的 Node.js 版本
 
-      - name: Use Pnpm
+      - name: Use pnpm
         uses: pnpm/action-setup@v2
         with:
           version: ${{ vars.PNPM_7_VERSION }}
@@ -30,15 +30,15 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build package
-        run: pnpm build # 如果你的项目需要构建过程，请确保你有一个 "build" script 在 package.json 中
+        run: pnpm run build
 
-      - name: Test package
-        run: pnpm test # 确保你的项目有一个 "test" script 在 package.json 中
+      - name: Run unite test
+        run: pnpm run test
 
-      - name: set token
+      - name: Set npm publish token
         run: echo -e //registry.npmjs.org/:_authToken=${NPM_TOKEN} >> .npmrc
         env:
           NPM_TOKEN: ${{ secrets.SHINED_NPM_PUBLISH_TOKEN }}
 
       - name: Publish package
-        run: pnpm release
+        run: pnpm run release:action
