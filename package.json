@@ -3,41 +3,32 @@
   "version": "0.0.19",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@8.6.7",
-  "homepage": "https://github.com/sheinsight/reactive#readme",
+  "packageManager": "pnpm@8.15.3",
+  "license": "MIT",
   "author": {
     "name": "ityuany"
-  },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sheinsight/reactive.git"
-  },
-  "bugs": {
-    "url": "https://github.com/sheinsight/reactive/issues"
   },
   "scripts": {
     "build": "pnpm --filter '@shined/*' build ",
     "test": "pnpm  --filter '@shined/*' test",
+    "test:w": "pnpm  --filter '@shined/*' test:w",
     "dev": "pnpm i && pnpm -r --parallel dev",
+    "lint": "pnpm -r --parallel lint",
+    "lint:root": "prettier --write ./examples/**/*.{ts,tsx,md} ./scripts ./readme.md --no-error-on-unmatched-pattern",
     "bump": "tsx ./scripts/bump.ts",
     "release": "tsx ./scripts/release.ts"
   },
   "devDependencies": {
-    "@types/node": "^20.4.5",
-    "@types/semver": "^7.5.0",
-    "@vitest/coverage-v8": "^0.33.0",
-    "enquirer": "^2.3.6",
-    "execa": "^7.1.1",
+    "@types/node": "^20.11.20",
+    "@types/semver": "^7.5.8",
+    "enquirer": "^2.4.1",
+    "execa": "^8.0.1",
     "find-packages": "^10.0.4",
-    "happy-dom": "^10.3.2",
-    "read-pkg": "^8.0.0",
+    "happy-dom": "^13.6.0",
+    "read-pkg": "^9.0.1",
     "read-yaml-file": "^2.1.0",
-    "semver": "^7.5.4",
-    "tsx": "^3.12.7",
-    "vitest": "^0.33.0",
-    "write-pkg": "^6.0.0"
-  },
-  "readme": "ERROR: No README data found!",
-  "_id": "reactive@0.0.18"
+    "semver": "^7.6.0",
+    "tsx": "^4.7.1",
+    "write-package": "^7.0.0"
+  }
 }
