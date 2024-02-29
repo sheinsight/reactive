@@ -4,11 +4,11 @@
 
 ## Features
 
-- 😉 **Easy to use**: simple APIs
-- ⚡️ **High performance**: [Proxy](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy) based high rendering performance
-- 🏄‍♂️ **Unopinionated**: high flexibility, works in both React and Vanilla JS/TS
-- 🔐 **Secure**: `snapshot` can not be extended by accident.
-- 🔧 **Redux Devtools Support**: partly support [Redux devtools extension](https://github.com/reduxjs/redux-devtools#redux-devtools)
+- 😊 **User-Friendly**: Straightforward API for easy adoption.
+- ⚡️ **Optimized Performance**: Leverages [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) for efficient rendering.
+- 🏄 **Versatile**: Designed for high adaptability in both React and Vanilla JS.
+- 🔒 **Safe**: Ensures immutability with non-extensible `snapshot`.
+- 🛠️ **DevTools Integration**: Out-of-the-box [Redux DevTools](https://github.com/reduxjs/redux-devtools#redux-devtools) compatibility.
 
 ## Install
 
