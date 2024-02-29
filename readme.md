@@ -26,16 +26,16 @@ pnpm add @shined/reactive
 ### Step 1. Create a store
 
 ```jsx
-import { create } from '@shined/reactive'
+import { create, devtools } from '@shined/reactive'
 
 const store = create({ name: 'Pikachu' })
 
-// or go with devtools enabled
-const store = create({ name: 'Pikachu' }, { devtools: { name: 'store' } })
+// you can also enable DevTools for debugging
+devtools(store, { name: 'pikachu' })
 ```
 
 > [!NOTE]
-> To enable devtools, make sure you've installed Redux devtools [Chrome extension](https://chromewebstore.google.com/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd), full devtools options can be found at Redux devtools extension [documentation](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md#options).
+> To enable DevTools, make sure you've installed Redux DevTools [Chrome extension](https://chromewebstore.google.com/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd), full DevTools options can be found at Redux DevTools extension [documentation](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md#options).
 
 ### Step 2. Get snapshot from store
 
@@ -43,21 +43,21 @@ const store = create({ name: 'Pikachu' }, { devtools: { name: 'store' } })
 import { store } from './store'
 
 export default function Foo() {
-  const snap = store.useSnapshot()
+  const name = store.useSnapshot((s) => s.name)
 
-  return <h1>{snap.name}</h1>
+  return <h1>{name}</h1>
 }
 ```
 
 > [!TIP]
 > If state is consumed by `input` element, an exception may occur while typing Chinese, You can use the `sync` option in `useSnapshot` to solve this problem. see [FAQs](#FAQs) for more details.
 
-### Step 3. Mutate the store
+### Step 3. Mutate the store anywhere
 
 You can mutate the state anywhere you like. For example, mutate it in the same file directly.
 
 > [!IMPORTANT]
-> Snapshots are not extensible, you can only mutate state by modify `store.mutate` object.
+> Snapshots are **non-extensible**, you can only mutate state by modify `store.mutate` object.
 
 ```jsx
 import { create } from '@shined/reactive'
@@ -104,11 +104,11 @@ You can also easily **restore** to initial state.
 import { store } from './store'
 
 export default function Foo() {
-  const snap = store.useSnapshot()
+  const name = store.useSnapshot((s) => s.name)
 
   return (
     <>
-      <h1>{snap.name}</h1>
+      <h1>{name}</h1>
       <button onClick={store.restore}>restore</button>
     </>
   )
