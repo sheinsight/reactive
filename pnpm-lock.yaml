@@ -6,8 +6,8 @@ settings:
 
 devDependencies:
   '@types/node':
-    specifier: ^20.11.20
-    version: 20.11.20
+    specifier: ^20.11.22
+    version: 20.11.22
   '@types/semver':
     specifier: ^7.5.8
     version: 7.5.8
@@ -21,8 +21,8 @@ devDependencies:
     specifier: ^10.0.4
     version: 10.0.4
   happy-dom:
-    specifier: ^13.6.0
-    version: 13.6.0
+    specifier: ^13.6.2
+    version: 13.6.2
   read-pkg:
     specifier: ^9.0.1
     version: 9.0.1
@@ -37,10 +37,10 @@ devDependencies:
     version: 4.7.1
   vitepress:
     specifier: 1.0.0-rc.44
-    version: 1.0.0-rc.44(@algolia/client-search@4.22.1)(@types/node@20.11.20)(search-insights@2.13.0)
+    version: 1.0.0-rc.44(@algolia/client-search@4.22.1)(@types/node@20.11.22)(search-insights@2.13.0)
   write-package:
-    specifier: ^7.0.0
-    version: 7.0.0
+    specifier: ^7.0.1
+    version: 7.0.1
 
 packages:
 
@@ -701,8 +701,8 @@ packages:
     resolution: {integrity: sha512-6L6VymKTzYSrEf4Nev4Xa1LCHKrlTlYCBMTlQKFuddo1CvQcE52I0mwfOJayueUC7MJuXOeHTcIU683lzd0cUA==}
     dev: true
 
-  /@types/node@20.11.20:
-    resolution: {integrity: sha512-7/rR21OS+fq8IyHTgtLkDK949uzsa6n8BkziAKtPVpugIkO6D+/ooXMvzXxDnZrmtXVfjb1bKQafYpb8s89LOg==}
+  /@types/node@20.11.22:
+    resolution: {integrity: sha512-/G+IxWxma6V3E+pqK1tSl2Fo1kl41pK1yeCyDsgkF9WlVAme4j5ISYM2zR11bgLFJGLN5sVK40T4RJNuiZbEjA==}
     dependencies:
       undici-types: 5.26.5
     dev: true
@@ -726,7 +726,7 @@ packages:
       vite: ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.1.4(@types/node@20.11.20)
+      vite: 5.1.4(@types/node@20.11.22)
       vue: 3.4.19
     dev: true
 
@@ -1147,8 +1147,8 @@ packages:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
     dev: true
 
-  /happy-dom@13.6.0:
-    resolution: {integrity: sha512-4sVRENyxCSqAiOzAfPiohU56/D5bcLJmyT3WGoqjVX1IXq+ScTsrLR98RUODHz0nVvSLNW86CJzRXdPoSdw/yg==}
+  /happy-dom@13.6.2:
+    resolution: {integrity: sha512-Ku+wDqcF/KwFA0dI+xIMZd9Jn020RXjuSil/Vz7gu2yhDC3FsDYZ55qqV9k+SGC4opwb4acisXqVSRxUJMlPbQ==}
     engines: {node: '>=16.0.0'}
     dependencies:
       entities: 4.5.0
@@ -1656,7 +1656,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite@5.1.4(@types/node@20.11.20):
+  /vite@5.1.4(@types/node@20.11.22):
     resolution: {integrity: sha512-n+MPqzq+d9nMVTKyewqw6kSt+R3CkvF9QAKY8obiQn8g1fwTscKxyfaYnC632HtBXAQGc1Yjomphwn1dtwGAHg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -1684,7 +1684,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.11.20
+      '@types/node': 20.11.22
       esbuild: 0.19.12
       postcss: 8.4.35
       rollup: 4.12.0
@@ -1692,7 +1692,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitepress@1.0.0-rc.44(@algolia/client-search@4.22.1)(@types/node@20.11.20)(search-insights@2.13.0):
+  /vitepress@1.0.0-rc.44(@algolia/client-search@4.22.1)(@types/node@20.11.22)(search-insights@2.13.0):
     resolution: {integrity: sha512-tO5taxGI7fSpBK1D8zrZTyJJERlyU9nnt0jHSt3fywfq3VKn977Hg0wUuTkEmwXlFYwuW26+6+3xorf4nD3XvA==}
     hasBin: true
     peerDependencies:
@@ -1717,7 +1717,7 @@ packages:
       mark.js: 8.11.1
       minisearch: 6.3.0
       shiki: 1.1.7
-      vite: 5.1.4(@types/node@20.11.20)
+      vite: 5.1.4(@types/node@20.11.22)
       vue: 3.4.19
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -1822,8 +1822,8 @@ packages:
       write-file-atomic: 3.0.3
     dev: true
 
-  /write-package@7.0.0:
-    resolution: {integrity: sha512-4hrl8mh5DmsmFSEnSzGC5sWzuL8slwcxtdLrHfah4zSetriKwxKkKX6vRskGJq4qvwiLXEwBmv9i+xU64SAncg==}
+  /write-package@7.0.1:
+    resolution: {integrity: sha512-S7c5F2mpb5o+9pS1UfO3jcQb0OR25L7ZJT64cv3K0TkGh1VxJb+PNnL8b46KSJ6tmxIbA0xgHnrtBdVGeHmJ0A==}
     engines: {node: '>=18'}
     dependencies:
       deepmerge-ts: 5.1.0
@@ -1846,15 +1846,15 @@ packages:
     dev: true
 
 time:
-  /@types/node@20.11.20: '2024-02-22T18:35:24.031Z'
+  /@types/node@20.11.22: '2024-02-28T17:35:48.670Z'
   /@types/semver@7.5.8: '2024-02-24T16:35:29.020Z'
   /enquirer@2.4.1: '2023-07-28T12:26:30.586Z'
   /execa@8.0.1: '2023-08-19T15:43:49.166Z'
   /find-packages@10.0.4: '2022-12-03T22:16:46.487Z'
-  /happy-dom@13.6.0: '2024-02-25T21:03:35.822Z'
+  /happy-dom@13.6.2: '2024-02-26T10:59:34.710Z'
   /read-pkg@9.0.1: '2023-11-16T08:39:25.244Z'
   /read-yaml-file@2.1.0: '2021-02-11T22:53:46.064Z'
   /semver@7.6.0: '2024-02-05T17:06:51.520Z'
   /tsx@4.7.1: '2024-02-10T01:01:32.227Z'
   /vitepress@1.0.0-rc.44: '2024-02-19T10:26:10.530Z'
-  /write-package@7.0.0: '2023-11-04T10:18:03.658Z'
+  /write-package@7.0.1: '2024-02-26T07:41:06.123Z'
