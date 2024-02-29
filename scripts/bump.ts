@@ -83,7 +83,7 @@ if (!isSnapshot) {
   }
 
   await $`git add . -A`
-  await $`git commit -m 'chore: release v${v}'`
+  await $`git commit -m ${`chore: release v${v}`}`
 }
 
 await $`git tag v${v}`
