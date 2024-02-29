@@ -11,13 +11,13 @@ export type SubscribeCallback<T> = (
     current: unknown
     snapshot: T
   },
-  version?: number,
+  version?: number
 ) => void
 
 export function subscribe<T extends object>(
   proxyState: T,
   callback: SubscribeCallback<T>,
-  notifyInSync?: boolean,
+  notifyInSync?: boolean
 ) {
   let promise: Promise<void> | undefined
   let previousState = getSnapshot(proxyState)

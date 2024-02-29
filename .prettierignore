@@ -1,0 +1,9 @@
+node_modules
+dist
+
+# pnpm
+*.yaml
+
+# vitepress
+docs/.vitepress/cache
+docs/.vitepress/dist

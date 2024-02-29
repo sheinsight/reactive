@@ -9,12 +9,11 @@
     "name": "ityuany"
   },
   "scripts": {
-    "build": "pnpm --filter '@shined/*' build ",
-    "test": "pnpm  --filter '@shined/*' test",
-    "test:w": "pnpm  --filter '@shined/*' test:w",
     "dev": "pnpm i && pnpm -r --parallel dev",
-    "lint": "pnpm -r --parallel lint",
-    "lint:root": "prettier --write ./examples/**/*.{ts,tsx,md} ./scripts ./readme.md --no-error-on-unmatched-pattern",
+    "build": "pnpm --filter '@shined/*' build",
+    "test": "pnpm  --filter '@shined/*' test",
+    "lint": "prettier --check . --no-error-on-unmatched-pattern",
+    "lint:fix": "prettier --write . --no-error-on-unmatched-pattern",
     "bump": "tsx ./scripts/bump.ts",
     "release": "tsx ./scripts/release.ts",
     "docs:dev": "vitepress dev docs",

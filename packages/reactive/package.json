@@ -4,7 +4,7 @@
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "description": "A reactive react state management library based on Proxy",
+  "description": "⚛️ Proxy-driven state for React & Vanilla JS, flexible, unopinionated, written in TypeScript.",
   "homepage": "https://github.com/sheinsight/reactive#readme",
   "author": {
     "name": "ityuany"
@@ -24,7 +24,6 @@
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
-    "lint": "prettier --write src/**/*.{ts,tsx} --no-error-on-unmatched-pattern",
     "test": "vitest run --coverage",
     "test:w": "vitest --coverage"
   },

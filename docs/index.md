@@ -3,9 +3,9 @@
 layout: home
 
 hero:
-  name: "Reactive"
-  text: "Proxy-driven state for React & Vanilla JS"
-  tagline: "Flexible, Unopinionated, Written in TypeScript."
+  name: 'Reactive'
+  text: 'Proxy-driven state for React & Vanilla JS'
+  tagline: 'Flexible, Unopinionated, Written in TypeScript.'
   actions:
     - theme: brand
       text: Coming Soon
@@ -22,4 +22,3 @@ features:
   - title: Feature C
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
-

@@ -10,19 +10,19 @@ interface StoreUseSnapshot<State extends object> {
   <StateSlice>(selector?: Selector<State, StateSlice>): StateSlice
   <StateSlice>(
     selector?: Selector<State, StateSlice>,
-    options?: SnapshotOptions<StateSlice>,
+    options?: SnapshotOptions<StateSlice>
   ): StateSlice
 }
 
 export const createWithHooks = <State extends object>(
   initState: State,
-  options?: CreateOptions,
+  options?: CreateOptions
 ) => {
   const store = createVanilla(initState, options)
 
   const _useSnapshot: StoreUseSnapshot<State> = <StateSlice>(
     selectorOrOption?: SnapshotOptions<StateSlice> | Selector<State, StateSlice>,
-    maybeOptions?: SnapshotOptions<StateSlice>,
+    maybeOptions?: SnapshotOptions<StateSlice>
   ) => {
     if (typeof selectorOrOption !== 'function') {
       maybeOptions = selectorOrOption

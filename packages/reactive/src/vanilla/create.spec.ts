@@ -56,7 +56,7 @@ describe('index', () => {
         address: {
           city: 'NanJing',
         },
-      }),
+      })
     )
   })
 

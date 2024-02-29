@@ -1,11 +1,4 @@
 {
-  "cSpell.words": [
-    "execa",
-    "ityuany",
-    "Pikachu",
-    "premajor",
-    "Squirtle",
-    "tsup"
-  ],
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "cSpell.words": ["execa", "ityuany", "Pikachu", "premajor", "Squirtle", "tsup"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

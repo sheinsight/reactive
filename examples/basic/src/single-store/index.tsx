@@ -1,8 +1,8 @@
-import { store, changeInfo, mockFetch } from './store.ts';
+import { store, changeInfo, mockFetch } from './store.ts'
 
 export const SingeStore = () => {
-  const state = store.useSnapshot();
-  const status = state.loading ? 'loading...' : 'done';
+  const state = store.useSnapshot()
+  const status = state.loading ? 'loading...' : 'done'
 
   return (
     <>
@@ -19,5 +19,5 @@ export const SingeStore = () => {
       <button onClick={changeInfo}>store.mutate.date = Date.now()</button>
       <button onClick={mockFetch}>async operation</button>
     </>
-  );
-};
+  )
+}

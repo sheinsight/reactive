@@ -94,7 +94,7 @@ describe('useSnapShot', () => {
     })
 
     const { result } = renderHook(() =>
-      useSnapshot(proxyState, (s) => s.address.city, { isEqual: (a, b) => a === b }),
+      useSnapshot(proxyState, (s) => s.address.city, { isEqual: (a, b) => a === b })
     )
 
     act(() => {

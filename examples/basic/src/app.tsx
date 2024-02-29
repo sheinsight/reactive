@@ -1,7 +1,7 @@
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast'
 
-import { SingeStore } from './single-store/index.tsx';
-import { MultipleStore } from './multiple-store/index.tsx';
+import { SingeStore } from './single-store/index.tsx'
+import { MultipleStore } from './multiple-store/index.tsx'
 
 const App = () => {
   return (
@@ -13,7 +13,7 @@ const App = () => {
 
       <Toaster />
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App
