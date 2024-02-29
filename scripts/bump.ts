@@ -1,6 +1,6 @@
 import { $ } from 'execa'
 import { findPackages } from 'find-packages'
-import { readPackage } from 'read-pkg'
+import { readPackage, type NormalizedPackageJson } from 'read-pkg'
 import { writePackage } from 'write-package'
 import enquirer from 'enquirer'
 import path from 'node:path'
@@ -11,31 +11,38 @@ const packageJson = await readPackage()
 
 const res = await $`git rev-parse --short HEAD`
 
-const choices = (
-  ['major', 'minor', 'patch', 'premajor', 'preminor', 'prepatch', 'prerelease', 'snapshot'] as const
-).map((type) => {
-  if (type === 'snapshot') {
-    const next = `0.0.0-snapshot.${res.stdout}`
-    return {
-      name: next,
-      message: 'snapshot',
-      hint: next,
-      value: next,
-    }
-  }
-  const value = semver.inc(packageJson.version, type, 'alpha')!
+const versionType = [
+  'major',
+  'minor',
+  'patch',
+  'premajor',
+  'preminor',
+  'prepatch',
+  'prerelease',
+  'snapshot',
+] as const
+
+const choices = versionType.map((type) => {
+  const isSnapshot = type === 'snapshot'
+
+  const next = isSnapshot
+    ? `0.0.0-snapshot.${res.stdout}`
+    : semver.inc(packageJson.version, type, 'alpha')
+
+  if (!next) throw new Error(`Invalid version: ${next}`)
+
   return {
-    name: value,
+    name: next,
     message: type,
-    hint: value,
-    value: value,
+    hint: next,
+    value: next,
   }
 })
 
 const { v } = await enquirer.prompt<{ v: string }>({
   type: 'select',
   name: 'v',
-  message: 'What type of release?',
+  message: 'What type of version do you want to release?',
   choices: choices,
 })
 
@@ -43,32 +50,40 @@ const { isSure } = await enquirer.prompt<{ isSure: boolean }>({
   type: 'confirm',
   initial: false,
   name: 'isSure',
-  message: `Are you sure to release? [ ${v} ]`,
+  message: `Are you sure you want to release v${v}?`,
 })
 
-if (isSure) {
-  if (!v.includes('snapshot')) {
-    packageJson.version = v
-    await writePackage(packageJson)
-    const yaml = await readYamlFile<{ packages: string[] }>(
-      path.join(process.cwd(), 'pnpm-workspace.yaml')
-    )
-    const packagesMeta = await findPackages(process.cwd(), {
-      patterns: yaml.packages,
-    })
-    for (const iterator of packagesMeta) {
-      const json = await readPackage({ cwd: iterator.dir })
-      json.version = v
+if (!isSure) process.exit(0)
 
-      const pkgJson: Record<string, string | boolean | number> = { ...json }
+const isSnapshot = v.includes('snapshot')
 
-      delete pkgJson._id
-      delete pkgJson.readme
+export const getUpdatedPackageJson = (
+  json: NormalizedPackageJson,
+  v: string
+): Record<string, string | boolean | number> => {
+  const pkgJson: Record<string, string | boolean | number> = { ...json }
 
-      await writePackage(path.join(iterator.dir, 'package.json'), pkgJson)
-    }
-    await $`git add .`
-    await $`git commit -m ${v}`
-  }
-  await $`git tag v${v}`
+  delete pkgJson._id
+  delete pkgJson.readme
+
+  pkgJson.version = v
+
+  return pkgJson
 }
+
+if (!isSnapshot) {
+  await writePackage(getUpdatedPackageJson(packageJson, v))
+  const yamlPath = path.join(process.cwd(), 'pnpm-workspace.yaml')
+  const { packages = [] } = await readYamlFile<{ packages: string[] }>(yamlPath)
+  const packagesMeta = await findPackages(process.cwd(), { patterns: packages })
+
+  for (const iterator of packagesMeta) {
+    const json = await readPackage({ cwd: iterator.dir })
+    await writePackage(path.join(iterator.dir, 'package.json'), getUpdatedPackageJson(json, v))
+  }
+
+  await $`git add . -A`
+  await $`git commit -m ${v}`
+}
+
+await $`git tag v${v}`
