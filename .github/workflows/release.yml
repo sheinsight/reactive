@@ -1,9 +1,8 @@
-name: Publish to npm registry
+name: Publish to npmjs
 
 on:
   release:
-    types:
-      - created
+    types: [created]
 
 jobs:
   build-and-publish:
@@ -11,15 +10,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
-          ref: ${{ github.event.release.tag_name}}
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: '.node-version'
 
       - name: Use pnpm
         uses: pnpm/action-setup@v3
