@@ -16,7 +16,10 @@
     "lint": "pnpm -r --parallel lint",
     "lint:root": "prettier --write ./examples/**/*.{ts,tsx,md} ./scripts ./readme.md --no-error-on-unmatched-pattern",
     "bump": "tsx ./scripts/bump.ts",
-    "release": "tsx ./scripts/release.ts"
+    "release": "tsx ./scripts/release.ts",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
     "@types/node": "^20.11.20",
@@ -29,6 +32,7 @@
     "read-yaml-file": "^2.1.0",
     "semver": "^7.6.0",
     "tsx": "^4.7.1",
+    "vitepress": "1.0.0-rc.44",
     "write-package": "^7.0.0"
   }
 }
