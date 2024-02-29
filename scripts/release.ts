@@ -48,7 +48,7 @@ if (npmTag === 'snapshot') {
 
   for (const iterator of packagesMeta) {
     const json = await readPackage({ cwd: iterator.dir })
-    const updatedJson = getUpdatedPackageJson(json, 'snapshot')
+    const updatedJson = getUpdatedPackageJson(json, gitTag.replace(/^v/i, ''))
     await writePackage(path.join(iterator.dir, 'package.json'), updatedJson)
   }
 }
