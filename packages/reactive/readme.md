@@ -1,6 +1,6 @@
 # @shined/reactive
 
-> Unopinionated proxy-based state, with high rendering performance. 🔥
+> ⚛️ Proxy-driven state for React & Vanilla JS, flexible, unopinionated, written in TypeScript.
 
 ## Documentation
 
