@@ -6,7 +6,7 @@ settings:
 
 dependencies:
   '@shined/reactive':
-    specifier: ^0.1.0
+    specifier: workspace:*
     version: link:../../packages/reactive
   react:
     specifier: ^18.2.0
