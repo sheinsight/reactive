@@ -3,21 +3,21 @@ import { LISTENERS, get, propertyKeysToPath } from '../utils/index.js'
 
 import type { Listener } from './proxy.js'
 
-export type SubscribeCallback<T> = (
+export type SubscribeCallback<State> = (
   changes: {
     props: PropertyKey[]
     propsPath: string
     previous: unknown
     current: unknown
-    snapshot: T
+    snapshot: State
   },
-  version?: number
+  version?: number,
 ) => void
 
-export function subscribe<T extends object>(
-  proxyState: T,
-  callback: SubscribeCallback<T>,
-  notifyInSync?: boolean
+export function subscribe<State extends object>(
+  proxyState: State,
+  callback: SubscribeCallback<State>,
+  notifyInSync?: boolean,
 ) {
   let promise: Promise<void> | undefined
   let previousState = getSnapshot(proxyState)
@@ -54,7 +54,6 @@ export function subscribe<T extends object>(
     }
   }
 
-  // FIXME: 只监听全局 store
   ;((proxyState as any)[LISTENERS] as Set<Listener>).add(listener)
 
   return () => {

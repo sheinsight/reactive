@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 
 import { ref, ProxyMap, ProxySet, create, produce, proxy, subscribe, getSnapshot } from './index.js'
 
-describe('index export', () => {
+describe('vanilla index export', () => {
   it('[ref, ProxyMap, ProxySet, create, produce, proxy, subscribe, getSnapshot] should be defined', () => {
     expect(ref).toBeDefined()
     expect(ProxyMap).toBeDefined()

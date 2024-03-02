@@ -15,7 +15,10 @@ const snapshotCache = new WeakMap<object, [version: number, snapshot: unknown]>(
 
 export type Listener = (props: PropertyKey[], version?: number) => void
 
-export function proxy<T extends object>(initState: T, parentProps: PropertyKey[] = []): T {
+export function proxy<State extends object>(
+  initState: State,
+  parentProps: PropertyKey[] = [],
+): State {
   let version = globalVersion
 
   // for all changes including nested objects, stored in `proxyState[LISTENERS]`
@@ -46,7 +49,7 @@ export function proxy<T extends object>(initState: T, parentProps: PropertyKey[]
     return listener
   }
 
-  const createSnapshot = <T extends object>(target: T, receiver: any) => {
+  const createSnapshot = <State extends object>(target: State, receiver: any) => {
     const cache = snapshotCache.get(receiver)
     if (cache?.[0] === version) return cache[1]
 
@@ -59,11 +62,11 @@ export function proxy<T extends object>(initState: T, parentProps: PropertyKey[]
       const value: any = Reflect.get(target, key, receiver)
 
       if (hasRef(value)) {
-        snapshot[key as keyof T] = value
+        snapshot[key as keyof State] = value
       } else if (value?.[REACTIVE]) {
-        snapshot[key as keyof T] = getSnapshot(value)
+        snapshot[key as keyof State] = getSnapshot(value)
       } else {
-        snapshot[key as keyof T] = value
+        snapshot[key as keyof State] = value
       }
     })
 
@@ -116,7 +119,7 @@ export function proxy<T extends object>(initState: T, parentProps: PropertyKey[]
       success && notifyUpdate(props)
       return success
     },
-    deleteProperty(target: T, prop: string | symbol) {
+    deleteProperty(target: State, prop: string | symbol) {
       const props = [...parentProps, prop]
       const childListeners = (Reflect.get(target, prop) as any)?.[LISTENERS]
       childListeners && childListeners.delete(popPropListener(prop))
@@ -127,7 +130,7 @@ export function proxy<T extends object>(initState: T, parentProps: PropertyKey[]
   })
 
   Reflect.ownKeys(initState).forEach((key) => {
-    proxyState[key as keyof T] = initState[key as keyof T]
+    proxyState[key as keyof State] = initState[key as keyof State]
   })
 
   return proxyState

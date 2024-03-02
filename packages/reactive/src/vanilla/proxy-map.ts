@@ -1,5 +1,4 @@
-// TODO: need to implement
-
+/** TODO: need to implement */
 export class ProxyMap {
   constructor() {
     return {}

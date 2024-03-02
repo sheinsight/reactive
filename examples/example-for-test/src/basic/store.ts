@@ -1,5 +1,7 @@
 import { devtools, create } from '@shined/reactive'
 
+import type { Store } from '@shined/reactive'
+
 interface StoreState {
   name: string
   age: number
@@ -13,7 +15,7 @@ interface StoreState {
   [key: string]: unknown
 }
 
-export const store = create<StoreState>({
+export const store: Store<StoreState> = create<StoreState>({
   name: 'Bob',
   age: 12,
   hobbies: ['basketball', 'football'],

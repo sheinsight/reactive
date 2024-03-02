@@ -9,7 +9,7 @@
     "name": "ityuany"
   },
   "scripts": {
-    "dev": "pnpm i && pnpm -r --parallel dev",
+    "dev": "pnpm i && pnpm run build && pnpm -r --parallel dev",
     "build": "pnpm --filter '@shined/*' build",
     "test": "pnpm --filter '@shined/*' test",
     "test:watch": "pnpm --filter '@shined/*' test:watch",

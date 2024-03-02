@@ -31,7 +31,7 @@ export type DevtoolsOptions = DeepExpandType<
 
 export function devtools(
   { mutate: proxyState }: { mutate: ReturnType<typeof proxy> },
-  options: DevtoolsOptions
+  options: DevtoolsOptions,
 ): () => void {
   const ext = window.__REDUX_DEVTOOLS_EXTENSION__
   const enable = options?.enable ?? true
@@ -109,7 +109,7 @@ export function devtools(
       devtools.send(payload, snapshot)
       console.debug(`[reactive] [${name}] [${getActionType(current)}] ${propsPath}`, current)
     },
-    true
+    true,
   )
 
   console.debug(`[reactive] [${name}] devtools is enabled`)

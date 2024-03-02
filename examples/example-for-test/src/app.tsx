@@ -7,7 +7,7 @@ import PerformanceDemo from './performance'
 export default function App() {
   return (
     <div>
-      <h2>Reactive Demo</h2>
+      <h2>Example for Test</h2>
 
       <Area name="Basic Demo">
         <BasicDemo />

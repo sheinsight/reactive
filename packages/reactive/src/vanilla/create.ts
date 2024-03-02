@@ -1,22 +1,45 @@
 import { proxy } from './proxy.js'
 import { subscribe } from './subscribe.js'
 
+import type { SubscribeCallback } from './subscribe.js'
+
 export interface CreateOptions {}
 
-export type ObjSelector<T> = ((state: T) => T) | (<S extends object>(state: T) => S)
+export type ObjSelector<State> =
+  | ((state: State) => State)
+  | (<StoreSlice extends object>(state: State) => StoreSlice)
 
-export function create<T extends object>(initState: T, options?: CreateOptions) {
+export type StoreSubscriber<State extends object> = (
+  listener: SubscribeCallback<State>,
+  sync?: boolean,
+  selector?: ObjSelector<State>,
+) => void
+
+export type VanillaStore<State extends object> = {
+  mutate: State
+  subscribe: StoreSubscriber<State>
+  restore: () => void
+}
+
+export function create<State extends object>(
+  initState: State,
+  options?: CreateOptions,
+): VanillaStore<State> {
+  options ??= {}
+
   const proxyState = proxy(initState)
 
   const restore = () => {
     const _ = structuredClone(initState)
-    Object.keys(_).forEach((k) => void (proxyState[k as keyof T] = _[k as keyof T]))
+    Object.keys(_).forEach((k) => void (proxyState[k as keyof State] = _[k as keyof State]))
   }
 
-  options ??= {}
-
-  const _subscribe = (callback: () => void, selector: ObjSelector<T> = (s: T) => s) => {
-    return subscribe(selector(proxyState), callback)
+  const _subscribe = (
+    callback: SubscribeCallback<State>,
+    sync: boolean = false,
+    selector: ObjSelector<State> = (s: State) => s,
+  ) => {
+    return subscribe<State>(selector(proxyState), callback, sync)
   }
 
   return {

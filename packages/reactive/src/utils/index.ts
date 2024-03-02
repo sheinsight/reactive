@@ -1,5 +1,9 @@
 import { hasRef } from '../vanilla/ref.js'
 
+export type ExpandType<T> = {
+  [K in keyof T]: T[K]
+}
+
 export type DeepExpandType<T> = {
   [K in keyof T]: T[K] extends object ? DeepExpandType<T[K]> : T[K]
 }
@@ -49,7 +53,7 @@ export const propertyKeysToPath = (keys: PropertyKey[]) => {
 export const get = (
   object: object,
   path: PropertyKey | PropertyKey[],
-  defaultValue: unknown = undefined
+  defaultValue: unknown = undefined,
 ) => {
   const keys = Array.isArray(path) ? path : [path]
   for (const key of keys) {
