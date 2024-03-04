@@ -18,19 +18,19 @@ interface UseSnapshot {
   <State extends object>(state: State, options?: SnapshotOptions<State>): State
   <State extends object, StateSlice>(
     state: State,
-    selector?: Selector<State, StateSlice>,
+    selector?: Selector<State, StateSlice>
   ): StateSlice
   <State extends object, StateSlice>(
     state: State,
     selector?: Selector<State, StateSlice>,
-    options?: SnapshotOptions<StateSlice>,
+    options?: SnapshotOptions<StateSlice>
   ): StateSlice
 }
 
 export const useSnapshot: UseSnapshot = <State extends object, StateSlice>(
   proxyState: State,
   selectorOrOption?: SnapshotOptions<StateSlice> | Selector<State, StateSlice>,
-  maybeOptions?: SnapshotOptions<StateSlice>,
+  maybeOptions?: SnapshotOptions<StateSlice>
 ) => {
   if (typeof selectorOrOption !== 'function') {
     maybeOptions = selectorOrOption
@@ -41,7 +41,7 @@ export const useSnapshot: UseSnapshot = <State extends object, StateSlice>(
 
   const _subscribe = useCallback(
     (callback: SubscribeCallback<State>) => subscribe(proxyState, callback, updateInSync),
-    [proxyState, updateInSync],
+    [proxyState, updateInSync]
   )
 
   const _getSnapshot = useCallback(() => getSnapshot(proxyState), [proxyState])
@@ -53,7 +53,7 @@ export const useSnapshot: UseSnapshot = <State extends object, StateSlice>(
     _getSnapshot,
     _getSnapshot,
     selector,
-    isEqual,
+    isEqual
   )
 
   return snapshot

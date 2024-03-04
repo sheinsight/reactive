@@ -53,7 +53,7 @@ export const propertyKeysToPath = (keys: PropertyKey[]) => {
 export const get = (
   object: object,
   path: PropertyKey | PropertyKey[],
-  defaultValue: unknown = undefined,
+  defaultValue: unknown = undefined
 ) => {
   const keys = Array.isArray(path) ? path : [path]
   for (const key of keys) {

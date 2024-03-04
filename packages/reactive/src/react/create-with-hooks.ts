@@ -8,25 +8,26 @@ import type { CreateOptions, VanillaStore } from '../vanilla/create.js'
 export type Store<State extends object> = ExpandType<
   VanillaStore<State> & { useSnapshot: UseSnapshot<State> }
 >
+
 export interface UseSnapshot<State extends object> {
   (): State
   (options?: SnapshotOptions<State>): State
   <StateSlice>(selector?: Selector<State, StateSlice>): StateSlice
   <StateSlice>(
     selector?: Selector<State, StateSlice>,
-    options?: SnapshotOptions<StateSlice>,
+    options?: SnapshotOptions<StateSlice>
   ): StateSlice
 }
 
 export const createWithHooks = <State extends object>(
   initState: State,
-  options?: CreateOptions,
+  options?: CreateOptions
 ): Store<State> => {
   const store = createVanilla(initState, options)
 
   const _useSnapshot: UseSnapshot<State> = <StateSlice>(
     selectorOrOption?: SnapshotOptions<StateSlice> | Selector<State, StateSlice>,
-    maybeOptions?: SnapshotOptions<StateSlice>,
+    maybeOptions?: SnapshotOptions<StateSlice>
   ) => {
     if (typeof selectorOrOption !== 'function') {
       maybeOptions = selectorOrOption

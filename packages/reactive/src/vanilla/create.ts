@@ -12,7 +12,7 @@ export type ObjSelector<State> =
 export type StoreSubscriber<State extends object> = (
   listener: SubscribeCallback<State>,
   sync?: boolean,
-  selector?: ObjSelector<State>,
+  selector?: ObjSelector<State>
 ) => void
 
 export type VanillaStore<State extends object> = {
@@ -23,7 +23,7 @@ export type VanillaStore<State extends object> = {
 
 export function create<State extends object>(
   initState: State,
-  options?: CreateOptions,
+  options?: CreateOptions
 ): VanillaStore<State> {
   options ??= {}
 
@@ -37,7 +37,7 @@ export function create<State extends object>(
   const _subscribe = (
     callback: SubscribeCallback<State>,
     sync: boolean = false,
-    selector: ObjSelector<State> = (s: State) => s,
+    selector: ObjSelector<State> = (s: State) => s
   ) => {
     return subscribe<State>(selector(proxyState), callback, sync)
   }

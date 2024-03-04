@@ -17,7 +17,7 @@ export type Listener = (props: PropertyKey[], version?: number) => void
 
 export function proxy<State extends object>(
   initState: State,
-  parentProps: PropertyKey[] = [],
+  parentProps: PropertyKey[] = []
 ): State {
   let version = globalVersion
 
