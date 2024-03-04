@@ -8,17 +8,23 @@ hero:
   tagline: 'Flexible, Unopinionated, Written in TypeScript.'
   actions:
     - theme: brand
-      text: Coming Soon
+      text: Get Started
       link: /markdown-examples
     - theme: alt
-      text: Coming Soon
-      link: /api-examples
+      text: View on GitHub
+      link: https://github.com/sheinsight/reactive
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: User-Friendly
+    icon: 😊
+    details: Straightforward API for easy adoption.
+  - title: Optimized Performance
+    icon: ⚡️
+    details: Leverages Proxy for efficient rendering.
+  - title: Versatile
+    icon: 🏄
+    details: Designed for high adaptability in both React and Vanilla JS.
+  - title: DevTools Integration
+    icon: 🛠️
+    details: Out-of-the-box Redux DevTools compatibility.
 ---

@@ -21,6 +21,20 @@ export default defineConfig({
       },
     ],
 
-    socialLinks: [{ icon: 'github', link: 'https://github.com/vuejs/vitepress' }],
+    editLink: {
+      pattern: 'https://github.com/sheinsight/reactive/edit/main/docs/:path',
+      text: 'Edit this page on GitHub',
+    },
+
+    lastUpdated: {
+      text: 'Updated at',
+    },
+
+    socialLinks: [{ icon: 'github', link: 'https://github.com/sheinsight/reactive' }],
+
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2023-Present SHEIN FE Team',
+    },
   },
 })
