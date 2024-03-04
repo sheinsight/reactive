@@ -1,4 +1,4 @@
-# @shined/reactive
+# Reactive
 
 <a href="https://npmjs.com/package/@shined/reactive"><img src="https://img.shields.io/npm/v/@shined/reactive.svg" alt="npm package"></a>
 <a href="https://pkg-size.dev/@shined/reactive"><img src="https://pkg-size.dev/badge/bundle/17299" title="Bundle size for @shined/reactive"></a>
@@ -39,7 +39,7 @@ devtools(store, { name: 'pikachu' })
 ```
 
 > [!NOTE]
-> To enable DevTools, make sure you've installed Redux DevTools [Chrome extension](https://chromewebstore.google.com/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd), full DevTools options can be found at Redux DevTools extension [documentation](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md#options).
+> To enable DevTools, make sure you've installed Redux DevTools [Browser Extension](https://github.com/reduxjs/redux-devtools#redux-devtools), full DevTools options can be found at Redux DevTools extension [documentation](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md#options).
 
 ### Step 2. Get snapshot from store
 
