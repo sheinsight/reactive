@@ -1,7 +1,7 @@
-import { ExpandType } from './../utils/index'
 import { useSnapshot } from './use-snapshot.js'
 import { create as createVanilla } from '../vanilla/create.js'
 
+import type { ExpandType } from './../utils/index.js'
 import type { Selector, SnapshotOptions } from './use-snapshot.js'
 import type { CreateOptions, VanillaStore } from '../vanilla/create.js'
 
