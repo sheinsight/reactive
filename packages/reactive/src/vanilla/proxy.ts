@@ -111,7 +111,6 @@ export function proxy<State extends object>(
         nextValue[LISTENERS].add(getPropListener(prop))
       } else if (canProxy(value)) {
         nextValue = proxy(value, props)
-        nextValue[REACTIVE] = true
         nextValue[LISTENERS].add(getPropListener(prop))
       }
 
@@ -132,6 +131,8 @@ export function proxy<State extends object>(
   Reflect.ownKeys(initState).forEach((key) => {
     proxyState[key as keyof State] = initState[key as keyof State]
   })
+
+  Reflect.defineProperty(proxyState, REACTIVE, { value: true })
 
   return proxyState
 }

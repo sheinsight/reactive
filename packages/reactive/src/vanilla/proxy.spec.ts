@@ -52,7 +52,7 @@ describe('proxy', () => {
     })
   })
 
-  it('should create a frozen snapshot with recursive properties', () => {
+  it('should create a non-extensible snapshot with recursive properties', () => {
     const initState = { person: { name: 'John' } } as any
     const proxyObj = proxy(initState)
     const snapshot = proxyObj[SNAPSHOT]
