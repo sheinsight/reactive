@@ -13,7 +13,7 @@ export type StoreSubscriber<State extends object> = (
   listener: SubscribeCallback<State>,
   sync?: boolean,
   selector?: ObjSelector<State>
-) => void
+) => () => void
 
 export type VanillaStore<State extends object> = {
   mutate: State

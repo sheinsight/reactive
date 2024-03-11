@@ -90,6 +90,7 @@ describe('index', () => {
     const callback = vitest.fn()
     store.subscribe(callback)
 
+    // @ts-expect-error for test
     delete store.mutate.name
 
     runMacroTask(() => expect(callback).toHaveBeenCalledTimes(1))
