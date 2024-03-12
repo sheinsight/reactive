@@ -32,7 +32,7 @@ export const useSnapshot: UseSnapshot = <State extends object, StateSlice>(
   selectorOrOption?: SnapshotOptions<StateSlice> | Selector<State, StateSlice>,
   maybeOptions?: SnapshotOptions<StateSlice>
 ) => {
-  if (typeof selectorOrOption !== 'function') {
+  if (selectorOrOption && typeof selectorOrOption !== 'function') {
     maybeOptions = selectorOrOption
     selectorOrOption = undefined
   }
