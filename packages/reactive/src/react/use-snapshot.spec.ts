@@ -66,42 +66,58 @@ describe('useSnapShot', () => {
   })
 
   it('should return updated proxyState snapshot with sync option', async () => {
-    const proxyState = proxy({
-      address: {
-        city: {
-          name: 'Shanghai',
-        },
-      },
-    })
-
+    const proxyState = proxy({ address: { city: { name: 'Shanghai' } } })
     const { result } = renderHook(() => useSnapshot(proxyState, { sync: true }))
+    act(() => (proxyState.address.city.name = 'Nanjing'))
+    // when sync is enabled, it will be "Nanjing" as it is sync update
+    expect(result.current.address.city.name).toEqual('Nanjing')
+  })
 
-    act(() => {
-      proxyState.address.city.name = 'Nanjing'
-    })
-
+  it('should return updated proxyState snapshot with sync option', async () => {
+    const proxyState = proxy({ address: { city: { name: 'Shanghai' } } })
+    const { result } = renderHook(() => useSnapshot(proxyState, undefined, { sync: true }))
+    act(() => (proxyState.address.city.name = 'Nanjing'))
     // when sync is enabled, it will be "Nanjing" as it is sync update
     expect(result.current.address.city.name).toEqual('Nanjing')
   })
 
   it('should return updated proxyState snapshot with custom isEqual', async () => {
-    const proxyState = proxy({
-      address: {
-        city: {
-          name: 'Shanghai',
-        },
-      },
-    })
-
+    const proxyState = proxy({ address: { city: { name: 'Shanghai' } } })
     const { result } = renderHook(() =>
-      useSnapshot(proxyState, (s) => s.address.city, { isEqual: (a, b) => a === b })
+      useSnapshot(proxyState, (s) => s.address.city, { isEqual: (pre, cur) => pre === cur })
     )
-
-    act(() => {
-      proxyState.address.city.name = 'Nanjing'
-    })
-
-    // update are sync, in this sync context, it will be "Shanghai"
+    act(() => (proxyState.address.city.name = 'Nanjing'))
+    // update are sync, in this sync context, it will still be "Shanghai"
     expect(result.current.name).toEqual('Shanghai')
+  })
+
+  it('should return updated proxyState snapshot with custom isEqual', async () => {
+    const proxyState = proxy({ address: { city: { name: 'Shanghai' } } })
+    const { result } = renderHook(() =>
+      useSnapshot(proxyState, (s) => s.address.city, {
+        sync: true,
+        isEqual: (pre, cur) => pre === cur,
+      })
+    )
+    act(() => (proxyState.address.city.name = 'Nanjing'))
+    expect(result.current.name).toEqual('Nanjing')
+  })
+
+  it('should return conditionally updated proxyState snapshot with custom isEqual', async () => {
+    const proxyState = proxy({ count: 0 })
+    const { result } = renderHook(() =>
+      useSnapshot(proxyState, (s) => s.count, { sync: true, isEqual: (pre, cur) => cur - pre < 2 })
+    )
+    act(() => proxyState.count++)
+    expect(result.current).toEqual(0)
+
+    act(() => proxyState.count++)
+    expect(result.current).toEqual(2)
+
+    act(() => proxyState.count++)
+    expect(result.current).toEqual(2)
+
+    act(() => proxyState.count++)
+    expect(result.current).toEqual(4)
   })
 })

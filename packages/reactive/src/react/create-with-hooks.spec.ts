@@ -31,13 +31,6 @@ describe('createWithHooks', () => {
   it('should return proper snapshot state', () => {
     const initState = { count: 0 }
     const store = createWithHooks(initState)
-    const { result } = renderHook(() => store.useSnapshot(undefined, { sync: true }))
-    expect(result.current).toEqual(initState)
-  })
-
-  it('should return proper snapshot state', () => {
-    const initState = { count: 0 }
-    const store = createWithHooks(initState)
     const { result } = renderHook(() => store.useSnapshot({ sync: true }))
     expect(result.current).toEqual(initState)
   })
@@ -45,7 +38,14 @@ describe('createWithHooks', () => {
   it('should return proper snapshot state', () => {
     const initState = { count: 0 }
     const store = createWithHooks(initState)
-    const { result } = renderHook(() => store.useSnapshot((s) => s, undefined))
+    const { result } = renderHook(() => store.useSnapshot(undefined, { sync: true }))
     expect(result.current).toEqual(initState)
+  })
+
+  it('should return proper snapshot state', () => {
+    const initState = { count: 0 }
+    const store = createWithHooks(initState)
+    const { result } = renderHook(() => store.useSnapshot((s) => s.count, { sync: true }))
+    expect(result.current).toEqual(initState.count)
   })
 })

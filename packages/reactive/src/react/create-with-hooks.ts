@@ -11,11 +11,12 @@ export type Store<State extends object> = ExpandType<
 
 export interface UseSnapshot<State extends object> {
   (): State
-  (options?: SnapshotOptions<State>): State
-  <StateSlice>(selector?: Selector<State, StateSlice>): StateSlice
+  (options: SnapshotOptions<State>): State
+  <StateSlice>(selector: Selector<State, StateSlice>): StateSlice
+  <StateSlice>(selector: undefined, options: SnapshotOptions<StateSlice>): State
   <StateSlice>(
-    selector?: Selector<State, StateSlice>,
-    options?: SnapshotOptions<StateSlice>
+    selector: Selector<State, StateSlice>,
+    options: SnapshotOptions<StateSlice>
   ): StateSlice
 }
 
@@ -26,7 +27,7 @@ export const createWithHooks = <State extends object>(
   const store = createVanilla(initState, options)
 
   const _useSnapshot: UseSnapshot<State> = <StateSlice>(
-    selectorOrOption?: SnapshotOptions<StateSlice> | Selector<State, StateSlice>,
+    selectorOrOption?: SnapshotOptions<StateSlice> | Selector<State, StateSlice> | undefined,
     maybeOptions?: SnapshotOptions<StateSlice>
   ) => {
     if (selectorOrOption && typeof selectorOrOption !== 'function') {

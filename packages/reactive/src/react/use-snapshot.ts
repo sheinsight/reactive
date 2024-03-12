@@ -15,11 +15,16 @@ export type Selector<State, StateSlice> = (state: State) => StateSlice
 
 interface UseSnapshot {
   <State extends object>(state: State): State
-  <State extends object>(state: State, options?: SnapshotOptions<State>): State
+  <State extends object>(state: State, options: SnapshotOptions<State>): State
   <State extends object, StateSlice>(
     state: State,
-    selector?: Selector<State, StateSlice>
+    selector: Selector<State, StateSlice>
   ): StateSlice
+  <State extends object, StateSlice>(
+    state: State,
+    selector: undefined,
+    options: SnapshotOptions<StateSlice>
+  ): State
   <State extends object, StateSlice>(
     state: State,
     selector?: Selector<State, StateSlice>,
@@ -56,5 +61,5 @@ export const useSnapshot: UseSnapshot = <State extends object, StateSlice>(
     isEqual
   )
 
-  return snapshot
+  return snapshot as StateSlice
 }
