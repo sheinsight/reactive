@@ -44,10 +44,10 @@ const store = create({
 })
 
 function App() {
-  // re-render when any state changes
+  // re-render when any part of the state changes
   // const state = store.useSnapshot()
 
-  // only re-render when `city`
+  // only re-render when `city` changes
   // const { name } = store.useSnapshot((s) => s.address.city)
 
   // only re-render when `hobbies` changes
