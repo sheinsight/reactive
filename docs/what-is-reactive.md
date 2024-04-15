@@ -42,4 +42,4 @@ function App() {
 export default App
 ```
 
-See [React Usage](/useage/react) or [API Reference](/reference/api) for more details.
+See [React Usage](/usage/react) or [API Reference](/reference/api) for more details.
