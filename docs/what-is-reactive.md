@@ -6,11 +6,11 @@
 
 ⚛️ Reactive is a state management library for JavaScript applications, offering many features that make it both easy to use and powerful.
 
-- **🧩 Flexible**: Want to change store state? Just [mutate](/reference/api#mutate) it anywhere you want.
+- **🧩 Flexible to use**: Want to change store state? Just [mutate](/reference/api#mutate) it anywhere you want.
 - **😊 User-Friendly**: Cover over 80% of the use cases with [create](/reference/api#create) method.
 - **⚡️ Optimized Performance**: Leverages [Proxy API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) to provide the best performance.
 - **🏄 Unopinionated**: Works well both in [React](https://react.dev/) and Vanilla JS.
-- **🦄 TypeScript**: Written in [TypeScript](https://www.typescriptlang.org/), fully typed, better DX.
+- **🦄 TypeScript Support**: Written in [TypeScript](https://www.typescriptlang.org/), fully typed, better DX.
 - **🛠️ DevTools Integration**: Out-of-the-box [Redux DevTools](https://github.com/reduxjs/redux-devtools#redux-devtools) compatibility.
 
 Head over to the [installation](/installation) section to get started.

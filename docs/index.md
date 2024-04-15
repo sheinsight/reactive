@@ -18,7 +18,7 @@ hero:
       link: https://github.com/sheinsight/reactive
 
 features:
-  - title: Flexible
+  - title: Flexible to use
     icon: 🧩
     details: Want to change store state? Just mutate it anywhere you want.
   - title: User-Friendly
@@ -30,7 +30,7 @@ features:
   - title: Unopinionated
     icon: 🏄
     details: Works well both in React and Vanilla JS.
-  - title: TypeScript
+  - title: TypeScript Support
     icon: 🦄
     details: Written in TypeScript with full type support.
   - title: DevTools Integration
