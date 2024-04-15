@@ -8,17 +8,37 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' },
+      { text: 'Guide', link: '/get-started/react' },
+      { text: 'API', link: '/reference/api' },
+      {
+        text: 'Online Example',
+        link: 'https://githubbox.com/sheinsight/reactive/tree/main/examples/basic',
+      },
     ],
 
     sidebar: [
       {
-        text: 'Examples',
+        text: 'Guide',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' },
+          { text: 'Introduction', link: '/introduction' },
+          {
+            text: 'Get Started',
+            link: '/get-started',
+            items: [
+              { text: 'React', link: '/get-started/react' },
+              { text: 'Vanilla JS', link: '/get-started/vanilla' },
+            ],
+          },
+          { text: 'FAQ', link: '/faq' },
         ],
+      },
+      {
+        text: 'Integrations',
+        items: [{ text: 'Redux DevTools', link: '/integrations/redux-devtools' }],
+      },
+      {
+        text: 'Reference',
+        items: [{ text: 'API', link: '/reference/api' }],
       },
     ],
 

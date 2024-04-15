@@ -5,25 +5,34 @@ layout: home
 hero:
   name: 'Reactive'
   text: 'Proxy-driven state for React & Vanilla JS'
-  tagline: 'Flexible, Unopinionated, Written in TypeScript.'
+  tagline: 'Flexible, Unopinionated and Written in TypeScript.'
   actions:
     - theme: brand
       text: Get Started
-      link: /markdown-examples
+      link: /get-started
+    - theme: alt
+      text: API Reference
+      link: /reference/api
     - theme: alt
       text: View on GitHub
       link: https://github.com/sheinsight/reactive
 
 features:
+  - title: Flexible
+    icon: 🧩
+    details: Wanna to change store state? Just mutate it anywhere you want.
   - title: User-Friendly
     icon: 😊
-    details: Straightforward API for easy adoption.
+    details: Cover over 80% of the use cases in one method.
   - title: Optimized Performance
     icon: ⚡️
-    details: Leverages Proxy for efficient rendering.
-  - title: Versatile
+    details: Leverages Proxy API for efficient rendering.
+  - title: Unopinionated
     icon: 🏄
-    details: Designed for high adaptability in both React and Vanilla JS.
+    details: Works well both in React and Vanilla JS.
+  - title: TypeScript
+    icon: 🦄
+    details: Written in TypeScript with full type support.
   - title: DevTools Integration
     icon: 🛠️
     details: Out-of-the-box Redux DevTools compatibility.
