@@ -96,4 +96,5 @@ export const mockFetchData = async () => {
 
 You can also easily **restore** to initial state via `store.restore()`
 
-> The newer [`structuredClone`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) API is used in this function, so consider adding a [polyfill](https://github.com/ungap/structured-clone) if needed.
+> [!TIP]
+> The newer [`structuredClone`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) API is used in `store.restore()`, so consider adding a [polyfill](https://github.com/ungap/structured-clone) if needed.
