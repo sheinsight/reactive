@@ -20,13 +20,13 @@ export default defineConfig({
       {
         text: 'Guide',
         items: [
-          { text: 'Introduction', link: '/introduction' },
+          { text: 'What is Reactive', link: '/what-is-reactive' },
+          { text: 'Installation', link: '/installation' },
           {
-            text: 'Get Started',
-            link: '/get-started',
+            text: 'Usage',
             items: [
-              { text: 'React', link: '/get-started/react' },
-              { text: 'Vanilla JS', link: '/get-started/vanilla' },
+              { text: 'React', link: '/usage/react' },
+              { text: 'Vanilla JS', link: '/usage/vanilla' },
             ],
           },
           { text: 'FAQ', link: '/faq' },

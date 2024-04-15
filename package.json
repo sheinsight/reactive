@@ -28,6 +28,7 @@
     "execa": "^8.0.1",
     "find-packages": "^10.0.4",
     "happy-dom": "^13.10.1",
+    "less": "^4.2.0",
     "read-pkg": "^9.0.1",
     "read-yaml-file": "^2.1.0",
     "semver": "^7.6.0",

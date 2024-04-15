@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /get-started
+      link: /what-is-reactive
     - theme: alt
       text: API Reference
       link: /reference/api
@@ -26,7 +26,7 @@ features:
     details: Cover over 80% of the use cases in one method.
   - title: Optimized Performance
     icon: ⚡️
-    details: Leverages Proxy API for efficient rendering.
+    details: Leverages Proxy API to provide the best performance.
   - title: Unopinionated
     icon: 🏄
     details: Works well both in React and Vanilla JS.

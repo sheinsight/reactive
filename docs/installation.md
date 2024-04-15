@@ -28,5 +28,5 @@ bun add @shined/reactive
 
 Reactive is designed to work well both in **React** and **Vanilla JS**, so you can choose the guide that fits your needs:
 
-- [I use it in React](/get-started/react) ⚛️
-- [I use it in Vanilla JS](/get-started/vanilla) 🟡
+- [I use it in React](/useage/react) ⚛️
+- [I use it in Vanilla JS](/useage/vanilla) 🟡
