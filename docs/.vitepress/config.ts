@@ -20,7 +20,7 @@ export default defineConfig({
       {
         text: 'Guide',
         items: [
-          { text: 'What is Reactive', link: '/what-is-reactive' },
+          { text: 'What is Reactive?', link: '/what-is-reactive' },
           { text: 'Installation', link: '/installation' },
           {
             text: 'Usage',

@@ -6,9 +6,13 @@ outline: deep
 
 ## Exports from `./` {#root}
 
+```tsx
+import { create, ref, devtools } from '@shined/reactive'
+```
+
 ### `create` {#root-create}
 
-An alias of `createWithHooks` from React part. It extends the `create` function from Vanilla. `createWithHooks` return a store object with extra React Hooks `useSnapshot`, which has many overloads as below.
+An alias of `createWithHooks`. It extends the `create` function from Vanilla and return a store object with extra React Hooks `useSnapshot`, which has many overloads as below.
 
 For other existed properties, see [create](#vanilla-exports-create) in Vanilla Exports.
 
@@ -57,6 +61,18 @@ Exported directly from `./vanilla`, see [devtools](#vanilla-exports-devtools) in
 
 ## Exports from `./vanilla` {#vanilla}
 
+```tsx
+import {
+  create,
+  subscribe,
+  getSnapshot,
+  ref,
+  devtools,
+  produce,
+  proxy,
+} from '@shined/reactive/vanilla'
+```
+
 ### `create` {#vanilla-create}
 
 ```tsx
@@ -86,11 +102,11 @@ It's has no options currently, but it may be added in the future.
 
 #### Returns {#vanilla-create-returns}
 
-Returns a object with the following properties.
+Returns a object with the following properties (usually called `store`)
 
 ##### `store.mutate`
 
-The mutable state object, same with initial state in type, whose changes will trigger subscribers.
+A [State Proxy](/reference/api#proxy), also a mutable state object, same with initial state in type, whose changes will trigger subscribers.
 
 ##### `store.subscribe(listener, options?, selector?)`
 
@@ -137,7 +153,7 @@ A method to reset the store to the initial state.
 
 ### `subscribe` {#vanilla-subscribe}
 
-A method to subscribe to state changes.
+A method to subscribe to state changes. First param should be a [State Proxy](/reference/api#proxy).
 
 ```tsx
 subscribe(store.mutate, (changes, version) => {})
@@ -168,7 +184,7 @@ export function subscribe<State extends object>(
 
 ### `getSnapshot` {#vanilla-getSnapshot}
 
-A method to get a snapshot of the current state to consume.
+A method to get a snapshot of the current state to consume. Param should be a [State Proxy](/reference/api#proxy) (created by `proxy`).
 
 ```tsx
 const state = getSnapshot(store.mutate)
@@ -187,10 +203,10 @@ export function getSnapshot<State extends object>(proxyState: State): State
 
 A function to allow non-serializable state in initial state.
 
-```tsx
+```tsx {3}
 const store = create({
   name: 'Bob',
-  formRef: ref({ form: new FormData() }),
+  tableRef: ref({ table: null }),
 })
 ```
 
@@ -198,13 +214,13 @@ const store = create({
 You should change the ref object property, **NOT** the ref object itself.
 :::
 
-```tsx
-const changeForm = () => {
-  // ✅ It's right to modify the ref object property
-  store.mutate.formRef.form.append('key', 'value')
+```tsx {3,6}
+const changeTableRef = () => {
+  // ❌ It's not correct to modify the ref object itself
+  // store.mutate.tableRef = { table: document.querySelector('#table') }
 
-  // ❌ It's not safe to modify the ref object itself
-  // store.mutate.formRef = { form: new FormData() }
+  // ✅ It's correct to modify the ref object property
+  store.mutate.tableRef.table = document.querySelector('#table')
 }
 ```
 
@@ -212,7 +228,7 @@ const changeForm = () => {
 
 A function to integrate with Redux DevTools. Just wrapper store in it, `enable` is `true` by default.
 
-```tsx
+```tsx {3}
 const store = create({ count: 1 })
 
 devtools(store, { name: 'MyStore', enable: true })
@@ -236,6 +252,30 @@ export type DevtoolsOptions = DeepExpandType<
 
 ### `produce` {#vanilla-produce}
 
-An alternative of immer's `produce`, but it require pure object as initial state.
+An alternative to [immer's `produce`](https://immerjs.github.io/immer/produce), but it require **pure object** as initial state, **NOT** support circular reference.
+
+::: details Type Definitions
+
+```tsx
+export function produce<State extends object>(
+  obj: State,
+  draftHandler: (draft: State) => void
+): State
+```
+
+:::
 
 ### `proxy` {#vanilla-proxy}
+
+An internal function to create a **State Proxy** (like `store.mutate`) recursively, itself and its properties are all **Proxied State**.
+
+::: details Type Definitions
+
+```tsx
+export function proxy<State extends object>(
+  initState: State,
+  parentProps: PropertyKey[] = []
+): State
+```
+
+:::

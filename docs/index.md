@@ -8,11 +8,11 @@ hero:
   tagline: 'Flexible, Unopinionated and Written in TypeScript.'
   actions:
     - theme: brand
-      text: Get Started
+      text: What is Reactive?
       link: /what-is-reactive
     - theme: alt
-      text: API Reference
-      link: /reference/api
+      text: Get Started
+      link: /installation
     - theme: alt
       text: View on GitHub
       link: https://github.com/sheinsight/reactive
@@ -20,7 +20,7 @@ hero:
 features:
   - title: Flexible
     icon: 🧩
-    details: Wanna to change store state? Just mutate it anywhere you want.
+    details: Want to change store state? Just mutate it anywhere you want.
   - title: User-Friendly
     icon: 😊
     details: Cover over 80% of the use cases in one method.
