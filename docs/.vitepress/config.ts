@@ -8,7 +8,7 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Guide', link: '/get-started/react' },
+      { text: 'Guide', link: '/what-is-reactive' },
       { text: 'API', link: '/reference/api' },
       {
         text: 'Online Example',
