@@ -22,16 +22,16 @@
     "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
-    "@types/node": "^20.11.24",
+    "@types/node": "^20.12.7",
     "@types/semver": "^7.5.8",
     "enquirer": "^2.4.1",
     "execa": "^8.0.1",
     "find-packages": "^10.0.4",
-    "happy-dom": "^13.6.2",
+    "happy-dom": "^13.10.1",
     "read-pkg": "^9.0.1",
     "read-yaml-file": "^2.1.0",
     "semver": "^7.6.0",
-    "tsx": "^4.7.1",
+    "tsx": "^4.7.2",
     "vitepress": "1.0.0-rc.44",
     "write-package": "^7.0.1"
   }

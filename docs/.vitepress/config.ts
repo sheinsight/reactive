@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: '/reactive',
   title: 'Reactive',
   description: 'Proxy-driven state for React & vanilla JS.',
   themeConfig: {
