@@ -17,9 +17,9 @@ Head over to the [installation](/installation) section to get started.
 
 ## Mutate Freely 🪽, Consume Safely 🔒
 
-Reactive adopts a **read-write separation** approach, offering a straightforward way to modify the state through the `store.mutate` object. When you need to change the state, simply alter it!
+Reactive adopts a **read-write separation** approach, offering a straightforward way to mutate the state through the `store.mutate` object. When you need to change the state, simply alter it!
 
-For reading, it provide a simple method of accessing state via `useSnapshot()` in React or `getSnapshot()` in Vanilla JS to ensure security. This approach generates non-extensible snapshot states to prevent accidental modifications.
+For consumption, it provide a simple method of accessing state via `useSnapshot()` in React or `getSnapshot()` in Vanilla JS to ensure security. This approach generates non-extensible snapshot states to prevent accidental modifications.
 
 ## Optional Render Optimization ⚡️
 
@@ -27,7 +27,7 @@ Furthermore, Reactive provides an optional render optimization feature.
 
 By default, component that has used whole snapshot will trigger a re-render when any part of the state changes. You can use `selector` to specify the state you want to listen to, which will only re-render when the specified state changes.
 
-::: details Click to see optional render optimization example
+::: details Click to see example
 
 ```tsx
 import { create } from '@shined/reactive'
