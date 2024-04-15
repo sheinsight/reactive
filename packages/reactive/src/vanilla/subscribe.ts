@@ -3,16 +3,15 @@ import { LISTENERS, get, propertyKeysToPath } from '../utils/index.js'
 
 import type { Listener } from './proxy.js'
 
-export type SubscribeCallback<State> = (
-  changes: {
-    props: PropertyKey[]
-    propsPath: string
-    previous: unknown
-    current: unknown
-    snapshot: State
-  },
-  version?: number
-) => void
+export type ChangeItem<State> = {
+  props: PropertyKey[]
+  propsPath: string
+  previous: unknown
+  current: unknown
+  snapshot: State
+}
+
+export type SubscribeCallback<State> = (changes: ChangeItem<State>, version?: number) => void
 
 export function subscribe<State extends object>(
   proxyState: State,

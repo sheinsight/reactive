@@ -13,30 +13,30 @@ export interface SnapshotOptions<StateSlice> {
 
 export type Selector<State, StateSlice> = (state: State) => StateSlice
 
-interface UseSnapshot {
-  <State extends object>(state: State): State
-  <State extends object>(state: State, options: SnapshotOptions<State>): State
-  <State extends object, StateSlice>(
-    state: State,
-    selector: Selector<State, StateSlice>
-  ): StateSlice
-  <State extends object, StateSlice>(
-    state: State,
-    selector: undefined,
-    options: SnapshotOptions<StateSlice>
-  ): State
-  <State extends object, StateSlice>(
-    state: State,
-    selector?: Selector<State, StateSlice>,
-    options?: SnapshotOptions<StateSlice>
-  ): StateSlice
-}
-
-export const useSnapshot: UseSnapshot = <State extends object, StateSlice>(
+export function useSnapshot<State extends object>(state: State): State
+export function useSnapshot<State extends object>(
+  state: State,
+  options: SnapshotOptions<State>
+): State
+export function useSnapshot<State extends object, StateSlice>(
+  state: State,
+  selector: Selector<State, StateSlice>
+): StateSlice
+export function useSnapshot<State extends object, StateSlice>(
+  state: State,
+  selector: undefined,
+  options: SnapshotOptions<StateSlice>
+): State
+export function useSnapshot<State extends object, StateSlice>(
+  state: State,
+  selector?: Selector<State, StateSlice>,
+  options?: SnapshotOptions<StateSlice>
+): StateSlice
+export function useSnapshot<State extends object, StateSlice>(
   proxyState: State,
   selectorOrOption?: SnapshotOptions<StateSlice> | Selector<State, StateSlice>,
   maybeOptions?: SnapshotOptions<StateSlice>
-) => {
+) {
   if (selectorOrOption && typeof selectorOrOption !== 'function') {
     maybeOptions = selectorOrOption
     selectorOrOption = undefined

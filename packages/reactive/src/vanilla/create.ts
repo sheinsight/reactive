@@ -10,14 +10,32 @@ export type ObjSelector<State> =
   | (<StoreSlice extends object>(state: State) => StoreSlice)
 
 export type StoreSubscriber<State extends object> = (
+  /**
+   * Callback to be called when state changes.
+   */
   listener: SubscribeCallback<State>,
+  /**
+   * Whether to sync the listener with the current state.
+   */
   sync?: boolean,
+  /**
+   * Selector to select a slice of the state.
+   */
   selector?: ObjSelector<State>
 ) => () => void
 
 export type VanillaStore<State extends object> = {
+  /**
+   * The mutable state object, whose changes will trigger subscribers.
+   */
   mutate: State
+  /**
+   * Method to subscribe to state changes.
+   */
   subscribe: StoreSubscriber<State>
+  /**
+   * Restore to initial state.
+   */
   restore: () => void
 }
 
