@@ -15,13 +15,13 @@
 
 Head over to the [installation](/installation) section to get started.
 
-## Mutate Freely 🪽, Consume Safely 🔒
+## Mutate Freely, Consume Safely
 
 Reactive adopts a **read-write separation** approach, offering a straightforward way to mutate the state through the `store.mutate` object. When you need to change the state, simply alter it!
 
 For consumption, it provide a simple method of accessing state via `useSnapshot()` in React or `getSnapshot()` in Vanilla JS to ensure security. This approach generates non-extensible snapshot states to prevent accidental modifications.
 
-## Optional Render Optimization ⚡️
+## Optional Render Optimization
 
 Furthermore, Reactive provides an optional render optimization feature.
 

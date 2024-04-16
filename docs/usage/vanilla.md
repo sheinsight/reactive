@@ -1,6 +1,6 @@
 # Use Reactive in Vanilla
 
-## Step 1. Create a store
+## Step 1. Create A Store
 
 Create a store with initial state.
 
@@ -10,7 +10,7 @@ import { create, devtools } from '@shined/reactive'
 export const store = create({ name: 'Bob' })
 ```
 
-## Step 2. Subscribe listeners
+## Step 2. Subscribe Listeners
 
 Subscribe to store to get notified when state changes.
 
@@ -24,7 +24,7 @@ store.subscribe((changes) => {
 })
 ```
 
-## Step 3. Get snapshot from store
+## Step 3. Get Snapshot from Store (optional)
 
 Get a snapshot from the store and use it in your components.
 

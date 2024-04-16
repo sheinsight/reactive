@@ -1,4 +1,4 @@
-# 📦 Installation {#installation}
+# Installation {#installation}
 
 You can install Reactive via package managers of your choice from [npm](https://npm.im/@shined/reactive) registry.
 
@@ -22,7 +22,7 @@ bun add @shined/reactive
 
 :::
 
-## ⏩ Next {#next}
+## What's Next {#next}
 
 Reactive is designed to work well both in **React** and **Vanilla JS**, choose the guide that fits your needs:
 
