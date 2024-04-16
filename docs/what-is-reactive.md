@@ -44,14 +44,14 @@ const store = create({
 })
 
 function App() {
-  // re-render when any part of the state changes
-  // const state = store.useSnapshot()
+  // re-render when ANY part of the state changes
+  const state = store.useSnapshot()
 
-  // only re-render when `city` changes
-  // const { name } = store.useSnapshot((s) => s.address.city)
+  // only re-render when `city` object changes
+  const { name: cityName } = store.useSnapshot((s) => s.address.city)
 
-  // only re-render when `hobbies` changes
-  // const [hobby1, hobby2] = store.useSnapshot((s) => s.hobbies)
+  // only re-render when `hobbies` object changes
+  const [hobby1, hobby2] = store.useSnapshot((s) => s.hobbies)
 
   // only re-render when `name` changes
   const name = store.useSnapshot((s) => s.name)
@@ -64,7 +64,7 @@ export default App
 
 :::
 
-### Example of React ⚛️
+## Example of React ⚛️
 
 Here is a simple example of using Reactive in a React application.
 

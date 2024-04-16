@@ -1,6 +1,6 @@
 # Use Reactive in React
 
-## Step 1. Create A Store
+## Step 1. Create a Store
 
 Create a store with initial state.
 
@@ -43,7 +43,7 @@ export const store = create({ name: 'Bob' })
 You can mutate the state anywhere you like. Reactive will automatically trigger re-render. You can switch Code Group to see how to mutate the store.
 
 > [!IMPORTANT]
-> Snapshots are **non-extensible**, you can only mutate state by modify `store.mutate` object.
+> Snapshots are **non-extensible**, you can only mutate state by modifying `store.mutate` object.
 
 ::: code-group
 

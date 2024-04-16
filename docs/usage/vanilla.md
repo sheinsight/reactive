@@ -1,6 +1,6 @@
 # Use Reactive in Vanilla
 
-## Step 1. Create A Store
+## Step 1. Create a Store
 
 Create a store with initial state.
 
