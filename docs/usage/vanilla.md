@@ -5,7 +5,7 @@
 Create a store with initial state.
 
 ```tsx [store.ts] {3}
-import { create, devtools } from '@shined/reactive'
+import { create, devtools } from '@shined/reactive/vanilla'
 
 export const store = create({ name: 'Bob' })
 ```
