@@ -11,6 +11,10 @@ export default defineConfig({
       { text: 'Guide', link: '/what-is-reactive' },
       { text: 'API', link: '/reference/api' },
       {
+        text: 'Release',
+        link: 'https://github.com/sheinsight/reactive/releases',
+      },
+      {
         text: 'Online Example',
         link: 'https://githubbox.com/sheinsight/reactive/tree/main/examples/basic',
       },
@@ -55,7 +59,7 @@ export default defineConfig({
 
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2023-Present SHEIN FE Team',
+      copyright: 'Copyright © 2023-Present SHEIN Front-End Team',
     },
   },
 })
