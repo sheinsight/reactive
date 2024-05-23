@@ -50,16 +50,16 @@ export function create<State extends object>(
 
   const proxyState = proxy(initState)
 
-  const restore = () => {
+  function restore() {
     const _ = structuredClone(initState)
     Object.keys(_).forEach((k) => void (proxyState[k as keyof State] = _[k as keyof State]))
   }
 
-  const boundedSubscribe = (
+  function boundedSubscribe(
     callback: SubscribeCallback<State>,
     sync: boolean = false,
     selector: ObjSelector<State> = (s: State) => s
-  ) => {
+  ) {
     return subscribe<State>(selector(proxyState), callback, sync)
   }
 

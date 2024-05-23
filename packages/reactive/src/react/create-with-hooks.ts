@@ -5,7 +5,7 @@ import type { ExpandType } from './../utils/index.js'
 import type { Selector, SnapshotOptions } from './use-snapshot.js'
 import type { CreateOptions, VanillaStore } from '../vanilla/create.js'
 
-export type StoreUseSnapshot<State> = {
+export interface StoreUseSnapshot<State> {
   (): State
   (options: SnapshotOptions<State>): State
   <StateSlice>(selector: Selector<State, StateSlice>): StateSlice
