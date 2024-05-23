@@ -1,7 +1,6 @@
-import { canProxy } from '../utils/index.js'
-import { getSnapshot } from './get-snapshot.js'
-import { proxy } from './proxy.js'
 import { subscribe } from './subscribe.js'
+import { getSnapshot } from './get-snapshot.js'
+import { canProxy, isProduction, noop } from '../utils/index.js'
 
 import type {} from '@redux-devtools/extension'
 import type { DeepExpandType } from '../utils/index.js'
@@ -29,17 +28,16 @@ export type DevtoolsOptions = DeepExpandType<
   } & ExtConfig
 >
 
-export function devtools(
-  { mutate: proxyState }: { mutate: ReturnType<typeof proxy> },
-  options: DevtoolsOptions
-): () => void {
+export function devtools(store: { mutate: object }, options: DevtoolsOptions): () => void {
+  if (isProduction) return noop
+
   const ext = window.__REDUX_DEVTOOLS_EXTENSION__
   const enable = options?.enable ?? true
 
   // this variable is used to filter out the mutate operation by devtools itself
   let isMutatingStoreByDevtools = false
 
-  if (!enable) return () => {}
+  if (!enable) return noop
 
   if (!ext) {
     const infos = [
@@ -49,12 +47,12 @@ export function devtools(
 
     console.warn(infos.join(' '))
 
-    return () => {}
+    return noop
   }
 
   const name = options?.name ?? 'untitled'
   const devtools = ext.connect(options) as ConnectResponse
-  const initialState = getSnapshot(proxyState)
+  const initialState = getSnapshot(store.mutate)
 
   devtools.init(initialState)
 
@@ -68,7 +66,7 @@ export function devtools(
 
     // if (message.payload.type === "SWEEP") void 0;
     if (message.payload.type === 'RESET') devtools.init(initialState)
-    if (message.payload.type === 'COMMIT') devtools.init(getSnapshot(proxyState))
+    if (message.payload.type === 'COMMIT') devtools.init(getSnapshot(store.mutate))
 
     // if (message.payload.type === ""TOGGLE_ACTION"") void 0;
     const actions = ['ROLLBACK', 'JUMP_TO_ACTION'] as const
@@ -81,7 +79,7 @@ export function devtools(
         isMutatingStoreByDevtools = true
 
         const newState = JSON.parse(message.state || '{}')
-        Object.assign(proxyState, newState)
+        Object.assign(store.mutate, newState)
         console.debug('[reactive] mutate state by devtools: ', newState)
       } catch (e: any) {
         devtools.error(e?.message || e?.toString() || JSON.stringify(e || ''))
@@ -92,7 +90,7 @@ export function devtools(
   })
 
   const unsubscribe = subscribe(
-    proxyState,
+    store.mutate,
     (changes, version) => {
       const { propsPath, previous, current, snapshot } = changes
 

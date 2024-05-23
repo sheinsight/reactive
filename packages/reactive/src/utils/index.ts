@@ -14,6 +14,7 @@ export const REACTIVE = Symbol('REACTIVE')
 
 export const isProduction = process.env.NODE_ENV === 'production'
 
+export const noop = () => {}
 export const hasOwn = Object.prototype.hasOwnProperty
 export const isObject = (x: unknown): x is object => typeof x === 'object' && x !== null
 
