@@ -28,7 +28,6 @@ For other existed properties, see [create](#vanilla-exports-create) in Vanilla E
  * }
  */
 
-
 export interface SnapshotOptions<StateSlice> {
   sync?: boolean
   isEqual?: (a: StateSlice, b: StateSlice) => boolean
