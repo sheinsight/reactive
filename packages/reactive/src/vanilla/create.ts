@@ -39,6 +39,9 @@ export type VanillaStore<State extends object> = {
   restore: () => void
 }
 
+/**
+ * Create a vanilla store.
+ */
 export function create<State extends object>(
   initState: State,
   options?: CreateOptions
@@ -52,7 +55,7 @@ export function create<State extends object>(
     Object.keys(_).forEach((k) => void (proxyState[k as keyof State] = _[k as keyof State]))
   }
 
-  const _subscribe = (
+  const boundedSubscribe = (
     callback: SubscribeCallback<State>,
     sync: boolean = false,
     selector: ObjSelector<State> = (s: State) => s
@@ -62,7 +65,7 @@ export function create<State extends object>(
 
   return {
     mutate: proxyState,
-    subscribe: _subscribe,
+    subscribe: boundedSubscribe,
     restore,
   }
 }

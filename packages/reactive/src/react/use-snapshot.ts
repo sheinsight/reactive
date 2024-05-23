@@ -7,12 +7,21 @@ import { subscribe, getSnapshot } from '../vanilla'
 import type { SubscribeCallback } from '../vanilla'
 
 export interface SnapshotOptions<StateSlice> {
+  /**
+   * If `true`, the snapshot will be updated in sync with the store.
+   */
   sync?: boolean
+  /**
+   * Custom equality function to compare the previous and next state slices.
+   */
   isEqual?: (a: StateSlice, b: StateSlice) => boolean
 }
 
 export type Selector<State, StateSlice> = (state: State) => StateSlice
 
+/**
+ * Returns a snapshot of the store state.
+ */
 export function useSnapshot<State extends object>(state: State): State
 export function useSnapshot<State extends object>(
   state: State,

@@ -29,6 +29,7 @@ export type DevtoolsOptions = DeepExpandType<
 >
 
 export function devtools(store: { mutate: object }, options: DevtoolsOptions): () => void {
+  // if in production,
   if (isProduction) return noop
 
   const ext = window.__REDUX_DEVTOOLS_EXTENSION__

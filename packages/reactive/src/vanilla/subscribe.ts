@@ -28,7 +28,7 @@ export function subscribe<State extends object>(
     previousState = getSnapshot(proxyState)
   }
 
-  const listener = (props: PropertyKey[], version?: number) => {
+  function listener(props: PropertyKey[], version?: number) {
     const currentState = getSnapshot(proxyState)
 
     const changes = {

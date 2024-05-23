@@ -5,10 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "description": "⚛️ Proxy-driven state for React & Vanilla JS, flexible, unopinionated, written in TypeScript.",
-  "homepage": "https://github.com/sheinsight/reactive#readme",
-  "author": {
-    "name": "ityuany"
-  },
+  "homepage": "https://sheinsight.github.io/reactive/",
   "files": [
     "./dist",
     "./src"

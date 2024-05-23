@@ -18,26 +18,29 @@ export const noop = () => {}
 export const hasOwn = Object.prototype.hasOwnProperty
 export const isObject = (x: unknown): x is object => typeof x === 'object' && x !== null
 
-export const createObjectFromPrototype = <T extends object>(target: T): T => {
+export function createObjectFromPrototype<T extends object>(target: T): T {
   return Array.isArray(target) ? [] : Object.create(Object.getPrototypeOf(target))
 }
 
-export const canProxy = (x: unknown) =>
-  isObject(x) &&
-  !hasRef(x) &&
-  (Array.isArray(x) || !(Symbol.iterator in x)) &&
-  !(x instanceof WeakMap) &&
-  !(x instanceof WeakSet) &&
-  !(x instanceof Error) &&
-  !(x instanceof Number) &&
-  !(x instanceof Date) &&
-  !(x instanceof String) &&
-  !(x instanceof RegExp) &&
-  !(x instanceof ArrayBuffer)
+export function canProxy(x: unknown) {
+  return (
+    isObject(x) &&
+    !hasRef(x) &&
+    (Array.isArray(x) || !(Symbol.iterator in x)) &&
+    !(x instanceof WeakMap) &&
+    !(x instanceof WeakSet) &&
+    !(x instanceof Error) &&
+    !(x instanceof Number) &&
+    !(x instanceof Date) &&
+    !(x instanceof String) &&
+    !(x instanceof RegExp) &&
+    !(x instanceof ArrayBuffer)
+  )
+}
 
 const numberReg = /^\d+$/
 
-export const propertyKeysToPath = (keys: PropertyKey[]) => {
+export function propertyKeysToPath(keys: PropertyKey[]) {
   let path = ''
   const { length } = keys
   for (let i = 0; i < length; i++) {
@@ -51,11 +54,11 @@ export const propertyKeysToPath = (keys: PropertyKey[]) => {
   return path
 }
 
-export const get = (
+export function get(
   object: object,
   path: PropertyKey | PropertyKey[],
   defaultValue: unknown = undefined
-) => {
+) {
   const keys = Array.isArray(path) ? path : [path]
   for (const key of keys) {
     if (!(key in object)) return defaultValue
@@ -64,7 +67,7 @@ export const get = (
   return object
 }
 
-export const shallowEqual = <T>(objA: T, objB: T) => {
+export function shallowEqual<T>(objA: T, objB: T) {
   if (Object.is(objA, objB)) {
     return true
   }

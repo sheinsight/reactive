@@ -1,13 +1,10 @@
 {
   "name": "reactive",
-  "version": "0.1.3-alpha.0",
   "private": true,
-  "type": "module",
+  "version": "0.1.3-alpha.0",
   "packageManager": "pnpm@8.15.3",
+  "type": "module",
   "license": "MIT",
-  "author": {
-    "name": "ityuany"
-  },
   "scripts": {
     "dev": "pnpm i && pnpm run build && pnpm -r --parallel dev",
     "build": "pnpm --filter '@shined/*' build",
