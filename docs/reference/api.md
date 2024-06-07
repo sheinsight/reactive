@@ -4,7 +4,7 @@ outline: deep
 
 # Reactive API
 
-## Exports from `./` {#root}
+## Root Exports (`./`) {#root}
 
 ```tsx
 import { create, ref, devtools } from '@shined/reactive'
@@ -12,9 +12,17 @@ import { create, ref, devtools } from '@shined/reactive'
 
 ### `create` {#root-create}
 
-An alias of `createWithHooks`. It extends the `create` function from Vanilla and return a store object with extra React Hooks `useSnapshot`, which has many overloads as below.
+An alias of `createWithHooks`. It returns a store with extra React Hook `useSnapshot`. See [create](#vanilla-create) in vanilla exports for other properties of store, 
 
-For other existed properties, see [create](#vanilla-exports-create) in Vanilla Exports.
+```tsx
+const store = create({ count: 1 })
+
+// in React component
+const count = store.useSnapshot(s => s.count)
+const count = store.useSnapshot(s => s.count, { sync:true })
+const { count } = store.useSnapshot()
+const { count } = store.useSnapshot({ sync:true })
+```
 
 ::: details Type Definitions
 
@@ -60,13 +68,31 @@ export type StoreUseSnapshot<State> = {
 
 ### `ref` {#root-ref}
 
-Exported directly from `./vanilla`, see [ref](#vanilla-exports-ref) in Vanilla Exports.
+> Exported directly from `./vanilla`, see [ref](#vanilla-ref) in vanilla exports for more.
+
+```tsx
+const store = create({ 
+  count: 1,
+  ref: ref({ tableEl: null as null | HTMLTableElement })
+})
+
+store.mutate.ref.tableEl = document.getElementById("#table")
+
+// in React component
+const tableEl = store.useSnapshot(s => s.ref.tableEl)
+```
 
 ### `devtools` {#root-devtools}
 
-Exported directly from `./vanilla`, see [devtools](#vanilla-exports-devtools) in Vanilla Exports.
+> Exported directly from `./vanilla`, see [devtools](#vanilla-devtools) in vanilla exports for more.
 
-## Exports from `./vanilla` {#vanilla}
+```tsx
+const store = create({ username: '', password: '' })
+
+devtools(store, { name: 'LoginStore', enable: true })
+```
+
+## Vanilla Exports (`./vanilla`) {#vanilla}
 
 ```tsx
 import {
@@ -86,13 +112,15 @@ import {
 import { create } from '@shined/reactive'
 
 const store = create(initialState, options)
+
+// const countStore = create({ count: 1 })
 ```
 
 #### InitialState {#vanilla-create-initial-state}
 
 An object that represents the initial state of the store.
 
-::: details It can be any pure object, or **non-serializable state** via [ref](#ref-vanilla-ref) function. Click to view the code.
+::: details It can be any pure object, or **non-serializable state** wrapped in [ref](#vanilla-ref) function.
 
 ```tsx
 const store = create({
@@ -111,13 +139,23 @@ It's has no options currently, but it may be added in the future.
 
 Returns a object with the following properties (usually called `store`)
 
+```tsx
+const { mutate, restore, subscribe } = store;
+```
+
 ##### `store.mutate`
 
-A [State Proxy](/reference/api#proxy), also a mutable state object, same with initial state in type, whose changes will trigger subscribers.
+A mutable [State Proxy](#vanilla-proxy), same type with initial state, whose changes will trigger subscribers.
 
 ##### `store.subscribe(listener, options?, selector?)`
 
-Method to subscribe to state changes.
+A method to subscribe to state changes.
+
+```tsx
+store.subscribe((changes, _version) => {
+  console.log('changes', changes)
+})
+```
 
 ::: details Type Definitions
 
@@ -154,17 +192,21 @@ export type ObjSelector<State> =
 
 :::
 
-##### `store.reset()`
+##### `store.restore()`
 
-A method to reset the store to the initial state.
+A method to restore the store to the initial state.
+
+```tsx
+store.restore()
+```
 
 ### `subscribe` {#vanilla-subscribe}
 
-A method to subscribe to state changes. First param should be a [State Proxy](/reference/api#proxy).
+A method to subscribe to state changes, the first param should be a [State Proxy](#vanilla-proxy).
 
 ```tsx
 subscribe(store.mutate, (changes, version) => {})
-subscribe(store.mutate.name, (changes, version) => {})
+subscribe(store.mutate.user.name, (changes, version) => {})
 ```
 
 ::: details Type Definitions
@@ -191,7 +233,7 @@ export function subscribe<State extends object>(
 
 ### `getSnapshot` {#vanilla-getSnapshot}
 
-A method to get a snapshot of the current state to consume. Param should be a [State Proxy](/reference/api#proxy) (created by `proxy`).
+A method to get a snapshot of the current state to consume. Param should be a [State Proxy](#vanilla-proxy) (created by `proxy`).
 
 ```tsx
 const state = getSnapshot(store.mutate)
@@ -238,10 +280,10 @@ A function to integrate with Redux DevTools. Just wrapper store in it, `enable` 
 ```tsx {3}
 const store = create({ count: 1 })
 
-devtools(store, { name: 'MyStore', enable: true })
+devtools(store, { name: 'CountStore', enable: true })
 ```
 
-::: details Options Type Definitions
+::: details Type Definitions
 
 ```tsx
 /** redux devtool options, if set, will enable redux devtool */
@@ -261,6 +303,13 @@ export type DevtoolsOptions = DeepExpandType<
 
 An alternative to [immer's `produce`](https://immerjs.github.io/immer/produce), but it require **pure object** as initial state, **NOT** support circular reference.
 
+```tsx
+const nextState = produce(store.mutate, (draft) => {
+  draft.count += 1
+  draft.user.name = 'Alice'
+})
+```
+
 ::: details Type Definitions
 
 ```tsx
@@ -274,7 +323,17 @@ export function produce<State extends object>(
 
 ### `proxy` {#vanilla-proxy}
 
-An internal function to create a **State Proxy** (like `store.mutate`) recursively, itself and its properties are all **Proxied State**.
+An **internal** function to create a **State Proxy** (like `store.mutate`) recursively, itself and its properties are all **Proxied State**.
+
+::: warning
+It's **internal** and **NOT** recommended to use directly, use `create` instead.
+:::
+
+```tsx
+const proxyState = proxy({ count: 1, user: { name: 'Bob' } })
+proxyState.count += 1
+proxyState.user.name = 'Alice'
+```
 
 ::: details Type Definitions
 
