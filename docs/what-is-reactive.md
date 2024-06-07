@@ -15,17 +15,69 @@
 
 Head over to the [installation](/installation) section to get started.
 
+## Try it Online
+
+You can try Reactive online on [CodeSandbox](https://githubbox.com/sheinsight/reactive/tree/main/examples/basic).
+
+## Example of React
+
+Here is a simple example of using Reactive in a React application.
+
+```tsx
+import { create } from '@shined/reactive'
+
+const store = create({ count: 1 })
+
+function App() {
+  const count = store.useSnapshot((s) => s.count)
+
+  return (
+    <div>
+      <p>Count is {count}</p>
+      <button onClick={() => store.mutate.count++}>increment</button>
+    </div>
+  )
+}
+```
+
+For more information, see [React Usage](/usage/react) or [API Reference](/reference/api).
+
 ## Mutate Freely, Consume Safely
 
 Reactive adopts a **read-write separation** approach, offering a straightforward way to mutate the state through the `store.mutate` object. When you need to change the state, simply alter it!
 
-For consumption, it provide a simple method of accessing state via `useSnapshot()` in React or `getSnapshot()` in Vanilla JS to ensure security. This approach generates non-extensible snapshot states to prevent accidental modifications.
+```tsx
+export function increment() {
+  store.mutate.count++
+}
+
+export function updateUserInfo() {
+  store.mutate.user.info = { name: 'Alice' }
+}
+```
+
+For consumption, it provide a simple method of accessing state via `useSnapshot()` in React and `getSnapshot()` in Vanilla JS to ensure security. This approach generates non-extensible snapshot states to prevent accidental modifications.
+
+```tsx
+// in React component
+const count = store.useSnapshot((s) => s.count)
+const { count } = store.useSnapshot()
+
+// in vanilla JS/TS
+import { getSnapshot } from '@shined/reactive/vanilla'
+const { count } = getSnapshot(store.mutate)
+```
 
 ## Optional Render Optimization
 
 Furthermore, Reactive provides an optional render optimization feature.
 
-By default, component that has used whole snapshot will trigger a re-render when any part of the state changes. You can use `selector` to specify the state you want to listen to, which will only re-render when the specified state changes.
+```tsx
+// only re-render when `count` changes
+const count = store.useSnapshot((s) => s.count)
+```
+
+You can use `selector` to specify the state you want to listen to, which will only re-render when the specified state changes. By default, component that has used whole snapshot will trigger a re-render when any part of the state changes if you don't specify the `selector`.
 
 ::: details Click to see example
 
@@ -63,26 +115,3 @@ export default App
 ```
 
 :::
-
-## Example of React ⚛️
-
-Here is a simple example of using Reactive in a React application.
-
-```tsx
-import { create } from '@shined/reactive'
-
-const store = create({ count: 1 })
-
-function App() {
-  const count = store.useSnapshot((s) => s.count)
-
-  return (
-    <div>
-      <p>Count is {count}</p>
-      <button onClick={() => store.mutate.count++}>increment</button>
-    </div>
-  )
-}
-```
-
-For more information, see [React Usage](/usage/react) or [API Reference](/reference/api).

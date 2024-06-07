@@ -9,7 +9,13 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Guide', link: '/what-is-reactive' },
-      { text: 'API', link: '/reference/api' },
+      {
+        text: 'API',
+        items: [
+          { text: 'Root API', link: '/reference/root-api' },
+          { text: 'Vanilla API', link: '/reference/vanilla-api' },
+        ],
+      },
       {
         text: 'Release',
         link: 'https://github.com/sheinsight/reactive/releases',
@@ -42,7 +48,10 @@ export default defineConfig({
       },
       {
         text: 'Reference',
-        items: [{ text: 'API', link: '/reference/api' }],
+        items: [
+          { text: 'Root API', link: '/reference/root-api' },
+          { text: 'Vanilla API', link: '/reference/vanilla-api' },
+        ],
       },
     ],
 

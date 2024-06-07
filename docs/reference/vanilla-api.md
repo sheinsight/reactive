@@ -1,98 +1,4 @@
----
-outline: deep
----
-
-# Reactive API
-
-## Root Exports (`./`) {#root}
-
-```tsx
-import { create, ref, devtools } from '@shined/reactive'
-```
-
-### `create` {#root-create}
-
-An alias of `createWithHooks`. It returns a store with extra React Hook `useSnapshot`. See [create](#vanilla-create) in vanilla exports for other properties of store, 
-
-```tsx
-const store = create({ count: 1 })
-
-// in React component
-const count = store.useSnapshot(s => s.count)
-const count = store.useSnapshot(s => s.count, { sync:true })
-const { count } = store.useSnapshot()
-const { count } = store.useSnapshot({ sync:true })
-```
-
-::: details Type Definitions
-
-```tsx
-/**
- * example state for `store.useSnapshot()`
- * {
- *   name: 'Bob',
- *   age: 20,
- *   hobbies: ['coding', 'biking'],
- * }
- */
-
-export interface SnapshotOptions<StateSlice> {
-  sync?: boolean
-  isEqual?: (a: StateSlice, b: StateSlice) => boolean
-}
-
-export type Selector<State, StateSlice> = (state: State) => StateSlice
-
-export type StoreUseSnapshot<State> = {
-  // const state = store.useSnapshot()
-  (): State
-
-  // const state = store.useSnapshot({ sync: true })
-  (options: SnapshotOptions<State>): State
-
-  // const name = store.useSnapshot((s) => s.name)
-  <StateSlice>(selector: Selector<State, StateSlice>): StateSlice
-
-  // const state = store.useSnapshot(undefined, { sync: true })
-  <StateSlice>(selector: undefined, options: SnapshotOptions<StateSlice>): State
-
-  // const age = store.useSnapshot((s) => s.age, { sync: true })
-  <StateSlice>(
-    selector: Selector<State, StateSlice>,
-    options: SnapshotOptions<StateSlice>
-  ): StateSlice
-}
-```
-
-:::
-
-### `ref` {#root-ref}
-
-> Exported directly from `./vanilla`, see [ref](#vanilla-ref) in vanilla exports for more.
-
-```tsx
-const store = create({ 
-  count: 1,
-  ref: ref({ tableEl: null as null | HTMLTableElement })
-})
-
-store.mutate.ref.tableEl = document.getElementById("#table")
-
-// in React component
-const tableEl = store.useSnapshot(s => s.ref.tableEl)
-```
-
-### `devtools` {#root-devtools}
-
-> Exported directly from `./vanilla`, see [devtools](#vanilla-devtools) in vanilla exports for more.
-
-```tsx
-const store = create({ username: '', password: '' })
-
-devtools(store, { name: 'LoginStore', enable: true })
-```
-
-## Vanilla Exports (`./vanilla`) {#vanilla}
+# Vanilla API (exported from `./vanilla`) {#vanilla-api}
 
 ```tsx
 import {
@@ -106,7 +12,7 @@ import {
 } from '@shined/reactive/vanilla'
 ```
 
-### `create` {#vanilla-create}
+## `create` {#create}
 
 ```tsx
 import { create } from '@shined/reactive'
@@ -116,11 +22,11 @@ const store = create(initialState, options)
 // const countStore = create({ count: 1 })
 ```
 
-#### InitialState {#vanilla-create-initial-state}
+### InitialState {#create-initial-state}
 
 An object that represents the initial state of the store.
 
-::: details It can be any pure object, or **non-serializable state** wrapped in [ref](#vanilla-ref) function.
+::: details It can be any pure object, or **non-serializable state** wrapped in [ref](#ref) function.
 
 ```tsx
 const store = create({
@@ -131,11 +37,11 @@ const store = create({
 
 :::
 
-#### Options (optional) {#vanilla-create-options}
+### Options (optional) {#create-options}
 
 It's has no options currently, but it may be added in the future.
 
-#### Returns {#vanilla-create-returns}
+### Returns {#create-returns}
 
 Returns a object with the following properties (usually called `store`)
 
@@ -143,11 +49,11 @@ Returns a object with the following properties (usually called `store`)
 const { mutate, restore, subscribe } = store;
 ```
 
-##### `store.mutate`
+#### `store.mutate` {#create-returns-mutate}
 
-A mutable [State Proxy](#vanilla-proxy), same type with initial state, whose changes will trigger subscribers.
+A mutable [State Proxy](#proxy), same type with initial state, whose changes will trigger subscribers.
 
-##### `store.subscribe(listener, options?, selector?)`
+#### `store.subscribe(listener, options?, selector?)` {#create-returns-subscribe}
 
 A method to subscribe to state changes.
 
@@ -192,7 +98,7 @@ export type ObjSelector<State> =
 
 :::
 
-##### `store.restore()`
+#### `store.restore()` {#create-returns-restore}
 
 A method to restore the store to the initial state.
 
@@ -200,9 +106,9 @@ A method to restore the store to the initial state.
 store.restore()
 ```
 
-### `subscribe` {#vanilla-subscribe}
+## `subscribe` {#subscribe}
 
-A method to subscribe to state changes, the first param should be a [State Proxy](#vanilla-proxy).
+A method to subscribe to state changes, the first param should be a [State Proxy](#proxy).
 
 ```tsx
 subscribe(store.mutate, (changes, version) => {})
@@ -231,7 +137,7 @@ export function subscribe<State extends object>(
 
 :::
 
-### `getSnapshot` {#vanilla-getSnapshot}
+## `getSnapshot` {#get-snapshot}
 
 A method to get a snapshot of the current state to consume. Param should be a [State Proxy](#vanilla-proxy) (created by `proxy`).
 
@@ -248,7 +154,7 @@ export function getSnapshot<State extends object>(proxyState: State): State
 
 :::
 
-### `ref` {#vanilla-ref}
+## `ref` {#ref}
 
 A function to allow non-serializable state in initial state.
 
@@ -273,7 +179,7 @@ const changeTableRef = () => {
 }
 ```
 
-### `devtools` {#vanilla-devtools}
+## `devtools` {#devtools}
 
 A function to integrate with Redux DevTools. Just wrapper store in it, `enable` is `true` by default.
 
@@ -299,7 +205,7 @@ export type DevtoolsOptions = DeepExpandType<
 
 :::
 
-### `produce` {#vanilla-produce}
+## `produce` {#produce}
 
 An alternative to [immer's `produce`](https://immerjs.github.io/immer/produce), but it require **pure object** as initial state, **NOT** support circular reference.
 
@@ -321,7 +227,7 @@ export function produce<State extends object>(
 
 :::
 
-### `proxy` {#vanilla-proxy}
+## `proxy` {#proxy}
 
 An **internal** function to create a **State Proxy** (like `store.mutate`) recursively, itself and its properties are all **Proxied State**.
 
