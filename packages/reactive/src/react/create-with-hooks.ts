@@ -28,7 +28,7 @@ export function createWithHooks<State extends object>(
 ): Store<State> {
   const store = createVanilla(initState, options)
 
-  const boundedUseSnapshot: StoreUseSnapshot<State> = <StateSlice>(
+  const boundUseSnapshot: StoreUseSnapshot<State> = <StateSlice>(
     selectorOrOption?: SnapshotOptions<StateSlice> | Selector<State, StateSlice> | undefined,
     maybeOptions?: SnapshotOptions<StateSlice>
   ) => {
@@ -42,6 +42,6 @@ export function createWithHooks<State extends object>(
 
   return {
     ...store,
-    useSnapshot: boundedUseSnapshot,
+    useSnapshot: boundUseSnapshot,
   }
 }
