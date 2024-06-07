@@ -4,7 +4,7 @@
 import { create, ref, devtools } from '@shined/reactive'
 ```
 
-## `create` {#root-create}
+## `create` {#create}
 
 A method for React that create a [vanilla store](/reference/vanilla-api#create) with extra React Hook `useSnapshot`. See [create#returns](/reference/vanilla-api#create-returns) in vanilla exports for other properties.
 
@@ -60,7 +60,7 @@ export type StoreUseSnapshot<State> = {
 
 :::
 
-## `ref` {#root-ref}
+## `ref` {#ref}
 
 > Exported directly from `./vanilla`, see [ref](/reference/vanilla-api#ref) in vanilla exports for more.
 
@@ -76,7 +76,7 @@ store.mutate.ref.tableEl = document.getElementById("#table")
 const tableEl = store.useSnapshot(s => s.ref.tableEl)
 ```
 
-## `devtools` {#root-devtools}
+## `devtools` {#devtools}
 
 > Exported directly from `./vanilla`, see [devtools](/reference/vanilla-api#devtools) in vanilla exports for more.
 
