@@ -6,8 +6,8 @@
 
 ⚛️ Reactive is a state management library for JavaScript applications, offering many features that make it both easy to use and powerful.
 
-- **🧩 Flexible to use**: Want to change store state? Just [mutate](/reference/api#mutate) it anywhere you want.
-- **😊 User-Friendly**: Cover over 80% of the use cases with [create](/reference/api#create) method.
+- **🧩 Flexible to use**: Want to change store state? Just [mutate](/reference/vanilla-api#create-returns-mutate) it anywhere you want.
+- **😊 User-Friendly**: Cover over 80% of the use cases with [create](/reference/root-api#create) method.
 - **⚡️ Optimized Performance**: Leverages [Proxy API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) to provide the best performance.
 - **🏄 Unopinionated**: Works well both in [React](https://react.dev/) and Vanilla JS.
 - **🦄 TypeScript Support**: Written in [TypeScript](https://www.typescriptlang.org/), fully typed, better DX.
@@ -40,7 +40,7 @@ function App() {
 }
 ```
 
-For more information, see [React Usage](/usage/react) or [API Reference](/reference/api).
+For more information, see [React Usage](/usage/react) or [API Reference](/reference/root-api).
 
 ## Mutate Freely, Consume Safely
 

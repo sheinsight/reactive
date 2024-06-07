@@ -2,9 +2,9 @@
 
 ## ❓ How to store unproxied state in reactive
 
-You can use [ref](/reference/api#vanilla-ref) to do that. It is useful in the case that you want to nest an object in a proxy that is not wrapped in an inner proxy, but mind yourself, its changes is will **NOT** be tracked.
+You can use [ref](/reference/root-api#ref) to do that. It is useful in the case that you want to nest an object in a proxy that is not wrapped in an inner proxy, but mind yourself, its changes is will **NOT** be tracked.
 
-Head to [ref](/reference/api#vanilla-ref) for more details.
+Head to [ref](/reference/root-api#ref) for more details.
 
 ## ❓ When passing state to `input` element, an exception occurred while typing Chinese
 
