@@ -20,7 +20,7 @@ function App() {
     <input
       value={inputValue}
       onChange={(e) => {
-        store.mutate.name = e.target.value
+        store.mutate.inputValue = e.target.value
       }}
     />
   )
