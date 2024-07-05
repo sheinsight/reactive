@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-	base: "/reactive",
+	base: "/reactive/",
 	title: "Reactive",
 	description: "Proxy-driven state for React & vanilla JS.",
 	head: [
@@ -22,6 +22,9 @@ export default defineConfig({
       gtag('config', 'G-R8D51L3PN0');`,
 		],
 	],
+	sitemap: {
+		hostname: "https://sheinsight.github.io",
+	},
 	themeConfig: {
 		// https://vitepress.dev/reference/default-theme-config
 		nav: [
