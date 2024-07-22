@@ -89,7 +89,7 @@ export default defineConfig({
 				editLink: {
 					pattern:
 						"https://github.com/sheinsight/reactive/edit/main/docs/:path",
-					text: "Edit this page on GitHub",
+					text: "在 GitHub 上编辑",
 				},
 
 				lastUpdated: {
@@ -97,8 +97,8 @@ export default defineConfig({
 				},
 
 				footer: {
+					message: "Reactive 使用 MIT 许可发布。",
 					copyright: "Copyright © 2023-Present @shined",
-					message: "",
 				},
 			},
 		},
@@ -165,7 +165,7 @@ export default defineConfig({
 		},
 
 		footer: {
-			message: "Reactive 使用 MIT 许可发布。",
+			message: "Released under the MIT License.",
 			copyright: "Copyright © 2023-Present @shined",
 		},
 
