@@ -18,7 +18,7 @@ const { count } = store.useSnapshot()
 const { count } = store.useSnapshot({ sync:true })
 ```
 
-::: 详细类型定义
+::: details 类型定义
 
 ```tsx
 /**
