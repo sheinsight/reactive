@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: 'Reactive'
-  text: 'Proxy-driven state for React & Vanilla JS'
+  text: 'Proxy-driven state library for JavaScript application.'
   tagline: 'Flexible, Unopinionated and Written in TypeScript.'
   actions:
     - theme: brand
@@ -29,7 +29,7 @@ features:
     details: Leverages Proxy API to provide the best performance.
   - title: Unopinionated
     icon: 🏄
-    details: Works well both in React and Vanilla JS.
+    details: Works well both in React and Vanilla JavaScript.
   - title: TypeScript Support
     icon: 🦄
     details: Written in TypeScript with full type support.

@@ -6,7 +6,7 @@
 
 > ⚛️ Reactive is a state management library for JavaScript applications, offering many features that make it both easy to use and powerful.
 
-See [documentation](https://sheinsight.github.io/reactive) for more details.
+See [documentation](https://sheinsight.github.io/reactive) | [中文文档](https://sheinsight.github.io/reactive/zh-cn) for more details.
 
 ## License
 

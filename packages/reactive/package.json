@@ -56,17 +56,17 @@
   },
   "devDependencies": {
     "@redux-devtools/extension": "^3.3.0",
-    "@swc/core": "^1.5.7",
+    "@swc/core": "^1.7.0",
     "@testing-library/react": "^14.3.1",
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.14.11",
     "@types/react": "18.2.57",
     "@types/use-sync-external-store": "^0.0.6",
     "@vitest/coverage-v8": "^1.6.0",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tsup": "^8.0.2",
-    "typescript": "^5.4.5",
+    "tsup": "^8.2.1",
+    "typescript": "^5.5.3",
     "vitest": "^1.6.0"
   },
   "peerDependencies": {

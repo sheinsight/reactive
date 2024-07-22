@@ -63,7 +63,7 @@ For consumption, it provide a simple method of accessing state via `useSnapshot(
 const count = store.useSnapshot((s) => s.count)
 const { count } = store.useSnapshot()
 
-// in vanilla JS/TS
+// in vanilla JavaScript/TypeScript
 import { getSnapshot } from '@shined/reactive/vanilla'
 const { count } = getSnapshot(store.mutate)
 ```

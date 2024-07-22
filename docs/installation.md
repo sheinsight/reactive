@@ -24,7 +24,7 @@ bun add @shined/reactive
 
 ## What's Next {#next}
 
-Reactive is designed to work well both in **React** and **Vanilla JS**, choose the guide that fits your needs:
+Reactive is designed to work well both in **React** and **Vanilla JavaScript**, choose the guide that fits your needs:
 
 - [I use it in React](/usage/react) ⚛️
-- [I use it in Vanilla JS](/usage/vanilla) 🟡
+- [I use it in Vanilla JavaScript](/usage/vanilla) 🟡
