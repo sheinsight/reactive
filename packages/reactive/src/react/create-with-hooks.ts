@@ -26,22 +26,28 @@ export function createWithHooks<State extends object>(
   initState: State,
   options?: CreateOptions
 ): Store<State> {
-  const store = createVanilla(initState, options)
+  const vanillaStore = createVanilla(initState, options)
 
   const boundUseSnapshot: StoreUseSnapshot<State> = <StateSlice>(
     selectorOrOption?: SnapshotOptions<StateSlice> | Selector<State, StateSlice> | undefined,
     maybeOptions?: SnapshotOptions<StateSlice>
   ) => {
+    let options: SnapshotOptions<StateSlice> | undefined
+    let selector: Selector<State, StateSlice> | undefined
+
     if (selectorOrOption && typeof selectorOrOption !== 'function') {
-      maybeOptions = selectorOrOption
-      selectorOrOption = undefined
+      options = selectorOrOption
+      selector = undefined
+    } else {
+      options = maybeOptions
+      selector = selectorOrOption
     }
 
-    return useSnapshot(store.mutate, selectorOrOption, maybeOptions)
+    return useSnapshot(vanillaStore.mutate, selector, options)
   }
 
   return {
-    ...store,
+    ...vanillaStore,
     useSnapshot: boundUseSnapshot,
   }
 }

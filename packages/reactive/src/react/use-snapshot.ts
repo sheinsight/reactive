@@ -46,12 +46,18 @@ export function useSnapshot<State extends object, StateSlice>(
   selectorOrOption?: SnapshotOptions<StateSlice> | Selector<State, StateSlice>,
   maybeOptions?: SnapshotOptions<StateSlice>
 ) {
+  let options: SnapshotOptions<StateSlice> | undefined
+  let selector: Selector<State, StateSlice> | undefined
+
   if (selectorOrOption && typeof selectorOrOption !== 'function') {
-    maybeOptions = selectorOrOption
-    selectorOrOption = undefined
+    options = selectorOrOption
+    selector = undefined
+  } else {
+    options = maybeOptions
+    selector = selectorOrOption
   }
 
-  const { sync: updateInSync = false, isEqual = shallowEqual } = maybeOptions ?? {}
+  const { sync: updateInSync = false, isEqual = shallowEqual } = options ?? {}
 
   const _subscribe = useCallback(
     (callback: SubscribeCallback<State>) => subscribe(proxyState, callback, updateInSync),
@@ -60,13 +66,13 @@ export function useSnapshot<State extends object, StateSlice>(
 
   const _getSnapshot = useCallback(() => getSnapshot(proxyState), [proxyState])
 
-  const selector = (selectorOrOption || ((s) => s)) as (state: State) => StateSlice
+  const _selector = (selector || ((s) => s)) as (state: State) => StateSlice
 
   const snapshot = useSyncExternalStoreWithSelector<State, StateSlice>(
     _subscribe,
     _getSnapshot,
     _getSnapshot,
-    selector,
+    _selector,
     isEqual
   )
 
