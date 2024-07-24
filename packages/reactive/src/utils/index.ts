@@ -62,6 +62,7 @@ export function get(
   const keys = Array.isArray(path) ? path : [path]
   for (const key of keys) {
     if (!(key in object)) return defaultValue
+    // biome-ignore lint/style/noParameterAssign: internal usage
     object = object[key as never]
   }
   return object

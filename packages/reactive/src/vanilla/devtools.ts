@@ -120,6 +120,6 @@ export function devtools(store: { mutate: object }, options: DevtoolsOptions): (
   }
 }
 
-function getActionType(state: any) {
+function getActionType(state: unknown) {
   return canProxy(state) ? 'replace' : 'set'
 }

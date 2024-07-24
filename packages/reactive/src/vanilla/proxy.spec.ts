@@ -4,7 +4,7 @@ import { proxy } from './proxy.js'
 import { LISTENERS, SNAPSHOT } from '../utils/index.js'
 import { ref } from './ref.js'
 
-const runMacroTask = (fn: Function) => setTimeout(fn, 0)
+const runMacroTask = (fn: () => any) => setTimeout(fn, 0)
 
 describe('proxy', () => {
   it('should be defined', () => {
@@ -154,6 +154,7 @@ describe('proxy', () => {
 
     reactiveState.nested[LISTENERS].add(listener1)
 
+    // biome-ignore lint/correctness/noSelfAssign: for test
     reactiveState.nested = reactiveState.nested
     reactiveState.nested.prop = 2
 
