@@ -30,7 +30,9 @@ export function proxy<State extends object>(
   const notifyUpdate = (props: PropertyKey[], nextVersion = ++globalVersion) => {
     if (version !== nextVersion) {
       version = nextVersion
-      listeners.forEach((callback) => void callback(props, version))
+      for (const callback of listeners) {
+        callback(props, version)
+      }
     }
   }
 
@@ -56,8 +58,8 @@ export function proxy<State extends object>(
     const snapshot = createObjectFromPrototype(target)
     snapshotCache.set(receiver, [version, snapshot])
 
-    Reflect.ownKeys(target).forEach((key) => {
-      if (key === REACTIVE) return
+    for (const key of Reflect.ownKeys(target)) {
+      if (key === REACTIVE) continue
 
       const value: any = Reflect.get(target, key, receiver)
 
@@ -68,7 +70,7 @@ export function proxy<State extends object>(
       } else {
         snapshot[key as keyof State] = value
       }
-    })
+    }
 
     Object.preventExtensions(snapshot)
 
@@ -95,7 +97,7 @@ export function proxy<State extends object>(
       // in outdated object in `prop`, which is not in proxy state anymore
       // meanwhile, we need to pop the old listener from `propListenerMap`
       const childListeners = (preValue as any)?.[LISTENERS]
-      childListeners && childListeners.delete(popPropListener(prop))
+      if (childListeners) childListeners.delete(popPropListener(prop))
 
       if (!isObject(value) && Object.is(preValue, value)) {
         // `return true` means the operation is successful,
@@ -114,23 +116,23 @@ export function proxy<State extends object>(
         nextValue[LISTENERS].add(getPropListener(prop))
       }
 
-      let success = Reflect.set(target, prop, nextValue, receiver)
+      const success = Reflect.set(target, prop, nextValue, receiver)
       success && notifyUpdate(props)
       return success
     },
     deleteProperty(target: State, prop: string | symbol) {
       const props = [...parentProps, prop]
       const childListeners = (Reflect.get(target, prop) as any)?.[LISTENERS]
-      childListeners && childListeners.delete(popPropListener(prop))
+      if (childListeners) childListeners.delete(popPropListener(prop))
       const success = Reflect.deleteProperty(target, prop)
       success && notifyUpdate(props)
       return success
     },
   })
 
-  Reflect.ownKeys(initState).forEach((key) => {
+  for (const key of Reflect.ownKeys(initState)) {
     proxyState[key as keyof State] = initState[key as keyof State]
-  })
+  }
 
   Reflect.defineProperty(proxyState, REACTIVE, { value: true })
 

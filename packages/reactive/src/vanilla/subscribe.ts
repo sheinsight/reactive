@@ -23,7 +23,9 @@ export function subscribe<State extends object>(
   const callbacks = new Set<() => void>()
 
   const runCallbacks = () => {
-    callbacks.forEach((cb) => void cb())
+    for (const callback of callbacks) {
+      callback()
+    }
     callbacks.clear()
     previousState = getSnapshot(proxyState)
   }
