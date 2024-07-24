@@ -46,7 +46,7 @@ const store = create({
 返回一个具有以下属性的对象（通常称为 `store`）
 
 ```tsx
-const { mutate, restore, subscribe } = store;
+const { mutate, restore, subscribe } = store
 ```
 
 #### `store.mutate` {#create-returns-mutate}
@@ -76,9 +76,9 @@ export type StoreSubscriber<State extends object> = (
    */
   sync?: boolean,
   /**
-   * 选择器，用于选择状态的一部分。
+   * @deprecated 这个参数令人困惑，且会导致 callback 当中的 changes 类型不准确，请避免使用。预计会在未来版本中移除。
    */
-  selector?: ObjSelector<State>
+  selector?: (state: State) => object
 ) => () => void
 
 export type SubscribeCallback<State> = (changes: ChangeItem<State>, version?: number) => void
@@ -90,10 +90,6 @@ export type ChangeItem<State> = {
   current: unknown
   snapshot: State
 }
-
-export type ObjSelector<State> =
-  | ((state: State) => State)
-  | (<StateSlice extends object>(state: State) => StateSlice)
 ```
 
 :::

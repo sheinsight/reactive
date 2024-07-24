@@ -76,9 +76,9 @@ export type StoreSubscriber<State extends object> = (
    */
   sync?: boolean,
   /**
-   * Selector to select a slice of the state.
+   * @deprecated It is confusing, and makes TS type wrong in callback's `changes` argument. It will be removed in the next major version.
    */
-  selector?: ObjSelector<State>
+  selector?: (state: State) => object
 ) => () => void
 
 export type SubscribeCallback<State> = (changes: ChangeItem<State>, version?: number) => void
@@ -90,10 +90,6 @@ export type ChangeItem<State> = {
   current: unknown
   snapshot: State
 }
-
-export type ObjSelector<State> =
-  | ((state: State) => State)
-  | (<StateSlice extends object>(state: State) => StateSlice)
 ```
 
 :::
