@@ -3,25 +3,22 @@ import { subscribe } from './subscribe.js'
 
 import type { SubscribeCallback } from './subscribe.js'
 
+// biome-ignore lint/suspicious/noEmptyInterface: for future use
 export interface CreateOptions {}
-
-export type ObjSelector<State> =
-  | ((state: State) => State)
-  | (<StoreSlice extends object>(state: State) => StoreSlice)
 
 export type StoreSubscriber<State extends object> = (
   /**
    * Callback to be called when state changes.
    */
-  listener: SubscribeCallback<State>,
+  callback: SubscribeCallback<State>,
   /**
-   * Whether to sync the listener with the current state.
+   * Whether to sync the callback with the current state.
    */
   sync?: boolean,
   /**
-   * Selector to select a slice of the state.
+   * @deprecated It is confusing, and makes TS type wrong in callback's `changes` argument. It will be removed in the next major version.
    */
-  selector?: ObjSelector<State>
+  selector?: (state: State) => object
 ) => () => void
 
 export type VanillaStore<State extends object> = {
@@ -44,28 +41,29 @@ export type VanillaStore<State extends object> = {
  */
 export function create<State extends object>(
   initState: State,
-  options?: CreateOptions
+  options: CreateOptions = {}
 ): VanillaStore<State> {
-  options ??= {}
-
   const proxyState = proxy(initState)
 
   function restore() {
     const _ = structuredClone(initState)
-    Object.keys(_).forEach((k) => void (proxyState[k as keyof State] = _[k as keyof State]))
+
+    for (const key of Object.keys(_)) {
+      proxyState[key as keyof State] = _[key as keyof State]
+    }
   }
 
-  function boundedSubscribe(
+  function boundSubscribe(
     callback: SubscribeCallback<State>,
-    sync: boolean = false,
-    selector: ObjSelector<State> = (s: State) => s
+    sync = false,
+    selector: (state: State) => object = (s: State) => s
   ) {
-    return subscribe<State>(selector(proxyState), callback, sync)
+    return subscribe(selector(proxyState) as State, callback, sync)
   }
 
   return {
     mutate: proxyState,
-    subscribe: boundedSubscribe,
+    subscribe: boundSubscribe,
     restore,
   }
 }
