@@ -93,7 +93,7 @@ export type ChangeItem<State> = {
 
 export type ObjSelector<State> =
   | ((state: State) => State)
-  | (<StoreSlice extends object>(state: State) => StoreSlice)
+  | (<StateSlice extends object>(state: State) => StateSlice)
 ```
 
 :::
