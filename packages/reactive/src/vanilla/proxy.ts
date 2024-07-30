@@ -1,6 +1,6 @@
 import { LISTENERS, REACTIVE, SNAPSHOT, canProxy, createObjectFromPrototype, isObject } from '../utils/index.js'
-import { hasRef } from './ref.js'
 import { getSnapshot } from './get-snapshot.js'
+import { hasRef } from './ref.js'
 
 let globalVersion = 1
 

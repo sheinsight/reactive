@@ -1,6 +1,6 @@
-import { subscribe } from './subscribe.js'
-import { getSnapshot } from './get-snapshot.js'
 import { canProxy, isProduction, noop } from '../utils/index.js'
+import { getSnapshot } from './get-snapshot.js'
+import { subscribe } from './subscribe.js'
 
 import type {} from '@redux-devtools/extension'
 import type { DeepExpandType } from '../utils/index.js'

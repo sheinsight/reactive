@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeAll } from 'vitest'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
 
-import { devtools } from './devtools'
 import { LISTENERS } from '../utils'
+import { devtools } from './devtools'
 
 const subscribeMock = vi.fn()
 

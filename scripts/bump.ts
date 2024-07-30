@@ -1,33 +1,22 @@
+import path from 'node:path'
+import enquirer from 'enquirer'
 import { $ } from 'execa'
 import { findPackages } from 'find-packages'
-import { readPackage, type NormalizedPackageJson } from 'read-pkg'
-import { writePackage } from 'write-package'
-import enquirer from 'enquirer'
-import path from 'node:path'
+import { type NormalizedPackageJson, readPackage } from 'read-pkg'
 import readYamlFile from 'read-yaml-file'
 import semver from 'semver'
+import { writePackage } from 'write-package'
 
 const packageJson = await readPackage()
 
 const res = await $`git rev-parse --short HEAD`
 
-const versionType = [
-  'major',
-  'minor',
-  'patch',
-  'premajor',
-  'preminor',
-  'prepatch',
-  'prerelease',
-  'snapshot',
-] as const
+const versionType = ['major', 'minor', 'patch', 'premajor', 'preminor', 'prepatch', 'prerelease', 'snapshot'] as const
 
 const choices = versionType.map((type) => {
   const isSnapshot = type === 'snapshot'
 
-  const next = isSnapshot
-    ? `0.0.0-snapshot.${res.stdout}`
-    : semver.inc(packageJson.version, type, 'alpha')
+  const next = isSnapshot ? `0.0.0-snapshot.${res.stdout}` : semver.inc(packageJson.version, type, 'alpha')
 
   if (!next) throw new Error(`Invalid version: ${next}`)
 
@@ -57,10 +46,7 @@ if (!isSure) process.exit(0)
 
 const isSnapshot = v.includes('snapshot')
 
-const getUpdatedPackageJson = (
-  json: NormalizedPackageJson,
-  v: string
-): Record<string, string | boolean | number> => {
+const getUpdatedPackageJson = (json: NormalizedPackageJson, v: string): Record<string, string | boolean | number> => {
   const pkgJson: Record<string, string | boolean | number> = { ...json }
 
   delete pkgJson._id

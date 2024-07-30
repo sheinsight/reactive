@@ -1,7 +1,7 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
-import { proxy } from './proxy.js'
 import { LISTENERS, SNAPSHOT } from '../utils/index.js'
+import { proxy } from './proxy.js'
 import { ref } from './ref.js'
 
 const runMacroTask = (fn: () => any) => setTimeout(fn, 0)
@@ -105,7 +105,6 @@ describe('proxy', () => {
     const state = { count: 0 } as any
     const reactiveState = proxy(state)
     const listener = vi.fn()
-
     ;(reactiveState as any)[LISTENERS].add(listener)
     delete reactiveState.count
 

@@ -1,9 +1,9 @@
-import { useSnapshot } from './use-snapshot.js'
 import { create as createVanilla } from '../vanilla/create.js'
+import { useSnapshot } from './use-snapshot.js'
 
 import type { ExpandType } from '../utils/index.js'
-import type { SnapshotSelector, SnapshotOptions } from './use-snapshot.js'
 import type { StoreCreateOptions, VanillaStore } from '../vanilla/create.js'
+import type { SnapshotOptions, SnapshotSelector } from './use-snapshot.js'
 
 export interface StoreUseSnapshot<State> {
   (): State

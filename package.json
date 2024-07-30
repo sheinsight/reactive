@@ -10,8 +10,8 @@
     "build": "pnpm --filter '@shined/*' build",
     "test": "pnpm --filter '@shined/*' test",
     "test:watch": "pnpm --filter '@shined/*' test:watch",
-    "lint": "prettier --check . --no-error-on-unmatched-pattern",
-    "lint:fix": "prettier --write . --no-error-on-unmatched-pattern",
+    "lint": "biome check",
+    "lint:fix": "biome check --fix --unsafe",
     "release:bump": "tsx ./scripts/bump.ts",
     "release:action": "tsx ./scripts/release.ts",
     "docs:dev": "vitepress dev docs",
@@ -19,6 +19,7 @@
     "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.8.3",
     "@types/node": "^20.14.11",
     "@types/semver": "^7.5.8",
     "enquirer": "^2.4.1",

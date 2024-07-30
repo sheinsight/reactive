@@ -10,6 +10,7 @@
     "enabled": true
   },
   "files": {
+    "include": ["./packages/reactive/src/**/*", "./scripts/*.ts"],
     "ignoreUnknown": true
   },
   "linter": {

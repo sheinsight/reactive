@@ -1,11 +1,11 @@
-import { describe, it, expect, vitest } from 'vitest'
 import { renderHook } from '@testing-library/react'
+import { describe, expect, it, vitest } from 'vitest'
 
+import { useSnapshot } from '../react/use-snapshot.js'
 import { create } from './create.js'
 import { getSnapshot } from './get-snapshot.js'
-import { useSnapshot } from '../react/use-snapshot.js'
 
-const runMacroTask = (fn: Function) => setTimeout(fn, 0)
+const runMacroTask = (fn: () => void) => setTimeout(fn, 0)
 
 describe('index', () => {
   it('create, proxy, useSnapshot and subscribe should be defined', () => {
@@ -56,7 +56,7 @@ describe('index', () => {
         address: {
           city: 'NanJing',
         },
-      })
+      }),
     )
   })
 

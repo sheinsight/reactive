@@ -1,7 +1,7 @@
-import { describe, it, expect, vitest } from 'vitest'
+import { describe, expect, it, vitest } from 'vitest'
 
-import { subscribe } from './subscribe.js'
 import { LISTENERS } from '../utils/index.js'
+import { subscribe } from './subscribe.js'
 
 describe('subscribe', () => {
   it('should add a listener to proxyObject', () => {

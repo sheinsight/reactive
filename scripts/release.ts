@@ -1,25 +1,22 @@
-import { $ } from 'execa'
-import { findPackages } from 'find-packages'
-import { readPackage, type NormalizedPackageJson } from 'read-pkg'
-import { writePackage } from 'write-package'
 import path from 'node:path'
 import process from 'node:process'
+import { $ } from 'execa'
+import { findPackages } from 'find-packages'
+import { type NormalizedPackageJson, readPackage } from 'read-pkg'
 import readYamlFile from 'read-yaml-file'
+import { writePackage } from 'write-package'
 
 const gitTag = process.env.GITHUB_REF_NAME
 
 if (!gitTag) {
   console.error(
-    'This script is intended to be run in GitHub Action. If you want to release packages, please run `pnpm bump`.'
+    'This script is intended to be run in GitHub Action. If you want to release packages, please run `pnpm bump`.',
   )
 
   process.exit(1)
 }
 
-const getUpdatedPackageJson = (
-  json: NormalizedPackageJson,
-  v: string
-): Record<string, string | boolean | number> => {
+const getUpdatedPackageJson = (json: NormalizedPackageJson, v: string): Record<string, string | boolean | number> => {
   const pkgJson: Record<string, string | boolean | number> = { ...json }
 
   delete pkgJson._id
@@ -32,15 +29,13 @@ const getUpdatedPackageJson = (
 
 function extractVersionTag(version: string): string {
   const match = /^v?\d+\.\d+\.\d+(-([\w]+))?(\d*\.*[\w]+)?$/i.exec(version)
-  return match && match[2] ? match[2] : 'latest'
+  return match?.[2] ? match[2] : 'latest'
 }
 
 const npmTag = extractVersionTag(gitTag)
 
 if (npmTag === 'snapshot') {
-  const yaml = await readYamlFile<{ packages: string[] }>(
-    path.join(process.cwd(), 'pnpm-workspace.yaml')
-  )
+  const yaml = await readYamlFile<{ packages: string[] }>(path.join(process.cwd(), 'pnpm-workspace.yaml'))
 
   const packagesMeta = await findPackages(process.cwd(), {
     patterns: yaml.packages,

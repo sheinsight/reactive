@@ -1,14 +1,14 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 import {
-  isObject,
-  canProxy,
-  createObjectFromPrototype,
-  SNAPSHOT,
   LISTENERS,
   REACTIVE,
-  propertyKeysToPath,
+  SNAPSHOT,
+  canProxy,
+  createObjectFromPrototype,
   get,
+  isObject,
+  propertyKeysToPath,
   shallowEqual,
 } from './index.js'
 
@@ -59,7 +59,7 @@ describe('Object Utils', () => {
       expect(canProxy(new Number())).toBe(false)
       expect(canProxy(new Date())).toBe(false)
       expect(canProxy(new String())).toBe(false)
-      expect(canProxy(new RegExp(''))).toBe(false)
+      expect(canProxy(/(?:)/)).toBe(false)
       expect(canProxy(new ArrayBuffer(2))).toBe(false)
     })
   })

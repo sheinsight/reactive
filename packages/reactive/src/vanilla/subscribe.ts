@@ -1,5 +1,5 @@
-import { getSnapshot } from './get-snapshot.js'
 import { LISTENERS, get, propertyKeysToPath } from '../utils/index.js'
+import { getSnapshot } from './get-snapshot.js'
 
 import type { StoreListener } from './proxy.js'
 

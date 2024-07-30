@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
-import { ref, create } from './index.js'
+import { create, ref } from './index.js'
 
 describe('index export', () => {
   it('[ref, create] should be defined', () => {

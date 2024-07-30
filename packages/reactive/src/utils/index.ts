@@ -54,11 +54,7 @@ export function propertyKeysToPath(keys: PropertyKey[]) {
   return path
 }
 
-export function get(
-  object: object,
-  path: PropertyKey | PropertyKey[],
-  defaultValue: unknown = undefined
-) {
+export function get(object: object, path: PropertyKey | PropertyKey[], defaultValue: unknown = undefined) {
   const keys = Array.isArray(path) ? path : [path]
   for (const key of keys) {
     if (!(key in object)) return defaultValue
@@ -109,10 +105,7 @@ export function shallowEqual<T>(objA: T, objB: T) {
   const keysLength = keysA.length
 
   for (let i = 0; i < keysLength; i++) {
-    if (
-      !hasOwn.call(objB, keysA[i] as string) ||
-      !Object.is(objA[keysA[i] as keyof T], objB[keysA[i] as keyof T])
-    ) {
+    if (!hasOwn.call(objB, keysA[i] as string) || !Object.is(objA[keysA[i] as keyof T], objB[keysA[i] as keyof T])) {
       return false
     }
   }
