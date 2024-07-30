@@ -12,7 +12,7 @@
     "test:ci": "pnpm --filter '@shined/*' test:ci",
     "lint": "biome check",
     "lint:fix": "biome check --fix --unsafe",
-    "release": "bumpp",
+    "release": "bumpp -r",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
