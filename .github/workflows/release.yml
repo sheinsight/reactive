@@ -38,8 +38,3 @@ jobs:
 
       - name: Publish package
         run: pnpm run release:action
-
-      - name: Generate changelog
-        run: npx changelogithub
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
