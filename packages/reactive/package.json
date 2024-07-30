@@ -1,12 +1,15 @@
 {
   "name": "@shined/reactive",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "description": "⚛️ Proxy-driven state for React & Vanilla JS, flexible, unopinionated, written in TypeScript.",
   "homepage": "https://sheinsight.github.io/reactive/",
-  "files": ["./dist", "./src"],
+  "files": [
+    "./dist",
+    "./src"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sheinsight/reactive.git",
@@ -39,7 +42,14 @@
     "registry": "https://registry.npmjs.org/"
   },
   "sideEffects": false,
-  "keywords": ["react", "hooks", "reactive", "state", "store", "use-sync-external-store"],
+  "keywords": [
+    "react",
+    "hooks",
+    "reactive",
+    "state",
+    "store",
+    "use-sync-external-store"
+  ],
   "license": "MIT",
   "dependencies": {
     "use-sync-external-store": "^1.2.2"
