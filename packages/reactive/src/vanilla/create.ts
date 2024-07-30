@@ -4,7 +4,7 @@ import { subscribe } from './subscribe.js'
 import type { SubscribeCallback } from './subscribe.js'
 
 // biome-ignore lint/suspicious/noEmptyInterface: for future use
-export interface CreateOptions {}
+export interface StoreCreateOptions {}
 
 export type StoreSubscriber<State extends object> = (
   /**
@@ -18,7 +18,7 @@ export type StoreSubscriber<State extends object> = (
   /**
    * @deprecated It is confusing, and makes TS type wrong in callback's `changes` argument. It will be removed in the next major version.
    */
-  selector?: (state: State) => object
+  selector?: (state: State) => object,
 ) => () => void
 
 export type VanillaStore<State extends object> = {
@@ -39,10 +39,7 @@ export type VanillaStore<State extends object> = {
 /**
  * Create a vanilla store.
  */
-export function create<State extends object>(
-  initState: State,
-  options: CreateOptions = {}
-): VanillaStore<State> {
+export function create<State extends object>(initState: State, options: StoreCreateOptions = {}): VanillaStore<State> {
   const proxyState = proxy(initState)
 
   function restore() {
@@ -56,7 +53,7 @@ export function create<State extends object>(
   function boundSubscribe(
     callback: SubscribeCallback<State>,
     sync = false,
-    selector: (state: State) => object = (s: State) => s
+    selector: (state: State) => object = (s: State) => s,
   ) {
     return subscribe(selector(proxyState) as State, callback, sync)
   }

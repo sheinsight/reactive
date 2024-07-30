@@ -17,37 +17,34 @@ export interface SnapshotOptions<StateSlice> {
   isEqual?: (a: StateSlice, b: StateSlice) => boolean
 }
 
-export type Selector<State, StateSlice> = (state: State) => StateSlice
+export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
 
 /**
  * Returns a snapshot of the store state.
  */
 export function useSnapshot<State extends object>(state: State): State
-export function useSnapshot<State extends object>(
-  state: State,
-  options: SnapshotOptions<State>
-): State
+export function useSnapshot<State extends object>(state: State, options: SnapshotOptions<State>): State
 export function useSnapshot<State extends object, StateSlice>(
   state: State,
-  selector: Selector<State, StateSlice>
+  selector: SnapshotSelector<State, StateSlice>,
 ): StateSlice
 export function useSnapshot<State extends object, StateSlice>(
   state: State,
   selector: undefined,
-  options: SnapshotOptions<StateSlice>
+  options: SnapshotOptions<StateSlice>,
 ): State
 export function useSnapshot<State extends object, StateSlice>(
   state: State,
-  selector?: Selector<State, StateSlice>,
-  options?: SnapshotOptions<StateSlice>
+  selector?: SnapshotSelector<State, StateSlice>,
+  options?: SnapshotOptions<StateSlice>,
 ): StateSlice
 export function useSnapshot<State extends object, StateSlice>(
   proxyState: State,
-  selectorOrOption?: SnapshotOptions<StateSlice> | Selector<State, StateSlice>,
-  maybeOptions?: SnapshotOptions<StateSlice>
+  selectorOrOption?: SnapshotOptions<StateSlice> | SnapshotSelector<State, StateSlice>,
+  maybeOptions?: SnapshotOptions<StateSlice>,
 ) {
   let options: SnapshotOptions<StateSlice> | undefined
-  let selector: Selector<State, StateSlice> | undefined
+  let selector: SnapshotSelector<State, StateSlice> | undefined
 
   if (selectorOrOption && typeof selectorOrOption !== 'function') {
     options = selectorOrOption
@@ -61,7 +58,7 @@ export function useSnapshot<State extends object, StateSlice>(
 
   const _subscribe = useCallback(
     (callback: SubscribeCallback<State>) => subscribe(proxyState, callback, updateInSync),
-    [proxyState, updateInSync]
+    [proxyState, updateInSync],
   )
 
   const _getSnapshot = useCallback(() => getSnapshot(proxyState), [proxyState])
@@ -73,7 +70,7 @@ export function useSnapshot<State extends object, StateSlice>(
     _getSnapshot,
     _getSnapshot,
     _selector,
-    isEqual
+    isEqual,
   )
 
   return snapshot as StateSlice

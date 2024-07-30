@@ -1,11 +1,4 @@
-import {
-  LISTENERS,
-  REACTIVE,
-  SNAPSHOT,
-  canProxy,
-  createObjectFromPrototype,
-  isObject,
-} from '../utils/index.js'
+import { LISTENERS, REACTIVE, SNAPSHOT, canProxy, createObjectFromPrototype, isObject } from '../utils/index.js'
 import { hasRef } from './ref.js'
 import { getSnapshot } from './get-snapshot.js'
 
@@ -13,19 +6,21 @@ let globalVersion = 1
 
 const snapshotCache = new WeakMap<object, [version: number, snapshot: unknown]>()
 
-export type Listener = (props: PropertyKey[], version?: number) => void
+export type StoreListener = (props: PropertyKey[], version?: number) => void
 
-export function proxy<State extends object>(
-  initState: State,
-  parentProps: PropertyKey[] = []
-): State {
+/**
+ * @deprecated use `StoreListener` instead
+ */
+export type Listener = StoreListener
+
+export function proxy<State extends object>(initState: State, parentProps: PropertyKey[] = []): State {
   let version = globalVersion
 
   // for all changes including nested objects, stored in `proxyState[LISTENERS]`
-  const listeners = new Set<Listener>()
+  const listeners = new Set<StoreListener>()
 
   // only for changes in the current object, stored in function scope
-  const propListenerMap = new Map<PropertyKey, Listener>()
+  const propListenerMap = new Map<PropertyKey, StoreListener>()
 
   const notifyUpdate = (props: PropertyKey[], nextVersion = ++globalVersion) => {
     if (version !== nextVersion) {

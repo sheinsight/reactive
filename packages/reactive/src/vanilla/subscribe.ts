@@ -1,7 +1,7 @@
 import { getSnapshot } from './get-snapshot.js'
 import { LISTENERS, get, propertyKeysToPath } from '../utils/index.js'
 
-import type { Listener } from './proxy.js'
+import type { StoreListener } from './proxy.js'
 
 export type ChangeItem<State> = {
   props: PropertyKey[]
@@ -16,7 +16,7 @@ export type SubscribeCallback<State> = (changes: ChangeItem<State>, version?: nu
 export function subscribe<State extends object>(
   proxyState: State,
   callback: SubscribeCallback<State>,
-  notifyInSync?: boolean
+  notifyInSync?: boolean,
 ) {
   let promise: Promise<void> | undefined
   let previousState = getSnapshot(proxyState)
@@ -54,10 +54,9 @@ export function subscribe<State extends object>(
       })
     }
   }
-
-  ;((proxyState as any)[LISTENERS] as Set<Listener>).add(listener)
+  ;((proxyState as any)[LISTENERS] as Set<StoreListener>).add(listener)
 
   return () => {
-    ;((proxyState as any)[LISTENERS] as Set<Listener>).delete(listener)
+    ;((proxyState as any)[LISTENERS] as Set<StoreListener>).delete(listener)
   }
 }

@@ -5,14 +5,14 @@ import { canProxy, isProduction, noop } from '../utils/index.js'
 import type {} from '@redux-devtools/extension'
 import type { DeepExpandType } from '../utils/index.js'
 
-export type Extension = (Window extends { __REDUX_DEVTOOLS_EXTENSION__?: infer T }
+export type ReduxExtension = (Window extends { __REDUX_DEVTOOLS_EXTENSION__?: infer T }
   ? T
   : { connect: (param: any) => any })['connect']
 
-export type ExtConfig = Parameters<Extension>[0]
+export type ExtConfig = Parameters<ReduxExtension>[0]
 
 // FIXME: https://github.com/reduxjs/redux-devtools/issues/1097
-export type ConnectResponse = ReturnType<Extension> & {
+export type ConnectResponse = ReturnType<ReduxExtension> & {
   unsubscribe: () => void
   subscribe: (fn: (message: any) => void) => void
   error: (message: string) => void
@@ -108,7 +108,7 @@ export function devtools(store: { mutate: object }, options: DevtoolsOptions): (
       devtools.send(payload, snapshot)
       console.debug(`[reactive] [${name}] [${getActionType(current)}] ${propsPath}`, current)
     },
-    true
+    true,
   )
 
   console.debug(`[reactive] [${name}] devtools is enabled`)
