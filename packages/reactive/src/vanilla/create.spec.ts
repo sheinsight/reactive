@@ -5,14 +5,12 @@ import { useSnapshot } from '../react/use-snapshot.js'
 import { create } from './create.js'
 import { getSnapshot } from './get-snapshot.js'
 
-const runMacroTask = (fn: () => void) => setTimeout(fn, 0)
-
 describe('index', () => {
   it('create, proxy, useSnapshot and subscribe should be defined', () => {
     expect(create).toBeDefined()
   })
 
-  it('should return mutate, useSnapshot and subscribe by current state', () => {
+  it('should return mutate and subscribe by current state', async () => {
     const store = create({
       name: 'Pikachu',
       address: {
@@ -36,10 +34,28 @@ describe('index', () => {
     expect(callback).toHaveBeenCalledTimes(0)
 
     store.mutate.name = 'Charmander'
-    runMacroTask(() => expect(callback).toHaveBeenCalledTimes(1))
+
+    await Promise.resolve()
+
+    expect(callback).toHaveBeenCalledTimes(1)
   })
 
-  it('should restore state when restore function was called', () => {
+  it('should update properly when notify sync', () => {
+    const store = create({
+      name: 'Pikachu',
+      address: {
+        city: 'NanJing',
+      },
+    })
+
+    const callback = vitest.fn()
+    store.subscribe(callback, true)
+
+    store.mutate.name = 'Charmander'
+    expect(callback).toHaveBeenCalledTimes(1)
+  })
+
+  it('should restore state when restore function was called', async () => {
     const store = create({
       name: 'Pikachu',
       address: {
@@ -50,17 +66,17 @@ describe('index', () => {
     store.mutate.name = 'Charmander'
     store.restore()
 
-    runMacroTask(() =>
-      expect(store.mutate).toMatchObject({
-        name: 'Pikachu',
-        address: {
-          city: 'NanJing',
-        },
-      }),
-    )
+    await Promise.resolve()
+
+    expect(store.mutate).toMatchObject({
+      name: 'Pikachu',
+      address: {
+        city: 'NanJing',
+      },
+    })
   })
 
-  it('should subscribe and unsubscribe', () => {
+  it('should subscribe and unsubscribe', async () => {
     const store = create({
       name: 'Pikachu',
       address: {
@@ -72,14 +88,21 @@ describe('index', () => {
     const unsubscribe = store.subscribe(callback)
 
     store.mutate.name = 'Charmander'
-    runMacroTask(() => expect(callback).toHaveBeenCalledTimes(1))
+
+    await Promise.resolve()
+
+    expect(callback).toHaveBeenCalledTimes(1)
 
     unsubscribe()
+
     store.mutate.name = 'Pikachu'
-    runMacroTask(() => expect(callback).toHaveBeenCalledTimes(1))
+
+    await Promise.resolve()
+
+    expect(callback).toHaveBeenCalledTimes(1)
   })
 
-  it('should notify when delete a property', () => {
+  it('should notify when delete a property', async () => {
     const store = create({
       name: 'Pikachu',
       address: {
@@ -93,6 +116,8 @@ describe('index', () => {
     // @ts-expect-error for test
     delete store.mutate.name
 
-    runMacroTask(() => expect(callback).toHaveBeenCalledTimes(1))
+    await Promise.resolve()
+
+    expect(callback).toHaveBeenCalledTimes(1)
   })
 })

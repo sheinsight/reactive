@@ -4,8 +4,6 @@ import { LISTENERS, SNAPSHOT } from '../utils/index.js'
 import { proxy } from './proxy.js'
 import { ref } from './ref.js'
 
-const runMacroTask = (fn: () => any) => setTimeout(fn, 0)
-
 describe('proxy', () => {
   it('should be defined', () => {
     expect(proxy).toBeDefined()
@@ -18,28 +16,31 @@ describe('proxy', () => {
     expect(reactiveState.count).toBe(0)
   })
 
-  it('should update the reactive state when a property is set', () => {
+  it('should update the reactive state when a property is set', async () => {
     const state = { count: 0 }
     const reactiveState = proxy(state)
 
     reactiveState.count = 5
-    runMacroTask(() => expect(reactiveState.count).toBe(5))
+
+    await Promise.resolve()
+
+    expect(reactiveState.count).toBe(5)
   })
 
-  it('should not update the reactive state when a property is ref', () => {
+  it('should not update the reactive state when a property is ref', async () => {
     const state = { name: 0, refKey: ref({ count: 1 }) } as any
     const reactiveState = proxy(state)
     const snapshot = reactiveState[SNAPSHOT]
 
     reactiveState.refKey.count++
 
-    // when change ref, snapshot should not be updated, return cached value
-    runMacroTask(() => expect(snapshot).toBe(reactiveState[SNAPSHOT]))
-    // ref should be updated, but will not trigger listeners
-    runMacroTask(() => expect(snapshot.refKey.count).toBe(2))
+    await Promise.resolve()
+
+    expect(snapshot).toBe(reactiveState[SNAPSHOT])
+    expect(snapshot.refKey.count).toBe(2)
   })
 
-  it('should notify listeners when a property is set', () => {
+  it('should notify listeners when a property is set', async () => {
     const state = { count: 0 } as any
     const reactiveState = proxy(state)
     const listener = vi.fn()
@@ -47,9 +48,9 @@ describe('proxy', () => {
     reactiveState[LISTENERS].add(listener)
     reactiveState.count = 10
 
-    runMacroTask(() => {
-      expect(listener).toHaveBeenCalledTimes(1)
-    })
+    await Promise.resolve()
+
+    expect(listener).toHaveBeenCalledTimes(1)
   })
 
   it('should create a non-extensible snapshot with recursive properties', () => {
@@ -61,7 +62,7 @@ describe('proxy', () => {
     expect(Object.isExtensible(snapshot)).toBe(false)
   })
 
-  it('should create a snapshot of the state', () => {
+  it('should create a snapshot of the state', async () => {
     const state = { count: 0 }
     const reactiveState = proxy(state)
 
@@ -72,12 +73,10 @@ describe('proxy', () => {
 
     const snapshot2 = (reactiveState as any)[SNAPSHOT]
 
-    runMacroTask(() => {
-      expect(snapshot2.count).toBe(5)
+    await Promise.resolve()
 
-      // Snapshots should be different object references
-      expect(snapshot1).not.toBe(snapshot2)
-    })
+    expect(snapshot2.count).toBe(5)
+    expect(snapshot1).not.toBe(snapshot2)
   })
 
   it('should handle nested objects and arrays', () => {
@@ -101,19 +100,19 @@ describe('proxy', () => {
     expect(reactiveState.count).toBeUndefined()
   })
 
-  it('should notify listeners when a property is deleted', () => {
+  it('should notify listeners when a property is deleted', async () => {
     const state = { count: 0 } as any
     const reactiveState = proxy(state)
     const listener = vi.fn()
     ;(reactiveState as any)[LISTENERS].add(listener)
     delete reactiveState.count
 
-    runMacroTask(() => {
-      expect(listener).toHaveBeenCalledTimes(1)
-    })
+    await Promise.resolve()
+
+    expect(listener).toHaveBeenCalledTimes(1)
   })
 
-  it('should handle nested listeners correctly', () => {
+  it('should handle nested listeners correctly', async () => {
     const state = { nested: { prop: 0 } } as any
     const reactiveState = proxy(state)
     const listener1 = vi.fn()
@@ -124,13 +123,13 @@ describe('proxy', () => {
 
     reactiveState.nested.prop = 5
 
-    runMacroTask(() => {
-      expect(listener1).toHaveBeenCalledTimes(1)
-      expect(listener2).toHaveBeenCalledTimes(1)
-    })
+    await Promise.resolve()
+
+    expect(listener1).toHaveBeenCalledTimes(1)
+    expect(listener2).toHaveBeenCalledTimes(1)
   })
 
-  it('should be handled correctly deletion logic', () => {
+  it('should be handled correctly deletion logic', async () => {
     const state = { nested: { prop: 0 } } as any
     const reactiveState = proxy(state)
     const listener1 = vi.fn()
@@ -141,12 +140,11 @@ describe('proxy', () => {
 
     delete reactiveState.nested
 
-    runMacroTask(() => {
-      expect(listener2).toHaveBeenCalledTimes(1)
-    })
+    await Promise.resolve()
+    expect(listener2).toHaveBeenCalledTimes(1)
   })
 
-  it('should be handled correctly Use cached listeners', () => {
+  it('should be handled correctly Use cached listeners', async () => {
     const state = { nested: { prop: 0 } } as any
     const reactiveState = proxy(state)
     const listener1 = vi.fn()
@@ -157,12 +155,12 @@ describe('proxy', () => {
     reactiveState.nested = reactiveState.nested
     reactiveState.nested.prop = 2
 
-    runMacroTask(() => {
-      expect(listener1).toHaveBeenCalledTimes(1)
-    })
+    await Promise.resolve()
+
+    expect(listener1).toHaveBeenCalledTimes(1)
   })
 
-  it('should not notify listeners when a property is not truly changed', () => {
+  it('should not notify listeners when a property is not truly changed', async () => {
     const state = { count: 0 } as any
     const reactiveState = proxy(state)
     const listener = vi.fn()
@@ -170,8 +168,8 @@ describe('proxy', () => {
     reactiveState[LISTENERS].add(listener)
     reactiveState.count = 0
 
-    runMacroTask(() => {
-      expect(listener).toHaveBeenCalledTimes(0)
-    })
+    await Promise.resolve()
+
+    expect(listener).toHaveBeenCalledTimes(0)
   })
 })
