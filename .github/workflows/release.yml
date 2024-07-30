@@ -1,26 +1,30 @@
-name: Publish to npmjs
+name: Release
 
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - 'v*'
 
 jobs:
-  build-and-publish:
+  release:
+    permissions:
+      id-token: write
+      contents: write
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
+          registry-url: 'https://registry.npmjs.org'
 
-      - name: Use pnpm
+      - name: Install pnpm
         uses: pnpm/action-setup@v3
-        with:
-          version: 8
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -28,13 +32,16 @@ jobs:
       - name: Build package
         run: pnpm run build
 
-      - name: Run unite test
-        run: pnpm run test
-
-      - name: Set npm publish token
-        run: echo -e //registry.npmjs.org/:_authToken=${NPM_TOKEN} >> .npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.SHINED_NPM_PUBLISH_TOKEN }}
+      - name: Run test
+        run: pnpm run test:ci
 
       - name: Publish package
-        run: pnpm run release:action
+        run: pnpm publish --provenance --no-git-checks --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.SHINED_NPM_PUBLISH_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+
+      - name: Generate changelog
+        run: npx changelogithub
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
