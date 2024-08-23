@@ -15,7 +15,7 @@
     "release": "bumpp -r",
     "docs:dev": "rspress dev docs",
     "docs:build": "esno ./scripts/build-docs.ts",
-    "docs:release": "esno ./scripts/build-release.ts",
+    "docs:release": "esno ./scripts/release-docs.ts",
     "docs:preview": "rspress preview docs"
   },
   "devDependencies": {
