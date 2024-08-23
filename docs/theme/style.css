@@ -16,6 +16,11 @@
   --rp-radius-large: 8px;
 }
 
+/* TODO: This fix alita */
+span[class^='clip'] {
+  background-image: var(--rp-home-hero-name-background);
+}
+
 .dark {
   --rp-c-text-code: var(--rp-c-brand-light);
   --rp-c-text-code-bg: #90998e1a;
