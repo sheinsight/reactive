@@ -1,5 +1,5 @@
 {
-  "name": "reactive",
+  "name": "reactive-mono-repo",
   "private": true,
   "version": "0.1.4",
   "packageManager": "pnpm@9.6.0",
@@ -13,25 +13,31 @@
     "lint": "biome check",
     "lint:fix": "biome check --fix --unsafe",
     "release": "bumpp -r",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:dev": "rspress dev docs",
+    "docs:build": "esno ./scripts/build-docs.ts",
+    "docs:preview": "rspress preview docs"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
-    "@types/node": "^20.14.15",
+    "@rspress/shared": "^1.28.1",
+    "@types/node": "^20.16.1",
     "@types/semver": "^7.5.8",
-    "bumpp": "^9.5.1",
+    "@unocss/reset": "^0.62.2",
+    "bumpp": "^9.5.2",
     "enquirer": "^2.4.1",
+    "esno": "^4.7.0",
     "execa": "^8.0.1",
     "find-packages": "^10.0.4",
     "happy-dom": "^13.10.1",
     "less": "^4.2.0",
     "read-pkg": "^9.0.1",
     "read-yaml-file": "^2.1.0",
+    "rsbuild-plugin-google-analytics": "^1.0.2",
+    "rspress": "^1.28.1",
     "semver": "^7.6.3",
     "tsx": "^4.17.0",
-    "vitepress": "^1.3.2",
-    "write-package": "^7.1.0"
+    "vitepress": "^1.3.3",
+    "write-package": "^7.1.0",
+    "zx": "^8.1.4"
   }
 }

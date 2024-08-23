@@ -1,4 +1,4 @@
-# Vanilla API （从 `./vanilla` 导出） {#vanilla-api}
+# Vanilla API (exported from `./vanilla`) {#vanilla}
 
 ```tsx
 import {
@@ -12,7 +12,7 @@ import {
 } from '@shined/reactive/vanilla'
 ```
 
-## `create` 创建 {#create}
+## `create` {#create}
 
 ```tsx
 import { create } from '@shined/reactive'
@@ -22,11 +22,11 @@ const store = create(initialState, options)
 // const countStore = create({ count: 1 })
 ```
 
-### InitialState 初始状态 {#create-initial-state}
+### InitialState {#create-initial-state}
 
-一个表示存储初始状态的对象。
+An object that represents the initial state of the store.
 
-::: details 它可以是任何纯对象，或 **非序列化状态** 用 [ref](#ref) 函数包裹。
+::: details It can be any pure object, or **non-serializable state** wrapped in [ref](#ref) function.
 
 ```tsx
 const store = create({
@@ -37,25 +37,25 @@ const store = create({
 
 :::
 
-### Options 选项（可选） {#create-options}
+### Options (optional) {#create-options}
 
-当前没有选项，但将来可能会添加。
+It's has no options currently, but it may be added in the future.
 
-### 返回值 {#create-returns}
+### Returns {#create-returns}
 
-返回一个具有以下属性的对象（通常称为 `store`）
+Returns a object with the following properties (usually called `store`)
 
 ```tsx
-const { mutate, restore, subscribe } = store
+const { mutate, restore, subscribe } = store;
 ```
 
 #### `store.mutate` {#create-returns-mutate}
 
-一个可变的[状态代理](#proxy)，与初始状态同类型，其改变将触发订阅者。
+A mutable [State Proxy](#proxy), same type with initial state, whose changes will trigger subscribers.
 
-#### `store.subscribe(listener, options?, selector?)` 订阅 {#create-returns-subscribe}
+#### `store.subscribe(listener, options?, selector?)` {#create-returns-subscribe}
 
-一个订阅状态变化的方法。
+A method to subscribe to state changes.
 
 ```tsx
 store.subscribe((changes, _version) => {
@@ -63,20 +63,20 @@ store.subscribe((changes, _version) => {
 })
 ```
 
-::: details 类型定义
+::: details Type Definitions
 
 ```tsx
 export type StoreSubscriber<State extends object> = (
   /**
-   * 当状态变化时要调用的回调函数。
+   * Callback to be called when state changes.
    */
   listener: SubscribeCallback<State>,
   /**
-   * 是否将监听器与当前状态同步。
+   * Whether to sync the listener with the current state.
    */
   sync?: boolean,
   /**
-   * @deprecated 这个参数令人困惑，且会导致 callback 当中的 changes 类型不准确，请避免使用。预计会在未来版本中移除。
+   * @deprecated It is confusing, and makes TS type wrong in callback's `changes` argument. It will be removed in the next major version.
    */
   selector?: (state: State) => object
 ) => () => void
@@ -94,24 +94,24 @@ export type ChangeItem<State> = {
 
 :::
 
-#### `store.restore()` 恢复 {#create-returns-restore}
+#### `store.restore()` {#create-returns-restore}
 
-一个方法，将存储恢复到初始状态。
+A method to restore the store to the initial state.
 
 ```tsx
 store.restore()
 ```
 
-## `subscribe` 订阅 {#subscribe}
+## `subscribe` {#subscribe}
 
-一个订阅状态变化的方法，第一个参数应该是一个[状态代理](#proxy)。
+A method to subscribe to state changes, the first param should be a [State Proxy](#proxy).
 
 ```tsx
 subscribe(store.mutate, (changes, version) => {})
 subscribe(store.mutate.user.name, (changes, version) => {})
 ```
 
-::: details 类型定义
+::: details Type Definitions
 
 ```tsx
 export type ChangeItem<State> = {
@@ -133,16 +133,16 @@ export function subscribe<State extends object>(
 
 :::
 
-## `getSnapshot` 获取快照 {#get-snapshot}
+## `getSnapshot` {#get-snapshot}
 
-一个获取当前状态快照以供使用的方法。参数应该是一个由 `proxy` 创建的[状态代理](#vanilla-proxy)。
+A method to get a snapshot of the current state to consume. Param should be a [State Proxy](#vanilla-proxy) (created by `proxy`).
 
 ```tsx
 const state = getSnapshot(store.mutate)
 const hobbiesState = getSnapshot(store.mutate.hobbies)
 ```
 
-::: details 类型定义
+::: details Type Definitions
 
 ```tsx
 export function getSnapshot<State extends object>(proxyState: State): State
@@ -150,9 +150,9 @@ export function getSnapshot<State extends object>(proxyState: State): State
 
 :::
 
-## `ref` 引用 {#ref}
+## `ref` {#ref}
 
-一个允许在初始状态中使用非序列化状态的函数。
+A function to allow non-serializable state in initial state.
 
 ```tsx {3}
 const store = create({
@@ -161,23 +161,23 @@ const store = create({
 })
 ```
 
-::: warning 警告
-你应该更改 ref 对象属性，**不要** 更改 ref 对象本身。
+::: warning
+You should change the ref object property, **NOT** the ref object itself.
 :::
 
 ```tsx {3,6}
 const changeTableRef = () => {
-  // ❌ 直接修改 ref 对象本身是不正确的
+  // ❌ It's not correct to modify the ref object itself
   // store.mutate.tableRef = { table: document.querySelector('#table') }
 
-  // ✅ 修改 ref 对象属性是正确的
+  // ✅ It's correct to modify the ref object property
   store.mutate.tableRef.table = document.querySelector('#table')
 }
 ```
 
-## `devtools` 开发者工具 {#devtools}
+## `devtools` {#devtools}
 
-一个集成 Redux DevTools 的函数。只需将存储包裹在其中，默认 `enable` 为 `true`。
+A function to integrate with Redux DevTools. Just wrapper store in it, `enable` is `true` by default.
 
 ```tsx {3}
 const store = create({ count: 1 })
@@ -185,13 +185,13 @@ const store = create({ count: 1 })
 devtools(store, { name: 'CountStore', enable: true })
 ```
 
-::: details 类型定义
+::: details Type Definitions
 
 ```tsx
-/** redux devtool 选项，如果设置，将启用 redux devtool */
+/** redux devtool options, if set, will enable redux devtool */
 export type DevtoolsOptions = DeepExpandType<
   {
-    /* 存储的名称，将作为标题显示在 devtool 切换面板中 */
+    /* name of the store, will be displayed as title in devtool switch panel */
     name: string
     /** @default true */
     enable?: boolean
@@ -201,9 +201,9 @@ export type DevtoolsOptions = DeepExpandType<
 
 :::
 
-## `produce` 生成 {#produce}
+## `produce` {#produce}
 
-[immer 的 `produce`](https://immerjs.github.io/immer/produce) 的替代品，但它要求 **纯对象** 作为初始状态，**不支持** 循环引用。
+An alternative to [immer's `produce`](https://immerjs.github.io/immer/produce), but it require **pure object** as initial state, **NOT** support circular reference.
 
 ```tsx
 const nextState = produce(store.mutate, (draft) => {
@@ -212,7 +212,7 @@ const nextState = produce(store.mutate, (draft) => {
 })
 ```
 
-::: details 类型定义
+::: details Type Definitions
 
 ```tsx
 export function produce<State extends object>(
@@ -223,12 +223,12 @@ export function produce<State extends object>(
 
 :::
 
-## `proxy` 代理 {#proxy}
+## `proxy` {#proxy}
 
-一个**内部**函数，递归地创建**状态代理**（如 `store.mutate`），它本身及其属性都是**代理状态**。
+An **internal** function to create a **State Proxy** (like `store.mutate`) recursively, itself and its properties are all **Proxied State**.
 
-::: warning 警告
-它是**内部的**并且**不建议**直接使用，请使用 `create` 代替。
+::: warning
+It's **internal** and **NOT** recommended to use directly, use `create` instead.
 :::
 
 ```tsx
@@ -237,7 +237,7 @@ proxyState.count += 1
 proxyState.user.name = 'Alice'
 ```
 
-::: details 类型定义
+::: details Type Definitions
 
 ```tsx
 export function proxy<State extends object>(

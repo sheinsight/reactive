@@ -107,3 +107,5 @@ dist
 # vitepress
 docs/.vitepress/dist
 docs/.vitepress/cache
+
+docs-dist

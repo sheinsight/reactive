@@ -4,22 +4,16 @@
 <a href="https://pkg-size.dev/@shined/reactive"><img src="https://pkg-size.dev/badge/bundle/17299" title="Bundle size for @shined/reactive"></a>
 <a href="https://github.com/sheinsight/reactive/blob/main/LICENSE"><img alt="NPM" src="https://img.shields.io/npm/l/%40shined%2Freactive"></a>
 
-⚛️ Reactive 是一个为 JavaScript 应用程序提供的状态管理库，它拥有许多特性，使得它既易于使用又功能强大。
+⚛️ Reactive 是一个为 JavaScript 应用程序提供状态管理功能的库，它拥有许多特性使得它易用又强大。
 
-- **🧩 灵活使用**：想要改变存储状态？随时随地通过 [mutate](/zh-cn/reference/vanilla-api#create-returns-mutate) 修改就好。
-- **😊 用户友好**：通过 [create](/zh-cn/reference/root-api#create) 方法覆盖超过 80% 的使用场景。
-- **⚡️ 优化性能**：利用 [Proxy API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) 提供最佳性能。
-- **🏄 无偏见性**：在 [React](https://react.dev/) 和纯 JavaScript 中都能良好工作。
+- **🧩 使用灵活**：想要改变存储状态？随时随地通过 [mutate](/reference/vanilla#create-returns-mutate) 修改就好。
+- **😊 用户友好**：通过 [create](/reference/root#create) 方法覆盖超过 80% 的使用场景。
+- **⚡️ 性能优化**：利用 [Proxy API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) 尽可能提供最佳性能。
+- **🏄 框架无关**：在 [React](https://react.dev/) 和纯 JavaScript 中都能良好工作。
 - **🦄 TypeScript 支持**：用 [TypeScript](https://www.typescriptlang.org/) 编写，完全类型化，更好的开发体验。
 - **🛠️ DevTools 集成**：开箱即用的 [Redux DevTools](https://github.com/reduxjs/redux-devtools#redux-devtools) 兼容性。
 
-前往 [安装](/zh-cn/installation) 部分开始使用。
-
-## 在线尝试
-
-你可以在 [CodeSandbox](https://githubbox.com/sheinsight/reactive/tree/main/examples/basic) 上在线尝试 Reactive。
-
-## React 示例
+## React 使用示例 \{#react-example}
 
 这里是一个在 React 应用程序中使用 Reactive 的简单示例。
 
@@ -27,6 +21,7 @@
 import { create } from '@shined/reactive'
 
 const store = create({ count: 1 })
+const addOne = () => store.mutate.count++
 
 function App() {
   const count = store.useSnapshot((s) => s.count)
@@ -34,15 +29,19 @@ function App() {
   return (
     <div>
       <p>计数为 {count}</p>
-      <button onClick={() => store.mutate.count++}>增加</button>
+      <button onClick={store}>增加</button>
     </div>
   )
 }
 ```
 
-更多信息，请参阅 [React 用法](/zh-cn/usage/react) 或 [API 参考](/zh-cn/reference/root-api)。
+更多信息，请参阅 [React 用法](/usage/react) 或 [API 参考](/reference/root)。
 
-## 自由变更，安全消费
+## 在线尝试 \{#try-it-online}
+
+你可以在 [CodeSandbox](https://githubbox.com/sheinsight/reactive/tree/main/examples/basic) 上在线尝试 Reactive。
+
+## 自由变更，安全消费 \{#free-mutate-safe-consume}
 
 Reactive 采用了 **读写分离** 的方法，通过 `store.mutate` 对象提供了一种直接变更状态的方式。当需要改变状态时，直接修改即可！
 
@@ -68,7 +67,7 @@ import { getSnapshot } from '@shined/reactive/vanilla'
 const { count } = getSnapshot(store.mutate)
 ```
 
-## 可选的渲染优化
+## 可选的渲染优化 \{#optional-render-optimization}
 
 此外，Reactive 还提供了一个可选的渲染优化功能。
 
@@ -77,9 +76,15 @@ const { count } = getSnapshot(store.mutate)
 const count = store.useSnapshot((s) => s.count)
 ```
 
-你可以使用 `selector` 来指定你想要监听的状态，这将只在指定的状态改变时才重新渲染。如果你不指定 `selector`，默认情况下，使用了完整快照的组件会在任何部分的状态改变时触发重新渲染。
+你可以使用 `selector` 来指定你想要监听的状态，这将只在指定的状态改变时才重新渲染。
 
-::: details 点击查看示例
+如果不指定，默认情况下，使用了完整快照的组件会在状态的任何部分发生改变时，触发组件的重新渲染。
+
+::: tip 提示
+关于 `selector` API 的设计，以及为什么放弃「自动依赖收集」的方案，可参考 `proxy-compare` 的 [issue#65](https://github.com/dai-shi/proxy-compare/issues/65)。
+:::
+
+关于 `selector` 的一个更全的示例：
 
 ```tsx
 import { create } from '@shined/reactive'
@@ -95,23 +100,19 @@ const store = create({
   },
 })
 
-function App() {
-  // 当任何部分的状态改变时重新渲染
+export default function App() {
+  // 当 store 的任何部分改变时，将触发重新渲染
   const state = store.useSnapshot()
 
-  // 只有当 `city` 对象改变时才重新渲染
+  // 只有当 store 中的 `city` 对象改变时才重新渲染
   const { name: cityName } = store.useSnapshot((s) => s.address.city)
 
-  // 只有当 `hobbies` 对象改变时才重新渲染
-  const [hobby1, hobby2] = store.useSnapshot((s) => s.hobbies)
+  // 只有当 store 中的 `hobbies` 对象和 `age` 属性改变时才重新渲染
+  const [hobbies, age] = store.useSnapshot((s) => [s.hobbies, s.age] as const)
 
-  // 只有当 `name` 改变时才重新渲染
+  // 只有当 store 中的 `name` 改变时才重新渲染
   const name = store.useSnapshot((s) => s.name)
 
   return <div>{name}</div>
 }
-
-export default App
 ```
-
-:::

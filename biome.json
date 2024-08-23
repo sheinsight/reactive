@@ -10,7 +10,7 @@
     "enabled": true
   },
   "files": {
-    "include": ["./packages/reactive/src/**/*", "./scripts/*.ts"],
+    "include": ["./packages/**/*", "./scripts/*.ts", "./locale.ts", "./rspress.config.ts"],
     "ignoreUnknown": true
   },
   "linter": {
