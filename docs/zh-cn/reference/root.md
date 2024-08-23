@@ -1,32 +1,32 @@
-# Root API (exported from `./`) {#root-api}
+# 根 API（从 `./` 导出） {#root}
 
 ```tsx
 import { create, ref, devtools } from '@shined/reactive'
 ```
 
-## `create` {#create}
+## `create` 方法 {#create}
 
-A method for React that create a [vanilla store](/reference/vanilla-api#create) with extra React Hook `useSnapshot`. See [create#returns](/reference/vanilla-api#create-returns) in vanilla exports for other properties.
+针对 React 的一个方法，用于创建带有额外 React Hook `useSnapshot` 的 [原生 store](/reference/vanilla#create)。关于其它属性，请参见 vanilla 导出中的 [create#returns](/reference/vanilla#create-returns)。
 
 ```tsx
 const store = create({ count: 1 })
 
-// in React component
+// 在 React 组件中
 const count = store.useSnapshot(s => s.count)
 const count = store.useSnapshot(s => s.count, { sync:true })
 const { count } = store.useSnapshot()
 const { count } = store.useSnapshot({ sync:true })
 ```
 
-::: details Type Definitions
+::: details 类型定义
 
 ```tsx
 /**
- * example state for `store.useSnapshot()`
+ * `store.useSnapshot()` 的示例状态
  * {
  *   name: 'Bob',
  *   age: 20,
- *   hobbies: ['coding', 'biking'],
+ *   hobbies: ['编程', '骑行'],
  * }
  */
 
@@ -60,9 +60,9 @@ export type StoreUseSnapshot<State> = {
 
 :::
 
-## `ref` {#ref}
+## `ref` 方法 {#ref}
 
-> Exported directly from `./vanilla`, see [ref](/reference/vanilla-api#ref) in vanilla exports for more.
+> 直接从 `./vanilla` 导出，更多信息请参见 vanilla 导出的 [ref](/reference/vanilla#ref)。
 
 ```tsx
 const store = create({ 
@@ -72,13 +72,13 @@ const store = create({
 
 store.mutate.ref.tableEl = document.getElementById("#table")
 
-// in React component
+// 在 React 组件中
 const tableEl = store.useSnapshot(s => s.ref.tableEl)
 ```
 
-## `devtools` {#devtools}
+## `devtools` 方法 {#devtools}
 
-> Exported directly from `./vanilla`, see [devtools](/reference/vanilla-api#devtools) in vanilla exports for more.
+> 直接从 `./vanilla` 导出，更多信息请参见 vanilla 导出的 [devtools](/reference/vanilla#devtools)。
 
 ```tsx
 const store = create({ username: '', password: '' })

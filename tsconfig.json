@@ -10,5 +10,5 @@
     "module": "ESNext",
     "skipLibCheck": true
   },
-  "include": ["./scripts/**/*"]
+  "include": ["./locale.ts", "./rspress.config.ts"]
 }
