@@ -15,11 +15,7 @@
 
 Head over to the [installation](/installation) section to get started.
 
-## Try it Online
-
-You can try Reactive online on [CodeSandbox](https://githubbox.com/sheinsight/reactive/tree/main/examples/basic).
-
-## Example of React
+## React Example \{#react-example}
 
 Here is a simple example of using Reactive in a React application.
 
@@ -27,14 +23,15 @@ Here is a simple example of using Reactive in a React application.
 import { create } from '@shined/reactive'
 
 const store = create({ count: 1 })
+const addOne = () => store.mutate.count++
 
 function App() {
   const count = store.useSnapshot((s) => s.count)
 
   return (
     <div>
-      <p>Count is {count}</p>
-      <button onClick={() => store.mutate.count++}>increment</button>
+      <p>The count is {count}</p>
+      <button onClick={addOne}>Increment</button>
     </div>
   )
 }
@@ -42,9 +39,13 @@ function App() {
 
 For more information, see [React Usage](/usage/react) or [API Reference](/reference/root).
 
-## Mutate Freely, Consume Safely
+## Try it Online \{#try-it-online}
 
-Reactive adopts a **read-write separation** approach, offering a straightforward way to mutate the state through the `store.mutate` object. When you need to change the state, simply alter it!
+You can try Reactive online on [CodeSandbox](https://githubbox.com/sheinsight/reactive/tree/main/examples/basic).
+
+## Free Mutation, Safe Consumption \{#free-mutate-safe-consume}
+
+Reactive adopts a **read-write separation** method, providing a direct way to modify the state through the `store.mutate` object. When you need to change the state, just modify it directly!
 
 ```tsx
 export function increment() {
@@ -56,30 +57,36 @@ export function updateUserInfo() {
 }
 ```
 
-For consumption, it provide a simple method of accessing state via `useSnapshot()` in React and `getSnapshot()` in Vanilla JS to ensure security. This approach generates non-extensible snapshot states to prevent accidental modifications.
+For consumption, it provides a simple way to access the state through React's `useSnapshot()` and vanilla JavaScript/TypeScript's `getSnapshot()`, ensuring safety. This method generates an immutable snapshot state that prevents accidental modification.
 
 ```tsx
-// in React component
+// In React components
 const count = store.useSnapshot((s) => s.count)
 const { count } = store.useSnapshot()
 
-// in vanilla JavaScript/TypeScript
+// In vanilla JavaScript/TypeScript
 import { getSnapshot } from '@shined/reactive/vanilla'
 const { count } = getSnapshot(store.mutate)
 ```
 
-## Optional Render Optimization
+## Optional Rendering Optimization \{#optional-render-optimization}
 
-Furthermore, Reactive provides an optional render optimization feature.
+Furthermore, Reactive also provides an optional rendering optimization feature.
 
 ```tsx
-// only re-render when `count` changes
+// Only re-renders when `count` changes
 const count = store.useSnapshot((s) => s.count)
 ```
 
-You can use `selector` to specify the state you want to listen to, which will only re-render when the specified state changes. By default, component that has used whole snapshot will trigger a re-render when any part of the state changes if you don't specify the `selector`.
+You can use a `selector` to specify the state you want to listen to, which will only re-render when the specified state changes.
 
-::: details Click to see example
+If not specified, by default, components using the full snapshot will trigger a re-render when any part of the state changes.
+
+::: tip Tip
+For the design of the `selector` API, and why the "automatic dependency collection" strategy was abandoned, see [issue#65](https://github.com/dai-shi/proxy-compare/issues/65) of `proxy-compare`.
+:::
+
+A more complete example of `selector`:
 
 ```tsx
 import { create } from '@shined/reactive'
@@ -87,7 +94,7 @@ import { create } from '@shined/reactive'
 const store = create({
   name: 'Bob',
   age: 18,
-  hobbies: ['swimming', 'running'],
+  hobbies: ['Swimming', 'Running'],
   address: {
     city: {
       name: 'New York',
@@ -95,23 +102,19 @@ const store = create({
   },
 })
 
-function App() {
-  // re-render when ANY part of the state changes
+export default function App() {
+  // Re-renders when any part of store changes
   const state = store.useSnapshot()
 
-  // only re-render when `city` object changes
+  // Only re-renders when the `city` object in store changes
   const { name: cityName } = store.useSnapshot((s) => s.address.city)
 
-  // only re-render when `hobbies` object changes
-  const [hobby1, hobby2] = store.useSnapshot((s) => s.hobbies)
+  // Only re-renders when the `hobbies` object and `age` property in store change
+  const [hobbies, age] = store.useSnapshot((s) => [s.hobbies, s.age] as const)
 
-  // only re-render when `name` changes
+  // Only re-renders when the `name` in store changes
   const name = store.useSnapshot((s) => s.name)
 
   return <div>{name}</div>
 }
-
-export default App
 ```
-
-:::

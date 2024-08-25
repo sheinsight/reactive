@@ -83,7 +83,6 @@ function App() {
 ```
 :::
 
-
 ### Outside React Component \{#outside-react-component}
 
 For reading the state only, you can directly read the `store.mutate` object while adhering to the immutable principle.

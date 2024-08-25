@@ -83,7 +83,6 @@ function App() {
 ```
 :::
 
-
 ### 在 React 组件外 {#outside-react-component}
 
 如果只是为了读取状态，可以在遵循 `immutable` 原则的情况下，直接读取 `store.mutate` 对象即可。
