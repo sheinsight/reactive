@@ -25,13 +25,6 @@ export const store = create({
 
 ::: tip Tip
 If debugging is required, you can use `devtools` to enable support for Redux DevTools Extension. For details, see [Integration with Redux DevTools](/guide/integrations/redux-devtools).
-
-```tsx {3}
-import { devtools } from '@shined/reactive'
-
-devtools(store)
-```
-
 :::
 
 ## Step 2: Get Snapshot from Store \{#step-2-get-snapshot-from-store}

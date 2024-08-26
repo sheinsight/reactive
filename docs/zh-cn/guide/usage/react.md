@@ -25,13 +25,6 @@ export const store = create({
 
 ::: tip 提示
 如何你需要调试，可以使用 `devtools` 来启用 Redux DevTools Extension 支持，详情参考 [与 Redux DevTools 集成](/guide/integrations/redux-devtools)。
-
-```tsx {3}
-import { devtools } from '@shined/reactive'
-
-devtools(store)
-```
-
 :::
 
 ## 第 2 步：从 Store 获取快照（Snapshot） {#step-2-get-snapshot-from-store}

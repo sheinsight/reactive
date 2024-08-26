@@ -1,17 +1,17 @@
-# Integration with Redux DevTools
+# 与 Redux DevTools 的集成
 
-Reactive is out-of-the-box compatible with [Redux DevTools](https://github.com/reduxjs/redux-devtools#redux-devtools).
+Reactive 与 [Redux DevTools](https://github.com/reduxjs/redux-devtools#redux-devtools) 兼容开箱即用。
 
-::: tip TIP
-To enable DevTools, make sure you have installed the [Redux DevTools](https://github.com/reduxjs/redux-devtools#redux-devtools) browser extension. Full options can be found in the documentation of [Redux DevTools](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md#options).
+::: tip 提示
+要启用 DevTools，请确保已安装 [Redux DevTools](https://github.com/reduxjs/redux-devtools#redux-devtools) 浏览器扩展。完整的选项可以在 [Redux DevTools](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md#options) 文档中找到。
 :::
 
-You can import `devtools` from `@shined/reactive` and enable it as follows:
+您可以从 `@shined/reactive` 导入 `devtools` 并按如下方式启用：
 
 ```tsx {5}
 import { create, devtools } from '@shined/reactive'
 
 const store = create({ count: 1 })
 
-devtools(store, { name: 'MyStore', enable: true }) // Initialize the store and enable devtools
+devtools(store, { name: 'awesome-store', enable: true }) // 初始化 store 并启用 devtools
 ```
