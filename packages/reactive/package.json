@@ -31,6 +31,10 @@
       "import": "./dist/vanilla/index.js",
       "require": "./dist/vanilla/index.cjs"
     },
+    "./create-single-loading": {
+      "import": "./dist/create-single-loading/index.js",
+      "require": "./dist/create-single-loading/index.cjs"
+    },
     "./package.json": "./package.json"
   },
   "publishConfig": {

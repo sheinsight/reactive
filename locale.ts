@@ -49,12 +49,62 @@ export const sidebar = {
     ],
     '/reference': [
       {
-        text: '🔗 Root API',
-        link: '/reference/root',
+        text: 'Basic API',
+        items: [
+          {
+            text: 'create',
+            link: '/reference/basic/create',
+          },
+          {
+            text: 'createVanilla',
+            link: '/reference/basic/create-vanilla',
+          },
+          {
+            text: 'useReactive',
+            link: '/reference/basic/use-reactive',
+          },
+        ],
       },
       {
-        text: '🔗 Vanilla API',
-        link: '/reference/vanilla',
+        text: 'Advanced API',
+        items: [
+          {
+            text: 'ref',
+            link: '/reference/advanced/ref',
+          },
+          {
+            text: 'devtools',
+            link: '/reference/advanced/devtools',
+          },
+          {
+            text: 'produce',
+            link: '/reference/advanced/produce',
+          },
+          {
+            text: 'snapshot',
+            link: '/reference/advanced/snapshot',
+          },
+          {
+            text: 'getSnapshot',
+            link: '/reference/advanced/get-snapshot',
+          },
+          {
+            text: 'subscribe',
+            link: '/reference/advanced/subscribe',
+          },
+          {
+            text: 'proxy',
+            link: '/reference/advanced/proxy',
+          },
+          {
+            text: 'useSnapshot',
+            link: '/reference/advanced/use-snapshot',
+          },
+          {
+            text: 'useSubscribe',
+            link: '/reference/advanced/use-subscribe',
+          },
+        ],
       },
     ],
   },
@@ -97,12 +147,62 @@ export const sidebar = {
     ],
     '/reference': [
       {
-        text: '🔗 Root API',
-        link: `/${langSlug.zhCN}/reference/root`,
+        text: '基础 API',
+        items: [
+          {
+            text: 'create',
+            link: `/${langSlug.zhCN}/reference/basic/create`,
+          },
+          {
+            text: 'createVanilla',
+            link: `/${langSlug.zhCN}/reference/basic/create-vanilla`,
+          },
+          {
+            text: 'useReactive',
+            link: `/${langSlug.zhCN}/reference/basic/use-reactive`,
+          },
+        ],
       },
       {
-        text: '🔗 Vanilla API',
-        link: `/${langSlug.zhCN}/reference/vanilla`,
+        text: '进阶 API',
+        items: [
+          {
+            text: 'ref',
+            link: `/${langSlug.zhCN}/reference/advanced/ref`,
+          },
+          {
+            text: 'devtools',
+            link: `/${langSlug.zhCN}/reference/advanced/devtools`,
+          },
+          {
+            text: 'produce',
+            link: `/${langSlug.zhCN}/reference/advanced/produce`,
+          },
+          {
+            text: 'snapshot',
+            link: `/${langSlug.zhCN}/reference/advanced/snapshot`,
+          },
+          {
+            text: 'getSnapshot',
+            link: `/${langSlug.zhCN}/reference/advanced/get-snapshot`,
+          },
+          {
+            text: 'subscribe',
+            link: `/${langSlug.zhCN}/reference/advanced/subscribe`,
+          },
+          {
+            text: 'proxy',
+            link: `/${langSlug.zhCN}/reference/advanced/proxy`,
+          },
+          {
+            text: 'useSnapshot',
+            link: `/${langSlug.zhCN}/reference/advanced/use-snapshot`,
+          },
+          {
+            text: 'useSubscribe',
+            link: `/${langSlug.zhCN}/reference/advanced/use-subscribe`,
+          },
+        ],
       },
     ],
   },
@@ -116,10 +216,7 @@ export const navbar = {
     },
     {
       text: 'Reference',
-      items: [
-        { text: 'Root API', link: '/reference/root' },
-        { text: 'Vanilla API', link: '/reference/vanilla' },
-      ],
+      link: '/reference/basic/create',
     },
     {
       text: `v${version}`,
@@ -142,10 +239,7 @@ export const navbar = {
     },
     {
       text: 'API 参考',
-      items: [
-        { text: 'Root API', link: `/${langSlug.zhCN}/reference/root` },
-        { text: 'Vanilla API', link: `/${langSlug.zhCN}/reference/vanilla` },
-      ],
+      link: `/${langSlug.zhCN}/reference/basic/create`,
     },
     {
       text: `v${version}`,
