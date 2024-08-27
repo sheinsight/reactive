@@ -10,7 +10,7 @@ export {
   /**
    * @since 0.5.0
    */
-  create as createVanilla,
+  createVanilla,
   /**
    * @deprecated Use `snapshot` instead. Will be removed in the next major version.
    */

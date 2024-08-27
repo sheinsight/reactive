@@ -1,4 +1,4 @@
-import { create as createVanilla } from '../vanilla/create.js'
+import { createVanilla } from '../vanilla/create.js'
 import { withUseSnapshot } from '../enhancers/with-use-snapshot.js'
 
 import type { ExpandType } from '../utils/index.js'
@@ -23,7 +23,5 @@ export function createWithHooks<State extends object>(
   initialState: State,
   options: StoreCreateOptions = {},
 ): Store<State> {
-  return withUseSnapshot<State, VanillaStore<State> & WithSubscribeContributes<State>>(
-    createVanilla<State>(initialState, options),
-  )
+  return withUseSnapshot(createVanilla<State>(initialState, options))
 }

@@ -1,7 +1,7 @@
 import { proxy } from './proxy.js'
 import { withSubscribe } from '../enhancers/with-subscribe.js'
 
-import type { SubscribeCallback } from './subscribe.js'
+import type { SubscribeListener } from './subscribe.js'
 import type { WithSubscribeContributes } from '../enhancers/with-subscribe.js'
 
 // biome-ignore lint/suspicious/noEmptyInterface: for future use
@@ -11,7 +11,7 @@ export type StoreSubscriber<State extends object> = (
   /**
    * Callback to be called when state changes.
    */
-  callback: SubscribeCallback<State>,
+  callback: SubscribeListener<State>,
   /**
    * Whether to sync the callback with the current state.
    */
@@ -39,7 +39,7 @@ export type VanillaStore<State extends object> = {
  * @param initState The initial state object.
  * @param options Options for creating the store.
  */
-export function create<State extends object>(
+export function createVanilla<State extends object>(
   initState: State,
   options: StoreCreateOptions = {},
 ): VanillaStore<State> & WithSubscribeContributes<State> {
@@ -57,3 +57,8 @@ export function create<State extends object>(
 
   return withSubscribe(store)
 }
+
+/**
+ * @deprecated Use `createVanilla` instead. Will be removed in the next major version.
+ */
+export const create = createVanilla

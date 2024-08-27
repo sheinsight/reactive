@@ -1,6 +1,6 @@
 import { subscribe } from '../vanilla/subscribe.js'
 
-import type { SubscribeCallback, VanillaStore } from '../vanilla'
+import type { SubscribeListener, VanillaStore } from '../vanilla/index.js'
 
 export interface WithSubscribeContributes<State extends object> {
   /**
@@ -10,14 +10,14 @@ export interface WithSubscribeContributes<State extends object> {
    * @param sync - Whether to call the listener synchronously.
    * @param selector - A selector to select a part of the state to be passed to the listener.
    */
-  subscribe: (listener: SubscribeCallback<State>, sync?: boolean, selector?: (state: State) => object) => () => void
+  subscribe: (listener: SubscribeListener<State>, sync?: boolean, selector?: (state: State) => object) => () => void
 }
 
 export function withSubscribe<Store extends VanillaStore<object>>(
   store: Store,
 ): WithSubscribeContributes<Store['mutate']> & Store {
   function boundSubscribe(
-    listener: SubscribeCallback<Store['mutate']>,
+    listener: SubscribeListener<Store['mutate']>,
     sync = false,
     selector: (state: Store['mutate']) => object = (s: Store['mutate']) => s,
   ) {

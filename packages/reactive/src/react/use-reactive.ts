@@ -3,7 +3,7 @@ import { deepEqual } from '../utils/index.js'
 import { createWithHooks } from './create-with-hooks.js'
 
 import type { DependencyList } from 'react'
-import type { SnapshotOptions } from './use-snapshot'
+import type { SnapshotOptions } from './use-snapshot.js'
 
 export interface UseReactiveOptions<State> extends SnapshotOptions<State> {}
 

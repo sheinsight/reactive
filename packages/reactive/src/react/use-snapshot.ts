@@ -3,7 +3,7 @@ import { snapshot, subscribe } from '../vanilla/index.js'
 import { isFunction, shallowEqual } from '../utils/index.js'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector.js'
 
-import type { SubscribeCallback } from '../vanilla'
+import type { SubscribeListener } from '../vanilla/index.js'
 
 export interface SnapshotOptions<StateSlice> {
   /**
@@ -56,7 +56,7 @@ export function useSnapshot<State extends object, StateSlice>(
   const { sync: updateInSync = false, isEqual = shallowEqual } = options ?? {}
 
   const _subscribe = useCallback(
-    (callback: SubscribeCallback<State>) => subscribe(proxyState, callback, updateInSync),
+    (callback: SubscribeListener<State>) => subscribe(proxyState, callback, updateInSync),
     [proxyState, updateInSync],
   )
 

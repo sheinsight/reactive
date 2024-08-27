@@ -11,11 +11,16 @@ export type ChangeItem<State> = {
   snapshot: State
 }
 
-export type SubscribeCallback<State> = (changes: ChangeItem<State>, version?: number) => void
+/**
+ * @deprecated Use `SubscribeCallback` instead. Will be removed in the next major version.
+ */
+export type SubscribeCallback<State> = SubscribeListener<State>
+
+export type SubscribeListener<State> = (changes: ChangeItem<State>, version?: number) => void
 
 export function subscribe<State extends object>(
   proxyState: State,
-  callback: SubscribeCallback<State>,
+  callback: SubscribeListener<State>,
   notifyInSync?: boolean,
 ) {
   let promise: Promise<void> | undefined
