@@ -9,6 +9,8 @@ export interface UseReactiveOptions<State> extends SnapshotOptions<State> {}
 
 /**
  * A React Hook that helps to use [Reactive](https://sheinsight.github.io/reactive) in React with ease.
+ * 
+ * @since 0.1.5
  */
 export function useReactive<State extends object>(
   initialState: State,

@@ -5,7 +5,7 @@ import { SNAPSHOT } from '../utils/index.js'
  *
  * @param proxyState The store state.
  *
- * @since 0.5.0
+ * @since 0.1.5
  */
 export function snapshot<State extends object>(proxyState: State): State {
   return (proxyState as any)[SNAPSHOT]
