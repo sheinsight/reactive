@@ -1,5 +1,5 @@
 import { canProxy, isProduction, noop } from '../utils/index.js'
-import { getSnapshot } from './get-snapshot.js'
+import { snapshot } from './snapshot.js'
 import { subscribe } from './subscribe.js'
 
 import type {} from '@redux-devtools/extension'
@@ -53,7 +53,7 @@ export function devtools(store: { mutate: object }, options: DevtoolsOptions): (
 
   const name = options?.name ?? 'untitled'
   const devtools = ext.connect(options) as ConnectResponse
-  const initialState = getSnapshot(store.mutate)
+  const initialState = snapshot(store.mutate)
 
   devtools.init(initialState)
 
@@ -67,7 +67,7 @@ export function devtools(store: { mutate: object }, options: DevtoolsOptions): (
 
     // if (message.payload.type === "SWEEP") void 0;
     if (message.payload.type === 'RESET') devtools.init(initialState)
-    if (message.payload.type === 'COMMIT') devtools.init(getSnapshot(store.mutate))
+    if (message.payload.type === 'COMMIT') devtools.init(snapshot(store.mutate))
 
     // if (message.payload.type === ""TOGGLE_ACTION"") void 0;
     const actions = ['ROLLBACK', 'JUMP_TO_ACTION'] as const

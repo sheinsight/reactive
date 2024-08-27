@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector.js'
 
 import { shallowEqual } from '../utils/index.js'
-import { getSnapshot, subscribe } from '../vanilla'
+import { snapshot, subscribe } from '../vanilla'
 
 import type { SubscribeCallback } from '../vanilla'
 
@@ -61,11 +61,11 @@ export function useSnapshot<State extends object, StateSlice>(
     [proxyState, updateInSync],
   )
 
-  const _getSnapshot = useCallback(() => getSnapshot(proxyState), [proxyState])
+  const _getSnapshot = useCallback(() => snapshot(proxyState), [proxyState])
 
   const _selector = (selector || ((s) => s)) as (state: State) => StateSlice
 
-  const snapshot = useSyncExternalStoreWithSelector<State, StateSlice>(
+  const _snapshot = useSyncExternalStoreWithSelector<State, StateSlice>(
     _subscribe,
     _getSnapshot,
     _getSnapshot,
@@ -73,5 +73,5 @@ export function useSnapshot<State extends object, StateSlice>(
     isEqual,
   )
 
-  return snapshot as StateSlice
+  return _snapshot as StateSlice
 }

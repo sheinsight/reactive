@@ -3,7 +3,7 @@ import { describe, expect, it, vitest } from 'vitest'
 
 import { useSnapshot } from '../react/use-snapshot.js'
 import { create } from './create.js'
-import { getSnapshot } from './get-snapshot.js'
+import { getSnapshot } from './snapshot.js'
 
 describe('index', () => {
   it('create, proxy, useSnapshot and subscribe should be defined', () => {

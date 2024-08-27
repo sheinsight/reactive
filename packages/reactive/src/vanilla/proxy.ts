@@ -1,5 +1,5 @@
 import { LISTENERS, REACTIVE, SNAPSHOT, canProxy, createObjectFromPrototype, isObject } from '../utils/index.js'
-import { getSnapshot } from './get-snapshot.js'
+import { snapshot } from './snapshot.js'
 import { hasRef } from './ref.js'
 
 let globalVersion = 1
@@ -50,8 +50,8 @@ export function proxy<State extends object>(initState: State, parentProps: Prope
     const cache = snapshotCache.get(receiver)
     if (cache?.[0] === version) return cache[1]
 
-    const snapshot = createObjectFromPrototype(target)
-    snapshotCache.set(receiver, [version, snapshot])
+    const nextSnapshot = createObjectFromPrototype(target)
+    snapshotCache.set(receiver, [version, nextSnapshot])
 
     for (const key of Reflect.ownKeys(target)) {
       if (key === REACTIVE) continue
@@ -59,17 +59,17 @@ export function proxy<State extends object>(initState: State, parentProps: Prope
       const value: any = Reflect.get(target, key, receiver)
 
       if (hasRef(value)) {
-        snapshot[key as keyof State] = value
+        nextSnapshot[key as keyof State] = value
       } else if (value?.[REACTIVE]) {
-        snapshot[key as keyof State] = getSnapshot(value)
+        nextSnapshot[key as keyof State] = snapshot(value)
       } else {
-        snapshot[key as keyof State] = value
+        nextSnapshot[key as keyof State] = value
       }
     }
 
-    Object.preventExtensions(snapshot)
+    Object.preventExtensions(nextSnapshot)
 
-    return snapshot
+    return nextSnapshot
   }
 
   const baseObject = createObjectFromPrototype(initState)
