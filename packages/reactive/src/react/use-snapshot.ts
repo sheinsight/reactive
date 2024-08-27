@@ -1,8 +1,7 @@
 import { useCallback } from 'react'
-import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector.js'
-
-import { shallowEqual } from '../utils/index.js'
 import { snapshot, subscribe } from '../vanilla/index.js'
+import { isFunction, shallowEqual } from '../utils/index.js'
+import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector.js'
 
 import type { SubscribeCallback } from '../vanilla'
 
@@ -46,7 +45,7 @@ export function useSnapshot<State extends object, StateSlice>(
   let options: SnapshotOptions<StateSlice> | undefined
   let selector: SnapshotSelector<State, StateSlice> | undefined
 
-  if (selectorOrOption && typeof selectorOrOption !== 'function') {
+  if (selectorOrOption && !isFunction(selectorOrOption)) {
     options = selectorOrOption
     selector = undefined
   } else {
