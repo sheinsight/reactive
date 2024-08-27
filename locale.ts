@@ -104,6 +104,10 @@ export const sidebar = {
             text: 'useSubscribe',
             link: '/reference/advanced/use-subscribe',
           },
+          {
+            text: 'createSingleLoading',
+            link: '/reference/advanced/create-single-loading',
+          },
         ],
       },
     ],
@@ -201,6 +205,10 @@ export const sidebar = {
           {
             text: 'useSubscribe',
             link: `/${langSlug.zhCN}/reference/advanced/use-subscribe`,
+          },
+          {
+            text: 'createSingleLoading',
+            link: `/${langSlug.zhCN}/reference/advanced/create-single-loading`,
           },
         ],
       },

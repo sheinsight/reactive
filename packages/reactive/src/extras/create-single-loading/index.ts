@@ -62,7 +62,7 @@ export interface CreateSingleLoadingOptions {
    *
    * @defaultValue false
    */
-  initialState?: boolean
+  initialValue?: boolean
 }
 
 /**
@@ -76,9 +76,9 @@ export interface CreateSingleLoadingOptions {
  * @see {@link https://sheinsight.github.io/react-use/ | React Use - Documentation}
  */
 export function createSingleLoading(options: CreateSingleLoadingOptions): CreateSingleLoadingReturns {
-  const { resetOnError = true, initialState = false } = options
+  const { resetOnError = true, initialValue = false } = options
 
-  const store = createWithHooks({ loading: initialState })
+  const store = createWithHooks({ loading: initialValue })
 
   let version = 0
 
@@ -97,11 +97,13 @@ export function createSingleLoading(options: CreateSingleLoadingOptions): Create
 
         return result
       } catch (error) {
-        if (currentVersion === version && resetOnError) {
-          store.mutate.loading = initialState
-        }
+        if (currentVersion === version) {
+          if (resetOnError) {
+            store.mutate.loading = initialValue
+          }
 
-        throw error
+          throw error
+        }
       } finally {
         // do nothing
       }
