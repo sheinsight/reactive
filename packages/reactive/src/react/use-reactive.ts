@@ -1,9 +1,9 @@
 import { useRef } from 'react'
-import { reactFastCompare } from '../utils/react-fast-compare.js'
+import { deepEqual } from '../utils/index.js'
 import { createWithHooks } from './create-with-hooks.js'
 
-import type { SnapshotOptions } from './use-snapshot'
 import type { DependencyList } from 'react'
+import type { SnapshotOptions } from './use-snapshot'
 
 export interface UseReactiveOptions<State> extends SnapshotOptions<State> {}
 
@@ -34,8 +34,4 @@ function useCreation<T>(create: () => T, currDeps?: DependencyList): T {
   }
 
   return creation.value as T
-}
-
-function deepEqual<T>(objA: T, objB: T) {
-  return reactFastCompare(objA, objB)
 }

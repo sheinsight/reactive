@@ -15,6 +15,7 @@ describe('useReactive', () => {
     const { result } = renderHook(() => useReactive(initialState))
     const [, mutate] = result.current
 
+    // `await` is needed to test async, for Reactive is batched async by default
     await act(async () => {
       mutate.count = 1
     })
@@ -46,5 +47,18 @@ describe('useReactive', () => {
 
     const state2 = result.current[0]
     expect(state2).toEqual({ count: 1 })
+  })
+
+  it('should update synchronously', () => {
+    const initialState = { count: 0 }
+    const { result } = renderHook(() => useReactive(initialState, { sync: true }))
+    const [, mutate] = result.current
+
+    // no need `await` to test sync, when set `sync: true`
+    act(() => {
+      mutate.count = 1
+    })
+
+    expect(result.current[0]).toEqual({ count: 1 })
   })
 })
