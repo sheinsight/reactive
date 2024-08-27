@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { create } from './../vanilla/create.js'
-import { withDerived } from './index.js'
+import { create } from '../../vanilla/create.js'
+import { withDerived } from './with-derived.js'
 
 describe('withDerived', () => {
   it('should return the original store', () => {

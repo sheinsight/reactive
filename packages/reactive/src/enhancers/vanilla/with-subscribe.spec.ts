@@ -1,5 +1,5 @@
-import { create } from '../vanilla/create.js'
-import { withSubscribe } from '../enhancers/with-subscribe.js'
+import { create } from '../../vanilla/create.js'
+import { withSubscribe } from './with-subscribe.js'
 import { describe, expect, it, vi } from 'vitest'
 
 describe('withSubscribe', () => {

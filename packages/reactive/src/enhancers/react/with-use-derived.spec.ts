@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { act, renderHook } from '@testing-library/react'
-import { create } from '../vanilla/index.js'
-import { withUseDerived } from '../enhancers/with-use-derived.js'
+import { create } from '../../vanilla/index.js'
+import { withUseDerived } from '../react/with-use-derived.js'
 
 describe('withUseDerived', () => {
   it('should return the derived state', () => {

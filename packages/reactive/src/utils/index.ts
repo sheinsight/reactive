@@ -9,6 +9,8 @@ export type DeepExpandType<T> = {
   [K in keyof T]: T[K] extends object ? DeepExpandType<T[K]> : T[K]
 }
 
+export type AnyFunc = (...args: any[]) => any
+
 export const SNAPSHOT = Symbol('SNAPSHOT')
 export const LISTENERS = Symbol('LISTENERS')
 export const REACTIVE = Symbol('REACTIVE')

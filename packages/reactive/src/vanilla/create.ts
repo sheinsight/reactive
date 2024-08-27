@@ -1,8 +1,10 @@
 import { proxy } from './proxy.js'
-import { withSubscribe } from '../enhancers/with-subscribe.js'
+import { withSnapshot } from '../enhancers/vanilla/with-snapshot.js'
+import { withSubscribe } from '../enhancers/vanilla/with-subscribe.js'
 
 import type { SubscribeListener } from './subscribe.js'
-import type { WithSubscribeContributes } from '../enhancers/with-subscribe.js'
+import type { WithSubscribeContributes } from '../enhancers/vanilla/with-subscribe.js'
+import type { WithSnapshotContributes } from '../enhancers/vanilla/with-snapshot.js'
 
 // biome-ignore lint/suspicious/noEmptyInterface: for future use
 export interface StoreCreateOptions {}
@@ -38,13 +40,13 @@ export type VanillaStore<State extends object> = {
  *
  * @param initState The initial state object.
  * @param options Options for creating the store.
- * 
+ *
  * @since 0.1.5
  */
 export function createVanilla<State extends object>(
   initState: State,
   options: StoreCreateOptions = {},
-): VanillaStore<State> & WithSubscribeContributes<State> {
+): VanillaStore<State> & WithSubscribeContributes<State> & WithSnapshotContributes<State> {
   const proxyState = proxy(initState)
 
   function restore() {
@@ -57,10 +59,7 @@ export function createVanilla<State extends object>(
 
   const store = { mutate: proxyState, restore }
 
-  return withSubscribe(store)
+  return withSubscribe(withSnapshot(store))
 }
 
-/**
- * @deprecated Use `createVanilla` instead. Will be removed in the next major version.
- */
 export const create = createVanilla

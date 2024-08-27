@@ -7,11 +7,17 @@ import type { SubscribeListener } from '../vanilla/index.js'
 
 export interface SnapshotOptions<StateSlice> {
   /**
-   * If `true`, the snapshot will be updated in sync with the store.
+   * Whether to notify updates synchronously, default is false, which means updates are batched asynchronously to improve performance.
+   *
+   * In some scenarios (e.g., using Chinese input method in a text box), it is necessary to immediately obtain the latest state, in which case this can be set to true.
+   *
+   * @defaultValue false
    */
   sync?: boolean
   /**
    * Custom equality function to compare the previous and next state slices.
+   *
+   * @defaultValue Object.is
    */
   isEqual?: (a: StateSlice, b: StateSlice) => boolean
 }
@@ -20,6 +26,8 @@ export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
 
 /**
  * Returns a snapshot of the store state.
+ *
+ * @since 0.1.5
  */
 export function useSnapshot<State extends object>(state: State): State
 export function useSnapshot<State extends object>(state: State, options: SnapshotOptions<State>): State

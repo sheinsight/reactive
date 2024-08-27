@@ -1,6 +1,6 @@
-import { subscribe } from '../vanilla/subscribe.js'
+import { subscribe } from '../../vanilla/subscribe.js'
 
-import type { SubscribeListener, VanillaStore } from '../vanilla/index.js'
+import type { SubscribeListener, VanillaStore } from '../../vanilla/index.js'
 
 export interface WithSubscribeContributes<State extends object> {
   /**
@@ -13,9 +13,30 @@ export interface WithSubscribeContributes<State extends object> {
   subscribe: (listener: SubscribeListener<State>, sync?: boolean, selector?: (state: State) => object) => () => void
 }
 
+/**
+ * Enhance a store with the `subscribe` method.
+ *
+ * @param store - The store to be enhanced.
+ * @returns The enhanced store.
+ *
+ * @since 0.5.0
+ *
+ * @example
+ *
+ * ```ts
+ * import { createVanilla, withSubscribe } from '@reactive-react/core'
+ *
+ * const store = withSubscribe(createVanilla({ count: 0 }))
+ *
+ * const unsubscribe = store.subscribe((state) => {
+ *   console.log(state.count)
+ * })
+ * ```
+ *
+ */
 export function withSubscribe<Store extends VanillaStore<object>>(
   store: Store,
-): WithSubscribeContributes<Store['mutate']> & Store {
+): Store & WithSubscribeContributes<Store['mutate']> {
   function boundSubscribe(
     listener: SubscribeListener<Store['mutate']>,
     sync = false,

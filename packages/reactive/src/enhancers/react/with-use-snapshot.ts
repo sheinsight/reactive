@@ -1,13 +1,12 @@
-import { isFunction } from '../utils/index.js'
-import { withSnapshot } from './with-snapshot.js'
-import { useSnapshot } from '../react/use-snapshot.js'
+import { isFunction } from '../../utils/index.js'
+import { withSnapshot } from '../vanilla/with-snapshot.js'
+import { useSnapshot } from '../../react/use-snapshot.js'
 
-import type { VanillaStore } from '../vanilla/create.js'
-import type { StoreUseSnapshot } from '../react/create-with-hooks.js'
-import type { WithSnapshotContributes } from './with-snapshot.js'
-import type { SnapshotOptions, SnapshotSelector } from '../react/use-snapshot.js'
+import type { VanillaStore } from '../../vanilla/create.js'
+import type { StoreUseSnapshot } from '../../react/create-with-hooks.js'
+import type { SnapshotOptions, SnapshotSelector } from '../../react/use-snapshot.js'
 
-export interface WithUseSnapshotContributes<State extends object> extends WithSnapshotContributes<State> {
+export interface WithUseSnapshotContributes<State extends object> {
   /**
    * Get the snapshot of the state.
    */
@@ -15,9 +14,12 @@ export interface WithUseSnapshotContributes<State extends object> extends WithSn
 }
 
 /**
- * Enhances a store with a `useSnapshot` method that returns a snapshot of the store's state.
+ * Enhances a store with `useSnapshot` method that returns a snapshot of the store's state.
  *
  * @param store - The store to enhance.
+ * @returns The enhanced store.
+ *
+ * @since 0.5.0
  *
  * @example
  *
@@ -42,9 +44,7 @@ export interface WithUseSnapshotContributes<State extends object> extends WithSn
  */
 export function withUseSnapshot<Store extends VanillaStore<object>>(
   store: Store,
-): WithUseSnapshotContributes<Store['mutate']> & Store {
-  const storeWithSnapshot = withSnapshot<Store>(store)
-
+): Store & WithUseSnapshotContributes<Store['mutate']> {
   const boundUseSnapshot: StoreUseSnapshot<Store['mutate']> = <StateSlice>(
     selectorOrOption?: SnapshotOptions<StateSlice> | SnapshotSelector<Store['mutate'], StateSlice> | undefined,
     maybeOptions?: SnapshotOptions<StateSlice>,
@@ -64,7 +64,7 @@ export function withUseSnapshot<Store extends VanillaStore<object>>(
   }
 
   return {
-    ...storeWithSnapshot,
+    ...store,
     useSnapshot: boundUseSnapshot,
   }
 }
