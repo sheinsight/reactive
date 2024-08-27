@@ -2,8 +2,15 @@ export {
   ref,
   devtools,
   subscribe,
-  snapshot,
   produce,
+  /**
+   * @since 0.5.0
+   */
+  snapshot,
+  /**
+   * @since 0.5.0
+   */
+  create as createVanilla,
   /**
    * @deprecated Use `snapshot` instead. Will be removed in the next major version.
    */
@@ -15,6 +22,9 @@ export {
   useReactive,
 } from './react/index.js'
 
+export * from './enhancers/index.js'
+
 export type * from './vanilla/index.js'
 export type * from './react/index.js'
 export type * from './utils/index.js'
+export type * from './enhancers/index.js'

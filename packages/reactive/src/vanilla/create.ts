@@ -1,7 +1,8 @@
 import { proxy } from './proxy.js'
-import { subscribe } from './subscribe.js'
+import { withSubscribe } from '../enhancers/with-subscribe.js'
 
 import type { SubscribeCallback } from './subscribe.js'
+import type { WithSubscribeContributes } from '../enhancers/with-subscribe.js'
 
 // biome-ignore lint/suspicious/noEmptyInterface: for future use
 export interface StoreCreateOptions {}
@@ -27,10 +28,6 @@ export type VanillaStore<State extends object> = {
    */
   mutate: State
   /**
-   * Method to subscribe to state changes.
-   */
-  subscribe: StoreSubscriber<State>
-  /**
    * Restore to initial state.
    */
   restore: () => void
@@ -38,29 +35,25 @@ export type VanillaStore<State extends object> = {
 
 /**
  * Create a vanilla store.
+ *
+ * @param initState The initial state object.
+ * @param options Options for creating the store.
  */
-export function create<State extends object>(initState: State, options: StoreCreateOptions = {}): VanillaStore<State> {
+export function create<State extends object>(
+  initState: State,
+  options: StoreCreateOptions = {},
+): VanillaStore<State> & WithSubscribeContributes<State> {
   const proxyState = proxy(initState)
 
   function restore() {
-    const _ = structuredClone(initState)
+    const clonedState = structuredClone(initState)
 
-    for (const key of Object.keys(_)) {
-      proxyState[key as keyof State] = _[key as keyof State]
+    for (const key of Object.keys(clonedState)) {
+      proxyState[key as keyof State] = clonedState[key as keyof State]
     }
   }
 
-  function boundSubscribe(
-    callback: SubscribeCallback<State>,
-    sync = false,
-    selector: (state: State) => object = (s: State) => s,
-  ) {
-    return subscribe(selector(proxyState) as State, callback, sync)
-  }
+  const store = { mutate: proxyState, restore }
 
-  return {
-    mutate: proxyState,
-    subscribe: boundSubscribe,
-    restore,
-  }
+  return withSubscribe(store)
 }
