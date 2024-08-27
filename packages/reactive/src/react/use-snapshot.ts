@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector.js'
 
 import { shallowEqual } from '../utils/index.js'
-import { snapshot, subscribe } from '../vanilla'
+import { snapshot, subscribe } from '../vanilla/index.js'
 
 import type { SubscribeCallback } from '../vanilla'
 

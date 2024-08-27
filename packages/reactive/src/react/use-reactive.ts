@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { reactFastCompare } from '../utils/react-fast-compare.js'
-import { create } from '..'
+import { createWithHooks } from './create-with-hooks.js'
 
 import type { SnapshotOptions } from './use-snapshot'
 import type { DependencyList } from 'react'
@@ -14,7 +14,7 @@ export function useReactive<State extends object>(
   initialState: State,
   options: UseReactiveOptions<State> = {},
 ): readonly [State, State] {
-  const store = useCreation(() => create(initialState), [initialState])
+  const store = useCreation(() => createWithHooks(initialState), [initialState])
   return [store.useSnapshot({ ...options }), store.mutate] as const
 }
 
