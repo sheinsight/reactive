@@ -141,13 +141,15 @@ export const store = create({
   data: null,
 })
 
+// 定义更改 name 的方法
 export const changeName = () => {
-  store.mutate.name = 'Squirtle' // 定义更改 name 的方法
+  store.mutate.name = 'Squirtle'
 }
 
+// 定义获取数据的方法
 export const fetchData = async () => {
   const data = await fetch('https://api.example.com/data')
-  store.mutate.data = await data.json() // 定义获取数据的方法
+  store.mutate.data = await data.json()
 }
 ```
 

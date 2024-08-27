@@ -29,7 +29,7 @@ function App() {
   return (
     <div>
       <p>计数为 {count}</p>
-      <button onClick={store}>增加</button>
+      <button onClick={addOne}>增加</button>
     </div>
   )
 }

@@ -141,13 +141,15 @@ export const store = create({
   data: null,
 })
 
+// Define method to change name
 export const changeName = () => {
-  store.mutate.name = 'Squirtle' // Define method to change name
+  store.mutate.name = 'Squirtle'
 }
 
+// Define method to fetch data
 export const fetchData = async () => {
   const data = await fetch('https://api.example.com/data')
-  store.mutate.data = await data.json() // Define method to fetch data
+  store.mutate.data = await data.json()
 }
 ```
 
