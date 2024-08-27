@@ -1,4 +1,5 @@
 import { hasRef } from '../vanilla/ref.js'
+import { reactFastCompare } from './react-fast-compare.js'
 
 export type ExpandType<T> = {
   [K in keyof T]: T[K]
@@ -17,6 +18,7 @@ export const isProduction = process.env.NODE_ENV === 'production'
 export const noop = () => {}
 export const hasOwn = Object.prototype.hasOwnProperty
 export const isObject = (x: unknown): x is object => typeof x === 'object' && x !== null
+export const isFunction = (x: unknown): x is (...args: any[]) => any => typeof x === 'function'
 
 export function createObjectFromPrototype<T extends object>(target: T): T {
   return Array.isArray(target) ? [] : Object.create(Object.getPrototypeOf(target))
@@ -111,4 +113,8 @@ export function shallowEqual<T>(objA: T, objB: T) {
   }
 
   return true
+}
+
+export function deepEqual<T>(objA: T, objB: T) {
+  return reactFastCompare(objA, objB)
 }
