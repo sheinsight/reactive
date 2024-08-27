@@ -6,10 +6,7 @@
   "module": "dist/index.js",
   "description": "⚛️ Proxy-driven state for React & Vanilla JS, flexible, unopinionated, written in TypeScript.",
   "homepage": "https://sheinsight.github.io/reactive/",
-  "files": [
-    "./dist",
-    "./src"
-  ],
+  "files": ["./dist", "./src"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sheinsight/reactive.git",
@@ -43,17 +40,18 @@
     "registry": "https://registry.npmjs.org/"
   },
   "sideEffects": false,
-  "keywords": [
-    "react",
-    "hooks",
-    "reactive",
-    "state",
-    "store",
-    "use-sync-external-store"
-  ],
+  "keywords": ["react", "hooks", "reactive", "state", "store", "use-sync-external-store"],
   "license": "MIT",
   "dependencies": {
     "use-sync-external-store": "^1.2.2"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "@shined/react-use": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@redux-devtools/extension": "^3.3.0",
