@@ -92,7 +92,7 @@ const namesToBeConsumed = store.mutate.list.map((item) => item.name);
 The above method covers most scenarios. If you really need to get a snapshot outside the component, you can use `store.snapshot()`.
 
 ```tsx
-// From version 0.1.5
+// From version 0.2.0
 const { name } = store.snapshot()
 
 // Version 0.1.4 and earlier

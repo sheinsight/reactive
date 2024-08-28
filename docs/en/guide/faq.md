@@ -1,10 +1,10 @@
 # Frequently Asked Questions (FAQ) {#faq}
 
-## How to Store Unproxied State in Reactive to Maintain Consistency of Usage Experience \{#store-unproxied-state}
+## ❓ How to Store Unproxied State in Reactive Proxied Store \{#store-unproxied-state}
 
 You can achieve this by using [ref](/reference/root#ref). This is particularly useful when you want to nest an object within the proxy that is not wrapped by the internal proxy (such as storing DOM elements, File objects, and other unstructured data). However, please note that its changes will **not** be tracked. For more details and considerations, please refer to [ref](/reference/root#ref).
 
-## When State Value is Passed to an `<input />` Element, The Input Process May Be Interrupted \{#work-with-input-composition-events}
+## ❓ When State is Passed to `<input />`, Input May Be Interrupted \{#work-with-input-composition-events}
 
 By default, when the state changes, changes are notified asynchronously to achieve a merged update (i.e., batching) effect, optimizing rendering.
 

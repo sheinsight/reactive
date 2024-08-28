@@ -1,6 +1,6 @@
 # create
 
-Create a Store with Hooks for React applications, integrated with enhancers like [withSubscribe](#), [withUseSubscribe](#), [withSnapshot](#), and [withUseSnapshot](#). If you are looking for a Store without Hooks, check out [createVanilla](/reference/basic/create-vanilla#create-vanilla).
+Create a Store with Hooks for React applications, integrated with enhancers like [withSubscribe](/guide/enhancers/builtins/with-subscribe), [withUseSubscribe](/guide/enhancers/builtins/with-use-subscribe), [withSnapshot](/guide/enhancers/builtins/with-snapshot), and [withUseSnapshot](/guide/enhancers/builtins/with-use-snapshot). If you are looking for a Store without Hooks, check out [createVanilla](/reference/basic/create-vanilla#create-vanilla).
 
 ```tsx
 import { create } from '@shined/reactive';
@@ -40,7 +40,7 @@ store.mutate.info.hobbies.push('Coding');
 
 ## store.snapshot \{#store-snapshot}
 
-Get a snapshot of the Store, available since version `v0.1.5`, supported by the built-in [withSnapshot](#) enhancer.
+Get a snapshot of the Store, available since version `v0.2.0`, supported by the built-in [withSnapshot](/guide/enhancers/builtins/with-snapshot) enhancer.
 
 ```tsx
 store.snapshot(selector?);
@@ -52,7 +52,7 @@ store.snapshot(s => s.count);
 
 ## store.useSnapshot \{#store-use-snapshot}
 
-Get a snapshot of the Store within a React component, supported by the built-in [withUseSnapshot](#) enhancer.
+Get a snapshot of the Store within a React component, supported by the built-in [withUseSnapshot](/guide/enhancers/builtins/with-use-snapshot) enhancer.
 
 
 ```tsx
@@ -92,7 +92,7 @@ export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
 
 ## store.subscribe \{#store-subscribe}
 
-Subscribe to Store changes, supported by the built-in [withSubscribe](#) enhancer, **not recommended for direct use unless necessary**.
+Subscribe to Store changes, supported by the built-in [withSubscribe](/guide/enhancers/builtins/with-subscribe) enhancer, **not recommended for direct use unless necessary**.
 
 ```tsx
 store.subscribe(listener, notifyInSync?, selector?);
@@ -108,7 +108,7 @@ store.subscribe(s => {
 
 ## store.useSubscribe \{#store-use-subscribe}
 
-Subscribe to Store changes within a React component, supported by the built-in [withUseSubscribe](#) enhancer, **not recommended for direct use unless necessary**.
+Subscribe to Store changes within a React component, supported by the built-in [withUseSubscribe](/guide/enhancers/builtins/with-use-subscribe) enhancer, **not recommended for direct use unless necessary**.
 
 If you need to perform some side effects based on state changes, [useUpdateEffect](http://sheinsight.github.io/react-use/reference/use-update-effect) should be your first choice, rather than this method.
 

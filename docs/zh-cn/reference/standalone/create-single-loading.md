@@ -1,8 +1,10 @@
 # createSingleLoading {#create-single-loading}
 
-`createSingleLoading` 是一个用于创建一个单例 Loading 的实用函数，提供一种通过多个 Hooks 或 loading 实例管理单个（全局）加载状态的方法，为了保持依赖精简和隔离，你需要从 `/create-single-loading` 导入它。
+`createSingleLoading` 是一个用于创建一个单例 Loading 的实用函数，提供一种通过多个 Hooks 或 loading 实例管理单个（全局）加载状态的方法。
 
-因为内部依赖了 `@shined/react-use`，请确保你的项目中已经安装了 `@shined/react-use`。
+::: tip 提示
+这个函数内部内部依赖了 `@shined/react-use`，为了保持依赖精简和隔离，你需要从 `/create-single-loading` 导入它，同时请确保安装了 `@shined/react-use`。
+:::
 
 ```tsx
 import { createSingleLoading } from '@shined/reactive/create-single-loading'

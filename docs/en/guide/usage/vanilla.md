@@ -1,5 +1,9 @@
 # Using Reactive in Vanilla JavaScript {#use-reactive-in-vanilla}
 
+::: tip Tip
+In Vanilla scenarios, please import all APIs from `/vanilla` to avoid errors due to dependencies on React without it being installed.
+:::
+
 ## Step 1: Create a Store {#step-1-create-a-store}
 
 Create a `store` with an initial state.
@@ -52,7 +56,7 @@ const namesToBeConsumed = store.mutate.list.map((item) => item.name);
 The above method covers most cases. If you really need to get a snapshot, you can use `store.snapshot()`.
 
 ```tsx
-// From version 0.1.5
+// From version 0.2.0
 const { name } = store.snapshot()
 
 // For versions 0.1.4 and earlier

@@ -92,7 +92,7 @@ const namesToBeConsumed = store.mutate.list.map((item) => item.name);
 上述方式覆盖大多数情况，如果你实在需要在组件外获取快照，可以使用 `store.snapshot()`。
 
 ```tsx
-// 从 0.1.5 起
+// 从 0.2.0 起
 const { name } = store.snapshot()
 
 // 0.1.4 及之前版本

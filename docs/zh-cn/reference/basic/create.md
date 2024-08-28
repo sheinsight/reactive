@@ -1,6 +1,6 @@
 # create {#create}
 
-创建一个包含 Hooks 的 Store，适用于 React 应用，内置了 [withSubscribe](#)、[withUseSubscribe](#)、[withSnapshot](#) 和 [withUseSnapshot](#) 增强器，如果你在寻找一个不包含 Hooks 的 Store，请查看 [createVanilla](/reference/basic/create-vanilla#create-vanilla)。
+创建一个包含 Hooks 的 Store，适用于 React 应用，内置了 [withSubscribe](/guide/enhancers/builtins/with-subscribe)、[withUseSubscribe](/guide/enhancers/builtins/with-use-subscribe)、[withSnapshot](/guide/enhancers/builtins/with-snapshot) 和 [withUseSnapshot](/guide/enhancers/builtins/with-use-snapshot) 增强器，如果你在寻找一个不包含 Hooks 的 Store，请查看 [createVanilla](/reference/basic/create-vanilla#create-vanilla)。
 
 ```tsx
 import { create } from '@shined/reactive';
@@ -40,7 +40,7 @@ store.mutate.info.hobbies.push('Coding');
 
 ## store.snapshot {#store-snapshot}
 
-获取 Store 的快照，从 `v0.1.5` 版本起可用，由内置的 [withSnapshot](#) 增强器提供支持。
+获取 Store 的快照，从 `v0.2.0` 版本起可用，由内置的 [withSnapshot](/guide/enhancers/builtins/with-snapshot) 增强器提供支持。
 
 ```tsx
 store.snapshot(selector?);
@@ -52,7 +52,7 @@ store.snapshot(s => s.count);
 
 ## store.useSnapshot {#store-use-snapshot}
 
-在 React 组件中获取 Store 的快照，由内置的 [withUseSnapshot](#) 增强器提供支持。
+在 React 组件中获取 Store 的快照，由内置的 [withUseSnapshot](/guide/enhancers/builtins/with-use-snapshot) 增强器提供支持。
 
 
 ```tsx
@@ -92,7 +92,7 @@ export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
 
 ## store.subscribe {#store-subscribe}
 
-订阅 Store 的变化，由内置的 [withSubscribe](#) 增强器提供支持，**除非必要，否则不推荐直接使用**。
+订阅 Store 的变化，由内置的 [withSubscribe](/guide/enhancers/builtins/with-subscribe) 增强器提供支持，**除非必要，否则不推荐直接使用**。
 
 ```tsx
 store.subscribe(listener, notifyInSync?, selector?);
@@ -108,7 +108,7 @@ store.subscribe(s => {
 
 ## store.useSubscribe {#store-use-subscribe}
 
-在 React 组件中订阅 Store 的变化，由内置的 [withUseSubscribe](#) 增强器提供支持，**除非必要，否则不推荐直接使用**。
+在 React 组件中订阅 Store 的变化，由内置的 [withUseSubscribe](/guide/enhancers/builtins/with-use-subscribe) 增强器提供支持，**除非必要，否则不推荐直接使用**。
 
 如果你需要基于状态变化执行一些副作用，应该首选使用 [useUpdateEffect](http://sheinsight.github.io/react-use/reference/use-update-effect)，而不是此方法。
 

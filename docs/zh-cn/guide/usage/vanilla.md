@@ -1,4 +1,8 @@
-# 在纯 JavaScript 中使用 Reactive {#use-reactive-in-vanilla}
+# 在 Vanilla JavaScript 中使用 Reactive {#use-reactive-in-vanilla}
+
+::: tip 提示
+Vanilla 场景下，所有的 API 请从 `/vanilla` 导入，否则将因依赖了 React，但是没有安装而导致报错。
+:::
 
 ## 第 1 步：创建一个 Store {#step-1-create-a-store}
 
@@ -9,9 +13,9 @@
 :::
 
 ```ts
-import { create } from '@shined/reactive/vanilla'
+import { createVanilla } from '@shined/reactive/vanilla'
 
-const store = create({ name: 'Bob' })
+const store = createVanilla({ name: 'Bob' })
 ```
 
 ::: tip 提示
@@ -52,7 +56,7 @@ const namesToBeConsumed = store.mutate.list.map((item) => item.name);
 上述方式覆盖大多数情况，如果你实在需要获取快照，可以使用 `store.snapshot()`。
 
 ```tsx
-// 从 0.1.5 起
+// 从 0.2.0 起
 const { name } = store.snapshot()
 
 // 0.1.4 及之前版本

@@ -1,8 +1,10 @@
 # createSingleLoading
 
-`createSingleLoading` is a utility function for creating a singleton loading instance, offering a method to manage a single (global) loading state across multiple Hooks or loading instances. To maintain streamlined dependencies and isolation, you should import it from `/create-single-loading`.
+`createSingleLoading` is a utility function for creating a singleton loading instance, offering a method to manage a single (global) loading state across multiple Hooks or loading instances.
 
-Since an internal dependency `@shined/react-use` is utilized, please ensure that your project has already installed `@shined/react-use`.
+::: tip Tip
+This function internally depends on `@shined/react-use`. To keep the dependencies minimal and isolated, you need to import it from `/create-single-loading`, and also ensure that `@shined/react-use` is installed.
+:::
 
 ```tsx
 import { createSingleLoading } from '@shined/reactive/create-single-loading'
