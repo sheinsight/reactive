@@ -34,6 +34,45 @@ export const sidebar = {
         ],
       },
       {
+        text: '🧩 Enhancers',
+        items: [
+          {
+            text: 'Enhancer Introduction',
+            link: '/guide/enhancers/introduction',
+          },
+          {
+            text: 'Built-in Enhancers',
+            collapsed: true,
+            items: [
+              {
+                text: 'withSnapshot',
+                link: '/guide/enhancers/builtins/with-snapshot',
+              },
+              {
+                text: 'withUseSnapshot',
+                link: '/guide/enhancers/builtins/with-use-snapshot',
+              },
+              {
+                text: 'withSubscribe',
+                link: '/guide/enhancers/builtins/with-subscribe',
+              },
+              {
+                text: 'withUseSubscribe',
+                link: '/guide/enhancers/builtins/with-use-subscribe',
+              },
+              {
+                text: 'withDerived',
+                link: '/guide/enhancers/builtins/with-derived',
+              },
+              {
+                text: 'withUseDerived',
+                link: '/guide/enhancers/builtins/with-use-derived',
+              },
+            ],
+          },
+        ],
+      },
+      {
         text: '🔌 Integrations',
         items: [
           {
@@ -80,33 +119,44 @@ export const sidebar = {
             text: 'produce',
             link: '/reference/advanced/produce',
           },
+        ],
+      },
+      {
+        text: 'Standalone API',
+        items: [
+          {
+            text: 'createSingleLoading',
+            link: '/reference/standalone/create-single-loading',
+          },
+        ],
+      },
+      {
+        text: 'Internal API',
+        collapsed: true,
+        items: [
           {
             text: 'snapshot',
-            link: '/reference/advanced/snapshot',
+            link: '/reference/internal/snapshot',
           },
           {
             text: 'getSnapshot',
-            link: '/reference/advanced/get-snapshot',
+            link: '/reference/internal/get-snapshot',
           },
           {
             text: 'subscribe',
-            link: '/reference/advanced/subscribe',
+            link: '/reference/internal/subscribe',
           },
           {
             text: 'proxy',
-            link: '/reference/advanced/proxy',
+            link: '/reference/internal/proxy',
           },
           {
             text: 'useSnapshot',
-            link: '/reference/advanced/use-snapshot',
+            link: '/reference/internal/use-snapshot',
           },
           {
             text: 'useSubscribe',
-            link: '/reference/advanced/use-subscribe',
-          },
-          {
-            text: 'createSingleLoading',
-            link: '/reference/advanced/create-single-loading',
+            link: '/reference/internal/use-subscribe',
           },
         ],
       },
@@ -132,6 +182,45 @@ export const sidebar = {
           {
             text: '🟡 Vanilla JavaScript',
             link: `/${langSlug.zhCN}/guide/usage/vanilla`,
+          },
+        ],
+      },
+      {
+        text: '🧩 增强器',
+        items: [
+          {
+            text: '增强器介绍',
+            link: `/${langSlug.zhCN}/guide/enhancers/introduction`,
+          },
+          {
+            text: '内置增强器',
+            collapsed: true,
+            items: [
+              {
+                text: 'withSnapshot',
+                link: `/${langSlug.zhCN}/guide/enhancers/builtins/with-snapshot`,
+              },
+              {
+                text: 'withUseSnapshot',
+                link: `/${langSlug.zhCN}/guide/enhancers/builtins/with-use-snapshot`,
+              },
+              {
+                text: 'withSubscribe',
+                link: `/${langSlug.zhCN}/guide/enhancers/builtins/with-subscribe`,
+              },
+              {
+                text: 'withUseSubscribe',
+                link: `/${langSlug.zhCN}/guide/enhancers/builtins/with-use-subscribe`,
+              },
+              {
+                text: 'withDerived',
+                link: `/${langSlug.zhCN}/guide/enhancers/builtins/with-derived`,
+              },
+              {
+                text: 'withUseDerived',
+                link: `/${langSlug.zhCN}/guide/enhancers/builtins/with-use-derived`,
+              },
+            ],
           },
         ],
       },
@@ -182,33 +271,44 @@ export const sidebar = {
             text: 'produce',
             link: `/${langSlug.zhCN}/reference/advanced/produce`,
           },
+        ],
+      },
+      {
+        text: '独立导出 API',
+        items: [
+          {
+            text: 'createSingleLoading',
+            link: `/${langSlug.zhCN}/reference/standalone/create-single-loading`,
+          },
+        ],
+      },
+      {
+        text: '内部 API',
+        collapsed: true,
+        items: [
           {
             text: 'snapshot',
-            link: `/${langSlug.zhCN}/reference/advanced/snapshot`,
+            link: `/${langSlug.zhCN}/reference/internal/snapshot`,
           },
           {
             text: 'getSnapshot',
-            link: `/${langSlug.zhCN}/reference/advanced/get-snapshot`,
+            link: `/${langSlug.zhCN}/reference/internal/get-snapshot`,
           },
           {
             text: 'subscribe',
-            link: `/${langSlug.zhCN}/reference/advanced/subscribe`,
+            link: `/${langSlug.zhCN}/reference/internal/subscribe`,
           },
           {
             text: 'proxy',
-            link: `/${langSlug.zhCN}/reference/advanced/proxy`,
+            link: `/${langSlug.zhCN}/reference/internal/proxy`,
           },
           {
             text: 'useSnapshot',
-            link: `/${langSlug.zhCN}/reference/advanced/use-snapshot`,
+            link: `/${langSlug.zhCN}/reference/internal/use-snapshot`,
           },
           {
             text: 'useSubscribe',
-            link: `/${langSlug.zhCN}/reference/advanced/use-subscribe`,
-          },
-          {
-            text: 'createSingleLoading',
-            link: `/${langSlug.zhCN}/reference/advanced/create-single-loading`,
+            link: `/${langSlug.zhCN}/reference/internal/use-subscribe`,
           },
         ],
       },

@@ -4,11 +4,11 @@ export {
   subscribe,
   produce,
   /**
-   * @since 0.1.5
+   * @since 0.2.0
    */
   snapshot,
   /**
-   * @since 0.1.5
+   * @since 0.2.0
    */
   createVanilla,
   /**
@@ -20,15 +20,15 @@ export {
 export {
   createWithHooks as create,
   /**
-   * @since 0.1.5
+   * @since 0.2.0
    */
   useReactive,
   /**
-   * @since 0.1.5
+   * @since 0.2.0
    */
   useSnapshot,
   /**
-   * @since 0.1.5
+   * @since 0.2.0
    */
   useSubscribe,
 } from './react/index.js'

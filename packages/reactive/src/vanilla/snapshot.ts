@@ -7,7 +7,7 @@ import type { SnapshotSelector } from '../react/use-snapshot.js'
  *
  * @param proxyState The store state.
  *
- * @since 0.1.5
+ * @since 0.2.0
  */
 export function snapshot<State extends object, StateSlice = State>(
   proxyState: State,

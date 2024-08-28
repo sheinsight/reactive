@@ -41,7 +41,7 @@ export type VanillaStore<State extends object> = {
  * @param initState The initial state object.
  * @param options Options for creating the store.
  *
- * @since 0.1.5
+ * @since 0.2.0
  */
 export function createVanilla<State extends object>(
   initState: State,

@@ -6,7 +6,7 @@ export default defineConfig({
   entry: [
     'src/index.ts',
     'src/vanilla/index.ts', // export `./vanilla` entry in `package.json`
-    'src/extras/create-single-loading', // export `./extras/create-single-loading` entry in `package.json`
+    'src/standalone/create-single-loading', // export `./extras/create-single-loading` entry in `package.json`
   ],
   splitting: true,
   sourcemap: true,

@@ -27,7 +27,7 @@ export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
 /**
  * Returns a snapshot of the store state.
  *
- * @since 0.1.5
+ * @since 0.2.0
  */
 export function useSnapshot<State extends object>(state: State): State
 export function useSnapshot<State extends object>(state: State, options: SnapshotOptions<State>): State

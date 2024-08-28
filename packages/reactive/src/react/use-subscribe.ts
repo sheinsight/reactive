@@ -10,7 +10,7 @@ import type { SubscribeListener } from '../vanilla/subscribe'
  * @param listener - The listener function.
  * @param notifyInSync - Whether to notify the listener in sync.
  *
- * @since 0.1.5
+ * @since 0.2.0
  */
 export function useSubscribe<State extends object>(
   proxyState: State,
