@@ -1,7 +1,7 @@
 # withDerived
 
 ::: tip TIP
-If you are using React, it is recommended to directly use [withUseDerived](../with-use-derived). Due to API limitations, it provides both `store.derived()` and `store.useDerived()` methods for convenient use within React components.
+If you are using React, it is recommended to directly use [withUseDerived](/guide/enhancers/builtins/with-use-derived). Due to API limitations, it provides both `store.derived()` and `store.useDerived()` methods for convenient use within React components.
 :::
 
 Provides the `store.derived()` method to the `store`, allowing the declaration of derived data once and enabling the retrieval of the latest value of the derived data at any moment.
