@@ -37,7 +37,7 @@ export const sidebar = {
         text: '🧩 Enhancers',
         items: [
           {
-            text: 'Enhancer Introduction',
+            text: 'Introduction',
             link: '/guide/enhancers/introduction',
           },
           {
@@ -189,7 +189,7 @@ export const sidebar = {
         text: '🧩 增强器',
         items: [
           {
-            text: '增强器介绍',
+            text: '介绍',
             link: `/${langSlug.zhCN}/guide/enhancers/introduction`,
           },
           {
