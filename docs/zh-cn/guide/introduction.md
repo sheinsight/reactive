@@ -1,7 +1,7 @@
 # 什么是 Reactive？{#what-is-reactive}
 
 <a href="https://npmjs.com/package/@shined/reactive"><img src="https://img.shields.io/npm/v/@shined/reactive.svg" alt="npm 包"></a>
-<a href="https://pkg-size.dev/@shined/reactive"><img src="https://pkg-size.dev/badge/bundle/17299" title="Bundle size for @shined/reactive"></a>
+<a href="https://pkg-size.dev/@shined/reactive"><img src="https://pkg-size.dev/badge/bundle/25441" title="Bundle size for @shined/reactive"></a>
 <a href="https://github.com/sheinsight/reactive/blob/main/LICENSE"><img alt="NPM" src="https://img.shields.io/npm/l/%40shined%2Freactive"></a>
 
 ⚛️ Reactive 是一个为 JavaScript 应用提供状态管理功能的库，直观、灵活、使用 TypeScript 编写。
