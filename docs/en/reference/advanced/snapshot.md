@@ -1,13 +1,13 @@
-# snapshot {#snapshot}
+# snapshot
 
-获取 Store 的快照，不推荐直接使用，建议使用 [store.snapshot](/reference/basic/create#store-snapshot)。
+Get the snapshot of the Store. It is not recommended to use it directly. It's suggested to use [store.snapshot](/reference/basic/create#store-snapshot) instead.
 
 ```tsx
 import { snapshot } from '@shined/reactive'
 
 snapshot(proxyState, selector?);
 
-// 使用示例
+// Usage example
 snapshot(store.mutate);
 snapshot(store.mutate, s => s.count);
 snapshot(store.mutate.subObject);

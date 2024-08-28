@@ -4,8 +4,8 @@ titleSuffix: 'Proxy-driven state library for JavaScript application'
 
 hero:
   name: 'Reactive'
-  text: 'Proxy-driven state library for JavaScript application.'
-  tagline: 'Intuitive, Flexible and Written in TypeScript.'
+  text: 'Proxy-driven state library for JavaScript application'
+  tagline: 'Intuitive, Flexible and Written in TypeScript'
   actions:
     - theme: brand
       text: Get Started

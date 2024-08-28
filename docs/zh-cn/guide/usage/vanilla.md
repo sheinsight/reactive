@@ -49,29 +49,19 @@ const userId = store.mutate.userId
 // 引用类型需要基于现有的 `store.mutate` 创建衍生对象，以遵循 `immutable` 原则
 const namesToBeConsumed = store.mutate.list.map((item) => item.name);
 ```
-
-上述方式覆盖大多数情况，如果你实在需要获取快照，可以使用 `getSnapshot()`。
-
-::: warning 重要
-
-Reactive 采用了一种**读写分离**的策略，快照（`Snapshot`）被认为时某个阶段的「快照状态」，是**不可扩展的**，你只能通过修改 `store.mutate` 对象来变更状态，以生成一份全新的快照，遵循 `immutable` 的设计原则。
+上述方式覆盖大多数情况，如果你实在需要获取快照，可以使用 `store.snapshot()`。
 
 ```tsx
-const snapshot = getSnapshot(store.mutate)
-// 禁止这样做，因为快照是只读的，你应该通过 `store.mutate` 来变更状态
-snapshot.name = 'Alice' // ❌
-```
-:::
+// 从 0.1.5 起
+const { name } = store.snapshot()
 
-```ts
-import { getSnapshot } from '@shined/reactive/vanilla'
-  
-const { name: stateNameToRead } = store.mutate // 仅用于读取
-const stateToConsume = getSnapshot(store.mutate) // 读、写均可
+// 0.1.4 及之前版本
+import { getSnapshot } from '@shined/reactive'
+const { name } = getSnapshot(store.mutate)
 ```
 
 ## 第 5 步：恢复到初始状态 {#step-5-restore-to-initial-state}
 
 如果需要，你也可以通过 `store.restore()` 轻松地**恢复**到初始状态，比如在停止、重置逻辑时，重置状态。
 
-`store.restore()` 中使用了较新的 [`structuredClone()`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) API，如果有需要，请考虑添加一个 [polyfill](https://github.com/ungap/structured-clone)。
+`store.restore()` 中使用了较新的 [structuredClone API](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone)，如果有需要，请考虑添加一个 [polyfill](https://github.com/ungap/structured-clone)。

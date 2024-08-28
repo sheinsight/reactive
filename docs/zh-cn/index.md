@@ -1,11 +1,11 @@
 ---
 pageType: home
-titleSuffix: '由 Proxy 驱动的 JavaScript 应用程序状态管理库'
+titleSuffix: '由 Proxy 驱动的 JavaScript 应用状态管理方案'
 
 hero:
   name: 'Reactive'
-  text: '由 Proxy 驱动的 JavaScript 应用程序状态管理库'
-  tagline: '直观、灵活、使用 TypeScript 编写。'
+  text: '由 Proxy 驱动的 JavaScript 应用状态管理方案'
+  tagline: '直观、灵活、使用 TypeScript 编写'
   actions:
     - theme: brand
       text: 快速开始

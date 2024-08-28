@@ -5,15 +5,21 @@
 使用 `create` API 创建一个带有初始状态的 `store`，推荐在组件代码之外创建，以获得更好的代码拆分。例如，在 `store.ts` 中创建并导出，并和你的 `index.tsx` 组件代码放在同一目录下便于引入。
 
 ::: tip 提示
+
 **`store` 可以是全局的，也可以是局部的，这取决于你的需求。**
 
-如果你需要全局状态，可以将 `store` 放在全局下，然后在应用程序的任何地方导入它。如果你需要局部状态，可以在组件目录内创建 `store`，然后在组件内引入使用以保持组件逻辑的独立性。
+- 如果你需要全局状态，可以将 `store` 放在全局下，然后在应用程序的任何地方导入它。
+- 如果你需要局部状态，可以在组件目录内创建 `store`，然后在组件内引入使用以保持组件逻辑的独立性。
+- 如果都不符合你的场景，也可以考虑使用更加轻量的组件级 Hooks 方案 [useReactive](/reference/advanced/use-reactive)。
+
 :::
+
+请确保 `store` 内的状态始终是 `Pure Object`，不含函数、类实例等非结构化数据。如果需要，请考虑使用 [ref](/reference/advanced/ref)。
 
 ```tsx title="store.ts"
 import { create } from '@shined/reactive'
 
-// 创建 store，并指定初始状态
+// 创建 store，并指定初始状态，状态需要是 `Pure Object`
 export const store = create({
   name: 'Bob',
   info: {
@@ -39,11 +45,9 @@ import { store } from './store'
 export default function App() {
   // 使用 store 中的快照
   const name = store.useSnapshot((s) => s.name)
-
   return <div>{name}</div>
 }
 ```
-::: tip 提示
 
 你也以传入一个 `selector` 函数，手动指定你需要消费的状态，以优化渲染，详情参考 [可选的渲染优化](/guide/introduction#optional-render-optimization)。
 
@@ -56,24 +60,22 @@ const name = store.useSnapshot((s) => s.name)
 // 仅当 `name` 和 `age` 改变时才重新渲染
 const [name, age] = store.useSnapshot((s) => [s.name, s.age] as const)
 ```
-:::
 
 ::: tip 提示
-为了提高代码可读性，你也可以在相邻 store 文件内定义一些语意化的 Hooks 来使用，比如：
+
+在复杂状态场景下，为了提高代码可读性，你也可以在相邻 store 文件内定义一些语意化的 Hooks 来使用，比如：
 
 ```tsx title="store.ts"
+// 定义语意化的 Hooks
 export const useName = () => store.useSnapshot((s) => s.name)
-```
 
-然后在组件中使用，如下所示。
-
-```tsx title="app.ts"
+// 然后在组件中使用
 function App() {
   const name = useName()
-
   return <div>{name}</div>
 }
 ```
+
 :::
 
 ### 在 React 组件外 {#outside-react-component}
@@ -87,11 +89,14 @@ const userId = store.mutate.userId
 const namesToBeConsumed = store.mutate.list.map((item) => item.name);
 ```
 
-上述方式覆盖大多数情况，如果你实在需要在组件外获取快照，可以使用 `getSnapshot()`。
+上述方式覆盖大多数情况，如果你实在需要在组件外获取快照，可以使用 `store.snapshot()`。
 
 ```tsx
-import { getSnapshot } from '@shined/reactive'
+// 从 0.1.5 起
+const { name } = store.snapshot()
 
+// 0.1.4 及之前版本
+import { getSnapshot } from '@shined/reactive'
 const { name } = getSnapshot(store.mutate)
 ```
 
@@ -177,7 +182,7 @@ export default function App() {
 
 如果需要，你也可以通过 `store.restore()` 轻松地**恢复**到初始状态，比如在组件卸载时，重置状态。
 
-`store.restore()` 中使用了较新的 [`structuredClone()`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) API，如果有需要，请考虑添加一个 [polyfill](https://github.com/ungap/structured-clone)。
+`store.restore()` 中使用了较新的 [structuredClone API](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone)，如果有需要，请考虑添加一个 [polyfill](https://github.com/ungap/structured-clone)。
 
 ```tsx
 import { useUnmount } from '@shined/react-use'

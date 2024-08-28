@@ -4,12 +4,12 @@
 <a href="https://pkg-size.dev/@shined/reactive"><img src="https://pkg-size.dev/badge/bundle/17299" title="Bundle size for @shined/reactive"></a>
 <a href="https://github.com/sheinsight/reactive/blob/main/LICENSE"><img alt="NPM" src="https://img.shields.io/npm/l/%40shined%2Freactive"></a>
 
-⚛️ Reactive 是一个为 JavaScript 应用程序提供状态管理功能的库，它拥有许多特性使得它易用又强大。
+⚛️ Reactive 是一个为 JavaScript 应用提供状态管理功能的库，直观、灵活、使用 TypeScript 编写。
 
-- **🧩 使用灵活**：想要改变存储状态？随时随地通过 [mutate](/reference/vanilla#create-returns-mutate) 修改就好。
-- **😊 用户友好**：通过 [create](/reference/root#create) 方法覆盖超过 80% 的使用场景。
+- **😊 上手友好**：通过 [create](/reference/basic/create) 方法覆盖超过 80% 的使用场景。
+- **🧩 使用灵活**：想要改变存储状态？随时随地通过 [mutate](/reference/basic/create#store-mutate) 修改就好。
 - **⚡️ 性能优化**：利用 [Proxy API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) 尽可能提供最佳性能。
-- **🏄 框架无关**：在 [React](https://react.dev/) 和纯 JavaScript 中都能良好工作。
+- **🏄 框架无关**：在 [React](https://react.dev/) 和 Vanilla JavaScript 中都能良好工作。
 - **🦄 TypeScript 支持**：用 [TypeScript](https://www.typescriptlang.org/) 编写，完全类型化，更好的开发体验。
 - **🛠️ DevTools 集成**：开箱即用的 [Redux DevTools](https://github.com/reduxjs/redux-devtools#redux-devtools) 兼容性。
 
@@ -35,7 +35,7 @@ function App() {
 }
 ```
 
-更多信息，请参阅 [React 用法](/usage/react) 或 [API 参考](/reference/root)。
+更多信息，请参阅 [React 用法](/usage/react) 或 [API 参考](/reference/basic/create)。
 
 ## 在线尝试 \{#try-it-online}
 
@@ -43,28 +43,33 @@ function App() {
 
 ## 自由变更，安全消费 \{#free-mutate-safe-consume}
 
-Reactive 采用了 **读写分离** 的方法，通过 `store.mutate` 对象提供了一种直接变更状态的方式。当需要改变状态时，直接修改即可！
+Reactive 采用了**读写分离**的策略，通过 [store.mutate](/reference/basic/create#store-mutate) 对象提供了一种更加直观的变更状态的方式。当需要改变状态时，直接修改 `store.mutate` 对象即可！
 
 ```tsx
+export const store = create({
+  count: 1,
+  user: { name: 'Bob' }
+})
+
 export function increment() {
   store.mutate.count++
 }
 
-export function updateUserInfo() {
-  store.mutate.user.info = { name: 'Alice' }
+export function updateUser() {
+  store.mutate.user = { name: 'Alice' }
 }
 ```
 
-对于消费，它通过 React 部分的 `useSnapshot()` 和纯 JavaScript 部分的 `getSnapshot()` 提供了一个访问状态的简单方法，以确保安全。这种方法生成的非扩展快照状态防止了意外修改。
+对于消费，它通过 React 部分的 [store.useSnapshot](/reference/basic/create#store-use-snapshot) 和纯 JavaScript 部分的 [store.snapshot](/reference/basic/create#store-snapshot) 提供了一个访问状态的简单方法，以确保安全。这种方法生成的非扩展快照状态防止了意外修改。
 
 ```tsx
 // 在 React 组件中
-const count = store.useSnapshot((s) => s.count)
 const { count } = store.useSnapshot()
+const count = store.useSnapshot((s) => s.count)
 
-// 在 vanilla JavaScript/TypeScript 中
-import { getSnapshot } from '@shined/reactive/vanilla'
-const { count } = getSnapshot(store.mutate)
+// 在 Vanilla JavaScript/TypeScript 中
+const { count } = store.snapshot()
+const count = store.snapshot(s => s.count)
 ```
 
 ## 可选的渲染优化 \{#optional-render-optimization}
@@ -72,13 +77,11 @@ const { count } = getSnapshot(store.mutate)
 此外，Reactive 还提供了一个可选的渲染优化功能。
 
 ```tsx
-// 只有当 `count` 改变时才重新渲染
+// 只有当 `count` 改变时才重新渲染，`s => s.count` 为 selector，即选择器，用于选取指定状态
 const count = store.useSnapshot((s) => s.count)
 ```
 
-你可以使用 `selector` 来指定你想要监听的状态，这将只在指定的状态改变时才重新渲染。
-
-如果不指定，默认情况下，使用了完整快照的组件会在状态的任何部分发生改变时，触发组件的重新渲染。
+你可以使用 `selector` 来指定你想要选取的状态，这将只在指定的状态改变时才重新渲染。如果不指定，默认情况下，使用了完整快照的组件会在状态的任何部分发生改变时，触发组件的重新渲染。
 
 ::: tip 提示
 关于 `selector` API 的设计，以及为什么放弃「自动依赖收集」的方案，可参考 `proxy-compare` 的 [issue#65](https://github.com/dai-shi/proxy-compare/issues/65)。
@@ -93,11 +96,7 @@ const store = create({
   name: 'Bob',
   age: 18,
   hobbies: ['游泳', '跑步'],
-  address: {
-    city: {
-      name: '纽约',
-    },
-  },
+  address: { city: { name: '纽约' } },
 })
 
 export default function App() {
@@ -112,7 +111,5 @@ export default function App() {
 
   // 只有当 store 中的 `name` 改变时才重新渲染
   const name = store.useSnapshot((s) => s.name)
-
-  return <div>{name}</div>
 }
 ```

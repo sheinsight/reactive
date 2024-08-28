@@ -1,10 +1,10 @@
-# Using Reactive in Vanilla JavaScript
+# Using Reactive in Vanilla JavaScript {#use-reactive-in-vanilla}
 
 ## Step 1: Create a Store {#step-1-create-a-store}
 
 Create a `store` with an initial state.
 
-::: tip Hint
+::: tip Tip
 **A `store` can be global or local, depending on your needs.**
 :::
 
@@ -14,24 +14,24 @@ import { create } from '@shined/reactive/vanilla'
 const store = create({ name: 'Bob' })
 ```
 
-::: tip Hint
-If you need to debug, you can enable Redux DevTools Extension support with `devtools`. See [Integrating with Redux DevTools](/guide/integrations/redux-devtools) for more details.
+::: tip Tip
+If you need to debug, you can enable Redux DevTools Extension support by using `devtools`. For more details, see [Integrating with Redux DevTools](/guide/integrations/redux-devtools).
 :::
 
 ## Step 2: Subscribe to Store Changes {#step-2-subscribe-store-changes}
 
-Subscribe to the `store` to get notified when the state changes.
+Subscribe to `store` to get notified when state changes.
 
 ```ts
 store.subscribe((changes) => {
-  // Do something when the state changes, like writing (syncing) `config` to the disk
+  // Do something when state changes, for example, sync `config` to disk
   console.log(changes)
 })
 ```
 
-## Step 3: Update the State {#step-3-update-state}
+## Step 3: Update State {#step-3-update-state}
 
-Directly modify the `store.mutate` object to update the state within the `store`.
+Directly modify the `store.mutate` object to update the state in `store`.
 
 ```ts
 store.mutate.name = 'Alice'
@@ -39,39 +39,29 @@ store.mutate.info = { age: 20 }
 store.mutate.info.age = 21
 ```
 
-## Step 4: Read the State {#step-4-get-snapshot}
+## Step 4: Get Snapshot {#step-4-get-snapshot}
 
-If you only need to read the state, you can directly access the `store.mutate` object while adhering to the `immutable` principle.
+If you just want to read the state, you can directly read the `store.mutate` object while following the `immutable` principle.
 
 ```ts
-// Directly read for primitive data types
+// For primitive data types, read directly
 const userId = store.mutate.userId
-// For reference types, create derived objects based on existing `store.mutate` to follow the `immutable` principle
+// For reference types, create derived objects based on the existing `store.mutate` to follow the `immutable` principle
 const namesToBeConsumed = store.mutate.list.map((item) => item.name);
 ```
-
-This approach covers most scenarios. If you really need to get a snapshot, you can use `getSnapshot()`.
-
-::: warning Important
-
-Reactive adopts a **read-write separation** strategy. A `Snapshot` is considered a "snapshot state" at a certain stage, which is **not extendable**. You can only modify the state by altering the `store.mutate` object, thus generating a new snapshot, in compliance with the `immutable` design principle.
+The above method covers most cases. If you really need to get a snapshot, you can use `store.snapshot()`.
 
 ```tsx
-const snapshot = getSnapshot(store.mutate)
-// Do not do this, as the snapshot is read-only, you should change the state through `store.mutate`
-snapshot.name = 'Alice' // ❌
-```
-:::
+// From version 0.1.5
+const { name } = store.snapshot()
 
-```ts
-import { getSnapshot } from '@shined/reactive/vanilla'
-  
-const { name: stateNameToRead } = store.mutate // For reading only
-const stateToConsume = getSnapshot(store.mutate) // For both reading and writing
+// For versions 0.1.4 and earlier
+import { getSnapshot } from '@shined/reactive'
+const { name } = getSnapshot(store.mutate)
 ```
 
 ## Step 5: Restore to Initial State {#step-5-restore-to-initial-state}
 
-If needed, you can also **restore** to the initial state easily with `store.restore()`, for example, when stopping or resetting logic, to reset the state.
+If needed, you can also easily **restore** to the initial state using `store.restore()`, for example, when stopping or resetting logic.
 
-`store.restore()` uses the newer [`structuredClone()`](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) API; consider adding a [polyfill](https://github.com/ungap/structured-clone) if needed.
+`store.restore()` uses the newer [structuredClone API](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone). If necessary, consider adding a [polyfill](https://github.com/ungap/structured-clone).

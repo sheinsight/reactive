@@ -1,0 +1,46 @@
+# 与 Redux DevTools 的集成
+
+## 开启方式
+
+Reactive 与 [Redux DevTools](https://github.com/reduxjs/redux-devtools#redux-devtools) 兼容开箱即用。您可以从 `@shined/reactive` 导入 `devtools` 并按如下方式启用：
+
+::: tip 提示
+要启用 DevTools，请确保已安装 [Redux DevTools](https://github.com/reduxjs/redux-devtools#redux-devtools) 浏览器扩展。完整的选项可以在 [Redux DevTools](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md#options) 文档中找到。
+:::
+
+```tsx {5}
+import { create, devtools } from '@shined/reactive'
+
+const store = create({ count: 1 })
+
+devtools(store, { name: 'awesome-store', enable: true }) // 初始化 store 并启用 devtools
+```
+
+## TypeScript
+
+如果需要获取 Redux DevTools 的 TypeScript 类型，可以安装 `@redux-devtools/extension` 来获取类型定义。
+
+import { PackageManagerTabs } from 'rspress/theme'
+
+<PackageManagerTabs
+  command={{
+    npm: 'npm install @redux-devtools/extension',
+    yarn: 'yarn add @redux-devtools/extension',
+    pnpm: 'pnpm add @redux-devtools/extension',
+    bun: 'bun add @redux-devtools/extension',
+  }}
+/>
+
+然后引入类型即可获取完整的 Option 类型定义。
+
+```tsx
+import { devtools } from '@shined/reactive'
+
+import type {} from '@redux-devtools/extension'
+
+devtools(store, {
+  name: 'awesome-store',
+  enable: true,
+  // 具备 TS 类型提示
+}) 
+```
