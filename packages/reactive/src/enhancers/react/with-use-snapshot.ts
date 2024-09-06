@@ -32,7 +32,7 @@ export interface WithUseSnapshotContributes<State extends object> {
  * )
  *
  * // in normal JS/TS
- * console.log(store.useSnapshot(), store.useSnapshot((s) => s.count))
+ * console.log(store.snapshot(), store.snapshot((s) => s.count))
  *
  * // in React component
  * export function App() {
