@@ -1,12 +1,11 @@
-import { createVanilla } from '../vanilla/create.js'
-import { withUseSnapshot } from '../enhancers/react/with-use-snapshot.js'
-import { withUseSubscribe } from '../enhancers/react/with-use-subscribe.js'
+import { withUseSnapshot, withUseSubscribe } from '../enhancers/react/index.js'
+import { withSnapshot, withSubscribe, createVanilla } from '../vanilla/index.js'
 
 import type { ExpandType } from '../utils/index.js'
 import type { StoreCreateOptions, VanillaStore } from '../vanilla/create.js'
 import type { SnapshotOptions, SnapshotSelector } from './use-snapshot.js'
-import type { WithUseSubscribeContributes } from '../enhancers/react/with-use-subscribe.js'
-import type { WithUseSnapshotContributes } from '../enhancers/react/with-use-snapshot.js'
+import type { WithSnapshotContributes, WithSubscribeContributes } from '../vanilla/index.js'
+import type { WithUseSnapshotContributes, WithUseSubscribeContributes } from '../enhancers/react/index.js'
 
 export interface StoreUseSnapshot<State> {
   (): State
@@ -17,12 +16,16 @@ export interface StoreUseSnapshot<State> {
 }
 
 export type Store<State extends object> = ExpandType<
-  VanillaStore<State> & WithUseSnapshotContributes<State> & WithUseSubscribeContributes<State>
+  VanillaStore<State> &
+    WithSubscribeContributes<State> &
+    WithSnapshotContributes<State> &
+    WithUseSnapshotContributes<State> &
+    WithUseSubscribeContributes<State>
 >
 
 export function createWithHooks<State extends object>(
   initialState: State,
   options: StoreCreateOptions = {},
 ): Store<State> {
-  return withUseSnapshot(withUseSubscribe(createVanilla<State>(initialState, options)))
+  return withUseSnapshot(withUseSubscribe(withSnapshot(withSubscribe(createVanilla<State>(initialState, options)))))
 }
