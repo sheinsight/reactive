@@ -7,7 +7,7 @@ export interface WithSnapshotContributes<State extends object> {
   /**
    * Get the snapshot of the state.
    */
-  snapshot: <StateSlice>(selector?: SnapshotSelector<State, StateSlice>) => StateSlice
+  snapshot: <StateSlice = State>(selector?: SnapshotSelector<State, StateSlice>) => StateSlice
 }
 
 /**
@@ -35,10 +35,10 @@ export interface WithSnapshotContributes<State extends object> {
 export function withSnapshot<Store extends VanillaStore<object>>(
   store: Store,
 ): Store & WithSnapshotContributes<Store['mutate']> {
-  const _snapshot = <StateSlice>(
+  const _snapshot = <StateSlice = Store>(
     selector: SnapshotSelector<Store['mutate'], StateSlice> = (s) => s as unknown as StateSlice,
   ) => {
-    return snapshot(store.mutate, selector)
+    return snapshot(store.mutate, selector) as StateSlice
   }
 
   return {
