@@ -1,4 +1,4 @@
-import { hasRef } from '../vanilla/ref.js'
+import { isRef } from '../vanilla/ref.js'
 import { reactFastCompare } from './react-fast-compare.js'
 
 export type ExpandType<T> = {
@@ -29,7 +29,7 @@ export function createObjectFromPrototype<T extends object>(target: T): T {
 export function canProxy(x: unknown) {
   return (
     isObject(x) &&
-    !hasRef(x) &&
+    !isRef(x) &&
     (Array.isArray(x) || !(Symbol.iterator in x)) &&
     !(x instanceof WeakMap) &&
     !(x instanceof WeakSet) &&

@@ -1,6 +1,6 @@
 import { LISTENERS, REACTIVE, SNAPSHOT, canProxy, createObjectFromPrototype, isObject } from '../utils/index.js'
 import { snapshot } from './snapshot.js'
-import { hasRef } from './ref.js'
+import { isRef } from './ref.js'
 
 let globalVersion = 1
 
@@ -58,7 +58,7 @@ export function proxy<State extends object>(initState: State, parentProps: Prope
 
       const value: any = Reflect.get(target, key, receiver)
 
-      if (hasRef(value)) {
+      if (isRef(value)) {
         nextSnapshot[key as keyof State] = value
       } else if (value?.[REACTIVE]) {
         nextSnapshot[key as keyof State] = snapshot(value)

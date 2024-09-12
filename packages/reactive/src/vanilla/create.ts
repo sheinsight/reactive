@@ -1,6 +1,7 @@
 import { proxy } from './proxy.js'
 import { withSnapshot } from '../enhancers/vanilla/with-snapshot.js'
 import { withSubscribe } from '../enhancers/vanilla/with-subscribe.js'
+import { deepCloneWithRef } from './ref.js'
 
 import type { SubscribeListener } from './subscribe.js'
 import type { WithSnapshotContributes } from '../enhancers/vanilla/with-snapshot.js'
@@ -50,7 +51,7 @@ export function createVanilla<State extends object>(
   const proxyState = proxy(initState)
 
   function restore() {
-    const clonedState = structuredClone(initState)
+    const clonedState = deepCloneWithRef(initState)
 
     for (const key of Object.keys(clonedState)) {
       proxyState[key as keyof State] = clonedState[key as keyof State]
