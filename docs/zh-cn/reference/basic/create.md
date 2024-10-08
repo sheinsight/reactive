@@ -1,28 +1,22 @@
 # create {#create}
 
-创建一个包含 Hooks 的 Store，适用于 React 应用，内置了 [withSubscribe](/guide/enhancers/builtins/with-subscribe)、[withUseSubscribe](/guide/enhancers/builtins/with-use-subscribe)、[withSnapshot](/guide/enhancers/builtins/with-snapshot) 和 [withUseSnapshot](/guide/enhancers/builtins/with-use-snapshot) 增强器，如果你在寻找一个不包含 Hooks 的 Store，请查看 [createVanilla](/reference/basic/create-vanilla#create-vanilla)。
+创建一个包含 Hooks 的 Store，适用于 React 应用，内置了 [withSubscribe](/guide/enhancers/builtins/with-subscribe)、[withUseSubscribe](/guide/enhancers/builtins/with-use-subscribe)、[withSnapshot](/guide/enhancers/builtins/with-snapshot) 和 [withUseSnapshot](/guide/enhancers/builtins/with-use-snapshot) 增强器，如果你正在寻找一个不包含 Hooks 的 Store，请查看 [createVanilla](/reference/basic/create-vanilla#create-vanilla)。
 
 ```tsx
 import { create } from '@shined/reactive';
 
-const store = create(initialState, options?);
+const store = create(initialState);
 
 // 使用示例
 const store = create({ count: 0});
 
-// store.mutate
-// store.restore()
+store.mutate
+store.restore()
 
-// store.useSnapshot()
-// store.snapshot()
-// store.subscribe()
-```
-
-相关类型定义：
-
-```tsx
-// 目前暂无创建选项
-export interface StoreCreateOptions {}
+store.snapshot()
+store.useSnapshot()
+store.subscribe()
+store.useSubscribe()
 ```
 
 ## store.mutate {#store-mutate}
@@ -43,11 +37,24 @@ store.mutate.info.hobbies.push('Coding');
 获取 Store 的快照，从 `v0.2.0` 版本起可用，由内置的 [withSnapshot](/guide/enhancers/builtins/with-snapshot) 增强器提供支持。
 
 ```tsx
-store.snapshot(selector?);
+const snapSlice = store.snapshot(selector?);
 
 // 使用示例
-store.snapshot();
-store.snapshot(s => s.count);
+const snap = store.snapshot();
+const count = store.snapshot(s => s.count);
+```
+
+相关类型定义：
+
+```tsx
+export interface WithSnapshotContributes<State extends object> {
+  /**
+   * 获得状态的快照。
+   */
+  snapshot: <StateSlice = State>(selector?: SnapshotSelector<State, StateSlice>) => StateSlice
+}
+
+export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
 ```
 
 ## store.useSnapshot {#store-use-snapshot}
@@ -61,15 +68,32 @@ store.useSnapshot(options?);
 store.useSnapshot(selector?, options?);
 
 // 使用示例
-store.useSnapshot();
-store.useSnapshot(s => s.count);
-store.useSnapshot({ sync: true });
-store.useSnapshot(s => s.inputValue, { sync: true });
+const snap = store.useSnapshot();
+const count = store.useSnapshot(s => s.count);
+const syncSnap = store.useSnapshot({ sync: true });
+const syncValue = store.useSnapshot(s => s.inputValue, { sync: true });
 ```
 
 相关类型定义：
 
 ```tsx
+export interface WithUseSnapshotContributes<State extends object> {
+  /**
+   * 获得状态的快照。
+   */
+  useSnapshot: StoreUseSnapshot<State>
+}
+
+export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
+
+export interface StoreUseSnapshot<State> {
+  (): State
+  (options: SnapshotOptions<State>): State
+  <StateSlice>(selector: SnapshotSelector<State, StateSlice>): StateSlice
+  <StateSlice>(selector: undefined, options: SnapshotOptions<StateSlice>): State
+  <StateSlice>(selector: SnapshotSelector<State, StateSlice>, options: SnapshotOptions<StateSlice>): StateSlice
+}
+
 export interface SnapshotOptions<StateSlice> {
   /**
    * 是否同步通知更新，默认为 false，即异步批量更新，以提高性能。
@@ -80,14 +104,12 @@ export interface SnapshotOptions<StateSlice> {
    */
   sync?: boolean
   /**
-   * Custom equality function to compare the previous and next state slices.
+   * 自定义相等性函数，用于比较前后两个状态片段。
    * 
    * @defaultValue Object.is
    */
   isEqual?: (a: StateSlice, b: StateSlice) => boolean
 }
-
-export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
 ```
 
 ## store.subscribe {#store-subscribe}
@@ -98,17 +120,46 @@ export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
 store.subscribe(listener, notifyInSync?, selector?);
 
 // 使用示例
-store.subscribe(s => {
-  console.log(s.count);
+store.subscribe(() => {
+  console.log(store.snapshot());
 });
-store.subscribe(s => {
-  console.log(s.count);
+
+const unsubscribe = store.subscribe(() => {
+  console.log(store.snapshot());
 }, true);
+
+// 取消订阅
+unsubscribe()
+```
+
+相关类型定义:
+
+```tsx
+export interface WithSubscribeContributes<State extends object> {
+  /**
+   * 订阅 Store 的状态变化。
+   *
+   * @param listener - 订阅的回调函数。
+   * @param sync - 是否同步通知更新，默认为 false，即异步批量更新，以提高性能。
+   * @param selector - 选择器，用于选择需要监听的状态片段。
+   */
+  subscribe: (listener: SubscribeListener<State>, sync?: boolean, selector?: (state: State) => object) => () => void
+}
+
+export type ChangeItem<State> = {
+  props: PropertyKey[] // ['a', 'b', 0, 'c']
+  propsPath: string // 'a.b[0].c'
+  previous: unknown
+  current: unknown
+  snapshot: State
+}
+
+export type SubscribeListener<State> = (changes: ChangeItem<State>, version?: number) => void
 ```
 
 ## store.useSubscribe {#store-use-subscribe}
 
-在 React 组件中订阅 Store 的变化，由内置的 [withUseSubscribe](/guide/enhancers/builtins/with-use-subscribe) 增强器提供支持，**除非必要，否则不推荐直接使用**。
+在 React 组件中订阅 Store 的变化，在组件 mount 时订阅变更，并在组件卸载时取消订阅，由内置的 [withUseSubscribe](/guide/enhancers/builtins/with-use-subscribe) 增强器提供支持，**除非必要，否则不推荐直接使用**。
 
 如果你需要基于状态变化执行一些副作用，应该首选使用 [useUpdateEffect](http://sheinsight.github.io/react-use/reference/use-update-effect)，而不是此方法。
 
@@ -128,12 +179,28 @@ store.useSnapshot(listener, options?);
 store.useSubscribe(() => {
   console.log('Store has changed');
 });
+
 store.useSubscribe(changes => {
   console.log('Store has changed', changes);
 });
+
 store.useSubscribe(() => {
   console.log('Store has changed');
 }, { sync: true });
+```
+
+相关类型定义：
+
+```tsx
+export interface WithUseSubscribeContributes<State extends object> {
+  /**
+   * 在 React 组件中订阅 Store 的变化。
+   *
+   * @param listener - 订阅的回调函数。
+   * @param notifyInSync - 是否同步通知更新，默认为 false，即异步批量更新，以提高性能。
+   */
+  useSubscribe: (listener: SubscribeListener<State>, notifyInSync?: boolean) => void
+}
 ```
 
 ## store.restore {#store-restore}

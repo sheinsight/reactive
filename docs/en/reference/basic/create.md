@@ -1,33 +1,27 @@
-# create
+# create {#create}
 
-Create a Store with Hooks for React applications, integrated with enhancers like [withSubscribe](/guide/enhancers/builtins/with-subscribe), [withUseSubscribe](/guide/enhancers/builtins/with-use-subscribe), [withSnapshot](/guide/enhancers/builtins/with-snapshot), and [withUseSnapshot](/guide/enhancers/builtins/with-use-snapshot). If you are looking for a Store without Hooks, check out [createVanilla](/reference/basic/create-vanilla#create-vanilla).
+Create a Store with Hooks for React applications, featuring built-in enhancers: [withSubscribe](/guide/enhancers/builtins/with-subscribe), [withUseSubscribe](/guide/enhancers/builtins/with-use-subscribe), [withSnapshot](/guide/enhancers/builtins/with-snapshot), and [withUseSnapshot](/guide/enhancers/builtins/with-use-snapshot). If you are looking for a Store without Hooks, please refer to [createVanilla](/reference/basic/create-vanilla#create-vanilla).
 
 ```tsx
 import { create } from '@shined/reactive';
 
-const store = create(initialState, options?);
+const store = create(initialState);
 
 // Usage example
 const store = create({ count: 0});
 
-// store.mutate
-// store.restore()
+store.mutate
+store.restore()
 
-// store.useSnapshot()
-// store.snapshot()
-// store.subscribe()
+store.snapshot()
+store.useSnapshot()
+store.subscribe()
+store.useSubscribe()
 ```
 
-Type definitions:
+## store.mutate {#store-mutate}
 
-```tsx
-// Currently, there are no creation options
-export interface StoreCreateOptions {}
-```
-
-## store.mutate \{#store-mutate}
-
-Proxy state, of the same object type as the initial value, which can be modified to change the Store's state.
+Proxy state, of the same object type as the initial value, allows for modifying this object to change the Store's status.
 
 ```tsx
 // Usage example
@@ -38,22 +32,34 @@ store.mutate.info = { name: 'Shined', age: 18 };
 store.mutate.info.hobbies.push('Coding');
 ```
 
-## store.snapshot \{#store-snapshot}
+## store.snapshot {#store-snapshot}
 
-Get a snapshot of the Store, available since version `v0.2.0`, supported by the built-in [withSnapshot](/guide/enhancers/builtins/with-snapshot) enhancer.
+Retrieve a snapshot of the Store, available since `v0.2.0`, supported by the built-in [withSnapshot](/guide/enhancers/builtins/with-snapshot) enhancer.
 
 ```tsx
-store.snapshot(selector?);
+const snapSlice = store.snapshot(selector?);
 
 // Usage example
-store.snapshot();
-store.snapshot(s => s.count);
+const snap = store.snapshot();
+const count = store.snapshot(s => s.count);
 ```
 
-## store.useSnapshot \{#store-use-snapshot}
+Related type definitions:
 
-Get a snapshot of the Store within a React component, supported by the built-in [withUseSnapshot](/guide/enhancers/builtins/with-use-snapshot) enhancer.
+```tsx
+export interface WithSnapshotContributes<State extends object> {
+  /**
+   * Retrieves a snapshot of the state.
+   */
+  snapshot: <StateSlice = State>(selector?: SnapshotSelector<State, StateSlice>) => StateSlice
+}
 
+export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
+```
+
+## store.useSnapshot {#store-use-snapshot}
+
+Retrieve a snapshot of the Store in a React component, supported by the built-in [withUseSnapshot](/guide/enhancers/builtins/with-use-snapshot) enhancer.
 
 ```tsx
 store.useSnapshot(selector?);
@@ -61,61 +67,105 @@ store.useSnapshot(options?);
 store.useSnapshot(selector?, options?);
 
 // Usage example
-store.useSnapshot();
-store.useSnapshot(s => s.count);
-store.useSnapshot({ sync: true });
-store.useSnapshot(s => s.inputValue, { sync: true });
+const snap = store.useSnapshot();
+const count = store.useSnapshot(s => s.count);
+const syncSnap = store.useSnapshot({ sync: true });
+const syncValue = store.useSnapshot(s => s.inputValue, { sync: true });
 ```
 
-Type definitions:
+Related type definitions:
 
 ```tsx
+export interface WithUseSnapshotContributes<State extends object> {
+  /**
+   * Retrieves a snapshot of the state.
+   */
+  useSnapshot: StoreUseSnapshot<State>
+}
+
+export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
+
+export interface StoreUseSnapshot<State> {
+  (): State
+  (options: SnapshotOptions<State>): State
+  <StateSlice>(selector: SnapshotSelector<State, StateSlice>): StateSlice
+  <StateSlice>(selector: undefined, options: SnapshotOptions<StateSlice>): State
+  <StateSlice>(selector: SnapshotSelector<State, StateSlice>, options: SnapshotOptions<StateSlice>): StateSlice
+}
+
 export interface SnapshotOptions<StateSlice> {
   /**
-   * Whether to notify updates synchronously, default is false, i.e., asynchronously batch updates to improve performance.
+   * Whether to notify updates synchronously, default is false, i.e., asynchronous batch updates to enhance performance.
    * 
-   * In some scenarios (such as using Chinese input methods in an input box), it may be necessary to immediately get the latest state, in which case it can be set to true.
+   * In some scenarios, such as using a Chinese input method in a text field, you may need to get the latest state immediately. Set this to true in those cases.
    * 
    * @defaultValue false
    */
   sync?: boolean
   /**
-   * Custom equality function to compare the previous and next state slices.
+   * Custom equality function used to compare the previous and next state slices.
    * 
    * @defaultValue Object.is
    */
   isEqual?: (a: StateSlice, b: StateSlice) => boolean
 }
-
-export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
 ```
 
-## store.subscribe \{#store-subscribe}
+## store.subscribe {#store-subscribe}
 
-Subscribe to Store changes, supported by the built-in [withSubscribe](/guide/enhancers/builtins/with-subscribe) enhancer, **not recommended for direct use unless necessary**.
+Subscribe to changes in the Store, supported by the built-in [withSubscribe](/guide/enhancers/builtins/with-subscribe) enhancer, **not recommended unless necessary**.
 
 ```tsx
 store.subscribe(listener, notifyInSync?, selector?);
 
 // Usage example
-store.subscribe(s => {
-  console.log(s.count);
+store.subscribe(() => {
+  console.log(store.snapshot());
 });
-store.subscribe(s => {
-  console.log(s.count);
+
+const unsubscribe = store.subscribe(() => {
+  console.log(store.snapshot());
 }, true);
+
+// Unsubscribe
+unsubscribe()
 ```
 
-## store.useSubscribe \{#store-use-subscribe}
+Related type definitions:
 
-Subscribe to Store changes within a React component, supported by the built-in [withUseSubscribe](/guide/enhancers/builtins/with-use-subscribe) enhancer, **not recommended for direct use unless necessary**.
+```tsx
+export interface WithSubscribeContributes<State extends object> {
+  /**
+   * Subscribe to changes in the Store's state.
+   *
+   * @param listener - The callback function to subscribe.
+   * @param sync - Whether to notify updates synchronously, default is false, for performance through asynchronous batch updates.
+   * @param selector - Selector for the state slice to listen for changes.
+   */
+  subscribe: (listener: SubscribeListener<State>, sync?: boolean, selector?: (state: State) => object) => () => void
+}
 
-If you need to perform some side effects based on state changes, [useUpdateEffect](http://sheinsight.github.io/react-use/reference/use-update-effect) should be your first choice, rather than this method.
+export type ChangeItem<State> = {
+  props: PropertyKey[] // ['a', 'b', 0, 'c']
+  propsPath: string // 'a.b[0].c'
+  previous: unknown
+  current: unknown
+  snapshot: State
+}
+
+export type SubscribeListener<State> = (changes: ChangeItem<State>, version?: number) => void
+```
+
+## store.useSubscribe {#store-use-subscribe}
+
+Subscribe to changes in the Store within React components, subscribing to changes upon component mount and unsubscribing on component unmount, supported by the built-in [withUseSubscribe](/guide/enhancers/builtins/with-use-subscribe) enhancer, **not recommended unless necessary**.
+
+If you need to perform some side effects based on state changes, [useUpdateEffect](http://sheinsight.github.io/react-use/reference/use-update-effect) is preferred over this method.
 
 ```tsx
 const count = store.useSnapshot(s => s.count);
 
-// Execute a side effect when count changes
+// Execute side effects when count changes
 useUpdateEffect(() => {
   console.log('Count has changed', count);
 }, [count]);
@@ -124,19 +174,35 @@ useUpdateEffect(() => {
 ```tsx
 store.useSnapshot(listener, options?);
 
-// Usage example, please consider using useUpdateEffect first
+// Usage example, prefer using useUpdateEffect
 store.useSubscribe(() => {
   console.log('Store has changed');
 });
+
 store.useSubscribe(changes => {
   console.log('Store has changed', changes);
 });
+
 store.useSubscribe(() => {
   console.log('Store has changed');
 }, { sync: true });
 ```
 
-## store.restore \{#store-restore}
+Related type definitions:
+
+```tsx
+export interface WithUseSubscribeContributes<State extends object> {
+  /**
+   * Subscribe to changes in the Store within React components.
+   *
+   * @param listener - The subscription callback function.
+   * @param notifyInSync - Whether to notify updates synchronously, default is false, for asynchronous batch updates enhancing performance.
+   */
+  useSubscribe: (listener: SubscribeListener<State>, notifyInSync?: boolean) => void
+}
+```
+
+## store.restore {#store-restore}
 
 Restore the Store to its initial state.
 
