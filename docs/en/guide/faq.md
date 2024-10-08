@@ -2,7 +2,7 @@
 
 ## ❓ How to Store Unproxied State in Reactive Proxied Store \{#store-unproxied-state}
 
-You can achieve this by using [ref](/reference/root#ref). This is particularly useful when you want to nest an object within the proxy that is not wrapped by the internal proxy (such as storing DOM elements, File objects, and other unstructured data). However, please note that its changes will **not** be tracked. For more details and considerations, please refer to [ref](/reference/root#ref).
+You can achieve this by using [ref](/reference/advanced/ref). This is particularly useful when you want to nest an object within the proxy that is not wrapped by the internal proxy (such as storing DOM elements, File objects, and other unstructured data). However, please note that its changes will **not** be tracked. For more details and considerations, please refer to [ref](/reference/advanced/ref).
 
 ## ❓ When State is Passed to `<input />`, Input May Be Interrupted \{#work-with-input-composition-events}
 
