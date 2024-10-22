@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
 import { act, renderHook } from '@testing-library/react'
+import { describe, expect, it } from 'vitest'
 import { create } from '../../vanilla/index.js'
 import { withUseDerived } from '../react/with-use-derived.js'
 

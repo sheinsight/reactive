@@ -1,10 +1,10 @@
+import { useSnapshot } from '../../react/use-snapshot.js'
 import { isFunction } from '../../utils/index.js'
 import { withSnapshot } from '../vanilla/with-snapshot.js'
-import { useSnapshot } from '../../react/use-snapshot.js'
 
-import type { VanillaStore } from '../../vanilla/create.js'
 import type { StoreUseSnapshot } from '../../react/create-with-hooks.js'
 import type { SnapshotOptions, SnapshotSelector } from '../../react/use-snapshot.js'
+import type { VanillaStore } from '../../vanilla/create.js'
 
 export interface WithUseSnapshotContributes<State extends object> {
   /**

@@ -1,7 +1,7 @@
-import { describe, expect, it, vi } from 'vitest'
 import { act, renderHook } from '@testing-library/react'
-import { withUseSubscribe } from './with-use-subscribe.js'
+import { describe, expect, it, vi } from 'vitest'
 import { createVanilla } from '../../vanilla/create.js'
+import { withUseSubscribe } from './with-use-subscribe.js'
 
 describe('withUseSubscribe', () => {
   it('should enhance the store with useSubscribe method', () => {

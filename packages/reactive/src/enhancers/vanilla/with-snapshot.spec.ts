@@ -1,6 +1,6 @@
+import { describe, expect, it } from 'vitest'
 import { create } from '../../vanilla/create.js'
 import { withSnapshot } from './with-snapshot.js'
-import { describe, expect, it } from 'vitest'
 
 describe('withSnapshot', () => {
   it('should return a store with a snapshot method', () => {

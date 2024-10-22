@@ -1,8 +1,8 @@
-import { withDerived } from '../vanilla/with-derived.js'
 import { useSnapshot } from '../../react/use-snapshot.js'
+import { withDerived } from '../vanilla/with-derived.js'
 
-import type { VanillaStore } from '../../vanilla/index.js'
 import type { SnapshotOptions } from '../../react/use-snapshot.js'
+import type { VanillaStore } from '../../vanilla/index.js'
 import type { WithDerivedContributes } from '../vanilla/with-derived.js'
 
 export interface WithUseDerivedContributes<State extends object, Derived extends object = State>

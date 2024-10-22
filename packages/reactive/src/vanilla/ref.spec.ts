@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { isRef, ref, deepCloneWithRef } from './ref.js'
+import { deepCloneWithRef, isRef, ref } from './ref.js'
 
 describe('ref', () => {
   it('should return the same object', () => {

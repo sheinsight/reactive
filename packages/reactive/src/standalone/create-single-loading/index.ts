@@ -1,5 +1,5 @@
-import { createWithHooks } from '../../react/create-with-hooks.js'
 import { useAsyncFn as useAsyncFnOrigin } from '@shined/react-use'
+import { createWithHooks } from '../../react/create-with-hooks.js'
 
 import type { UseAsyncFnReturns } from '@shined/react-use'
 import type { AnyFunc } from '../../utils/index.js'

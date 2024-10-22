@@ -1,7 +1,7 @@
-import { describe, expect, it } from 'vitest'
 import { act, renderHook } from '@testing-library/react'
-import { withUseSnapshot } from '../react/with-use-snapshot.js'
+import { describe, expect, it } from 'vitest'
 import { create } from '../../vanilla/create.js'
+import { withUseSnapshot } from '../react/with-use-snapshot.js'
 
 describe('withUseSnapshot', () => {
   it('should enhance a store with useSnapshot method', () => {

@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest'
 
 import {
-  ref,
-  devtools,
-  subscribe,
-  produce,
-  snapshot,
-  createVanilla,
-  getSnapshot,
   create,
+  createVanilla,
+  devtools,
+  getSnapshot,
+  produce,
+  ref,
+  snapshot,
+  subscribe,
   useReactive,
 } from './index.js'
 

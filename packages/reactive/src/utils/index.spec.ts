@@ -6,12 +6,12 @@ import {
   SNAPSHOT,
   canProxy,
   createObjectFromPrototype,
+  deepEqual,
   get,
+  isFunction,
   isObject,
   propertyKeysToPath,
   shallowEqual,
-  isFunction,
-  deepEqual,
 } from './index.js'
 
 describe('isObject', () => {

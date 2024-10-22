@@ -1,6 +1,6 @@
+import { describe, expect, it, vi } from 'vitest'
 import { create } from '../../vanilla/create.js'
 import { withSubscribe } from './with-subscribe.js'
-import { describe, expect, it, vi } from 'vitest'
 
 describe('withSubscribe', () => {
   it('should subscribe to store state changes', async () => {

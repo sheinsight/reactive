@@ -1,11 +1,11 @@
-import { proxy } from './proxy.js'
 import { withSnapshot } from '../enhancers/vanilla/with-snapshot.js'
 import { withSubscribe } from '../enhancers/vanilla/with-subscribe.js'
+import { proxy } from './proxy.js'
 import { deepCloneWithRef } from './ref.js'
 
-import type { SubscribeListener } from './subscribe.js'
 import type { WithSnapshotContributes } from '../enhancers/vanilla/with-snapshot.js'
 import type { WithSubscribeContributes } from '../enhancers/vanilla/with-subscribe.js'
+import type { SubscribeListener } from './subscribe.js'
 
 // biome-ignore lint/suspicious/noEmptyInterface: for future use
 export interface StoreCreateOptions {}

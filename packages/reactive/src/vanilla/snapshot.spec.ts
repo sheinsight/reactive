@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
 import { SNAPSHOT } from '../utils/index.js'
-import { getSnapshot } from './snapshot.js'
 import { proxy } from './proxy.js'
+import { getSnapshot } from './snapshot.js'
 
 describe('getSnapshot', () => {
   it('should get snapshot from proxyState', () => {

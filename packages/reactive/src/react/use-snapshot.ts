@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
-import { snapshot, subscribe } from '../vanilla/index.js'
-import { isFunction, shallowEqual } from '../utils/index.js'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector.js'
+import { isFunction, shallowEqual } from '../utils/index.js'
+import { snapshot, subscribe } from '../vanilla/index.js'
 
 import type { SubscribeListener } from '../vanilla/index.js'
 

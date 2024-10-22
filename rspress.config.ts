@@ -1,6 +1,6 @@
 import path from 'node:path'
-import { defineConfig } from 'rspress/config'
 import { pluginGoogleAnalytics } from 'rsbuild-plugin-google-analytics'
+import { defineConfig } from 'rspress/config'
 import { locale } from './locale'
 
 import type { RspressPlugin } from '@rspress/shared'

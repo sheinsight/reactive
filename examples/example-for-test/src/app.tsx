@@ -32,7 +32,11 @@ export default function App() {
 
   console.log('re-render', count)
 
-  return <button onClick={handleClick}>Test</button>
+  return (
+    <button type="button" onClick={handleClick}>
+      Test
+    </button>
+  )
 }
 
 // export default function App() {
