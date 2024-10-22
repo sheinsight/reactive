@@ -1,8 +1,8 @@
 import { Area } from './area'
 
 import BasicDemo from './basic'
-import UseEffectDemo from './use-effect'
 import PerformanceDemo from './performance'
+import UseEffectDemo from './use-effect'
 
 export default function App() {
   return (

@@ -1,4 +1,4 @@
-import { store, changeInfo, mockFetch } from './store.ts'
+import { changeInfo, mockFetch, store } from './store.ts'
 
 export const SingeStore = () => {
   const state = store.useSnapshot()

@@ -1,4 +1,4 @@
-import { PropsWithChildren, HTMLAttributes } from 'react'
+import type { HTMLAttributes, PropsWithChildren } from 'react'
 export default function ChildrenContainer(props: PropsWithChildren<HTMLAttributes<any>>) {
   return (
     <div

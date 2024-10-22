@@ -1,4 +1,4 @@
-import { devtools, create } from '@shined/reactive'
+import { create, devtools } from '@shined/reactive'
 
 import type { Store } from '@shined/reactive'
 

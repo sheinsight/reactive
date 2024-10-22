@@ -1,6 +1,6 @@
+import { memo } from 'react'
 import ChildrenContainer from './children-container'
 import { store } from './store'
-import { memo } from 'react'
 
 export default memo(function Children4() {
   const snap = store.useSnapshot()

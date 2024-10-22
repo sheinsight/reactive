@@ -10,7 +10,14 @@
     "enabled": true
   },
   "files": {
-    "include": ["./packages/**/*", "./scripts/*.ts", "./locale.ts", "./rspress.config.ts"],
+    "include": [
+      "./examples/**/app.tsx",
+      "./packages/**/*",
+      "./scripts/*.ts",
+      "./locale.ts",
+      "./rspress.config.ts"
+    ],
+    "ignore": ["./packages/reactive/src/utils/react-fast-compare.ts"],
     "ignoreUnknown": true
   },
   "linter": {

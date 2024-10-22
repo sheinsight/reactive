@@ -1,4 +1,4 @@
-import { userStore, loginStore, verifyUser, logout } from './store.ts'
+import { loginStore, logout, userStore, verifyUser } from './store.ts'
 
 export const MultipleStore = () => {
   const user = userStore.useSnapshot()

@@ -11,10 +11,7 @@ export default function Children1() {
   }, [snap.children1])
 
   return (
-    <ChildrenContainer
-      className={`box ${shake ? 'shake' : ''}`}
-      onAnimationEnd={() => setShake(false)}
-    >
+    <ChildrenContainer className={`box ${shake ? 'shake' : ''}`} onAnimationEnd={() => setShake(false)}>
       <h3>Child 1</h3>
       {snap.children1.name}
     </ChildrenContainer>
