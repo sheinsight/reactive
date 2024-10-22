@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@shined/reactive':
-        specifier: ^0.1.4
-        version: 0.1.4(react@18.3.1)
+        specifier: ^0.2.2
+        version: 0.2.2(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -277,11 +277,14 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@shined/reactive@0.1.4':
-    resolution: {integrity: sha512-khFZWojl7x2/B+wSfzIKIETG0RR5q/IyJa+nZYRU0GMojY7dtqu4qAVYkl1g38V2RoB5I83bydVLs59EU28eSg==}
+  '@shined/reactive@0.2.2':
+    resolution: {integrity: sha512-7qZN51ClozLtSDb5ZnKKY4suYyAy9WhQPm8Z6+w3GVsmlLS3urPb/T+E7AGemOnlUgM8jaqozmjG9w9S+/+Dsg==}
     peerDependencies:
+      '@shined/react-use': ^1.0.0
       react: ^16.8 || ^17.0.0 || ^18.0.0
     peerDependenciesMeta:
+      '@shined/react-use':
+        optional: true
       react:
         optional: true
 
@@ -718,7 +721,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@shined/reactive@0.1.4(react@18.3.1)':
+  '@shined/reactive@0.2.2(react@18.3.1)':
     dependencies:
       use-sync-external-store: 1.2.2(react@18.3.1)
     optionalDependencies:
