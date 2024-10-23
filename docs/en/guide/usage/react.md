@@ -10,7 +10,7 @@ Create a `store` with an initial state using the `create` API. It is recommended
 
 - If you need a global state, you can place the `store` globally and then import it anywhere in your application.
 - If you need a local state, you can create a `store` within the component directory and then import it for use within the component to maintain the independence of the component logic.
-- If neither scenario fits your situation, you may also consider using a lighter component-level Hooks solution [useReactive](/reference/advanced/use-reactive).
+- If neither scenario fits your situation, you may also consider using a lighter component-level Hooks solution [useReactive](/reference/basic/use-reactive).
 
 :::
 

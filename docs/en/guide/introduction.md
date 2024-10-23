@@ -35,7 +35,7 @@ function App() {
 }
 ```
 
-For more information, please refer to [React Usage](/usage/react) or [API Reference](/reference/basic/create).
+For more information, please refer to [React Usage](/guide/usage/react) or [API Reference](/reference/basic/create).
 
 ## Try It Online \{#try-it-online}
 

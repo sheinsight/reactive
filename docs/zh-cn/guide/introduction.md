@@ -35,7 +35,7 @@ function App() {
 }
 ```
 
-更多信息，请参阅 [React 用法](/usage/react) 或 [API 参考](/reference/basic/create)。
+更多信息，请参阅 [React 用法](/guide/usage/react) 或 [API 参考](/reference/basic/create)。
 
 ## 在线尝试 \{#try-it-online}
 

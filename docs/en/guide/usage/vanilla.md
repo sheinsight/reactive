@@ -1,7 +1,7 @@
 # Using Reactive in Vanilla JavaScript {#use-reactive-in-vanilla}
 
 ::: tip Tip
-In Vanilla scenarios, please import all APIs from `/vanilla` to avoid errors due to dependencies on React without it being installed.
+In Vanilla scenarios, please import all APIs from `/vanilla`.
 :::
 
 ## Step 1: Create a Store {#step-1-create-a-store}

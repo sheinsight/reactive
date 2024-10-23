@@ -1,7 +1,7 @@
 # 在 Vanilla JavaScript 中使用 Reactive {#use-reactive-in-vanilla}
 
 ::: tip 提示
-Vanilla 场景下，所有的 API 请从 `/vanilla` 导入，否则将因依赖了 React，但是没有安装而导致报错。
+Vanilla 场景下，所有的 API 请从 `/vanilla` 导入。
 :::
 
 ## 第 1 步：创建一个 Store {#step-1-create-a-store}

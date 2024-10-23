@@ -10,7 +10,7 @@
 
 - 如果你需要全局状态，可以将 `store` 放在全局下，然后在应用程序的任何地方导入它。
 - 如果你需要局部状态，可以在组件目录内创建 `store`，然后在组件内引入使用以保持组件逻辑的独立性。
-- 如果都不符合你的场景，也可以考虑使用更加轻量的组件级 Hooks 方案 [useReactive](/reference/advanced/use-reactive)。
+- 如果都不符合你的场景，也可以考虑使用更加轻量的组件级 Hooks 方案 [useReactive](/reference/basic/use-reactive)。
 
 :::
 
