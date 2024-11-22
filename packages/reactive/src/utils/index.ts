@@ -23,7 +23,7 @@ export const isObject = (x: unknown): x is object => typeof x === 'object' && x 
 export const isFunction = (x: unknown): x is (...args: any[]) => any => typeof x === 'function'
 
 export function createObjectFromPrototype<T extends object>(target: T): T {
-  return Array.isArray(target) ? [] : Object.create(Object.getPrototypeOf(target))
+  return (Array.isArray(target) ? [] : Object.create(Object.getPrototypeOf(target))) as T
 }
 
 export function canProxy(x: unknown) {
