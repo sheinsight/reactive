@@ -27,5 +27,5 @@ export function createWithHooks<State extends object>(
   initialState: State,
   options: StoreCreateOptions = {},
 ): Store<State> {
-  return withUseSnapshot(withUseSubscribe(withSnapshot(withSubscribe(createVanilla<State>(initialState, options)))))
+  return withUseSnapshot(withUseSubscribe(createVanilla<State>(initialState, options)))
 }

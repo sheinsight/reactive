@@ -19,7 +19,7 @@ export interface WithSubscribeContributes<State extends object> {
  * @param store - The store to be enhanced.
  * @returns The enhanced store.
  *
- * @since 0.5.0
+ * @since 0.2.0
  *
  * @example
  *

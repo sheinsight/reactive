@@ -16,7 +16,7 @@ export interface WithSnapshotContributes<State extends object> {
  * @param store - The store to enhance.
  * @returns The enhanced store.
  *
- * @since 0.5.0
+ * @since 0.2.0
  *
  * @example
  *

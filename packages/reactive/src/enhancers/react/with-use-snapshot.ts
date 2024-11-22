@@ -1,6 +1,5 @@
 import { useSnapshot } from '../../react/use-snapshot.js'
 import { isFunction } from '../../utils/index.js'
-import { withSnapshot } from '../vanilla/with-snapshot.js'
 
 import type { StoreUseSnapshot } from '../../react/create-with-hooks.js'
 import type { SnapshotOptions, SnapshotSelector } from '../../react/use-snapshot.js'
@@ -19,7 +18,7 @@ export interface WithUseSnapshotContributes<State extends object> {
  * @param store - The store to enhance.
  * @returns The enhanced store.
  *
- * @since 0.5.0
+ * @since 0.2.0
  *
  * @example
  *

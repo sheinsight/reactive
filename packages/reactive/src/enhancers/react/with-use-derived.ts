@@ -20,7 +20,7 @@ export interface WithUseDerivedContributes<State extends object, Derived extends
  * @param mapFn - The function to map the state to the derived state.
  * @returns The enhanced store.
  * 
- * @since 0.5.0
+ * @since 0.2.0
  * 
  * @example
  * 
