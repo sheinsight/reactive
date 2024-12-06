@@ -6,7 +6,10 @@
   "module": "dist/index.js",
   "description": "⚛️ Proxy-driven state library for JavaScript application, Intuitive, Flexible and Written in TypeScript.",
   "homepage": "https://sheinsight.github.io/reactive/",
-  "files": ["./dist", "./src"],
+  "files": [
+    "./dist",
+    "./src"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sheinsight/reactive.git",
@@ -42,10 +45,17 @@
     "registry": "https://registry.npmjs.org/"
   },
   "sideEffects": false,
-  "keywords": ["react", "hooks", "reactive", "state", "store", "use-sync-external-store"],
+  "keywords": [
+    "react",
+    "hooks",
+    "reactive",
+    "state",
+    "store",
+    "use-sync-external-store"
+  ],
   "license": "MIT",
   "dependencies": {
-    "use-sync-external-store": "^1.2.2"
+    "use-sync-external-store": "^1.4.0"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -57,22 +67,22 @@
   },
   "devDependencies": {
     "@redux-devtools/extension": "^3.3.0",
-    "@swc/core": "^1.7.18",
+    "@swc/core": "^1.10.0",
     "@testing-library/react": "^14.3.1",
-    "@types/node": "^20.16.1",
-    "@types/react": "^18.3.4",
+    "@types/node": "^20.17.9",
+    "@types/react": "^18.3.14",
     "@types/use-sync-external-store": "^0.0.6",
-    "@vitest/coverage-v8": "^2.0.5",
+    "@vitest/coverage-v8": "^2.1.8",
     "clean-pkg-json": "^1.2.0",
-    "prettier": "^3.3.3",
+    "prettier": "^3.4.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tsup": "^8.2.4",
-    "typescript": "^5.5.4",
-    "vitest": "^2.0.5"
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
   },
   "peerDependencies": {
-    "@shined/react-use": "^1.0.0",
-    "react": "^16.8 || ^17.0.0 || ^18.0.0"
+    "@shined/react-use": ">= 1.0.0",
+    "react": ">= 16.8.0"
   }
 }
