@@ -30,3 +30,25 @@ function App() {
   )
 }
 ```
+
+## ❓ 当操作超大数据集（通常读千万次以上）时，有较为明显的卡顿 {#large-data}
+
+在几乎绝大多数使用场景中，您可能不会遇到性能瓶颈。然而，当在处理超大数据集（千万级别以上读操作次数）时，性能问题可能会成为一个难题。这主要是由于使用 `Proxy` 时，每次数据访问都会触发代理的 `Getter` 方法，从而在进行大量的读操作时产生显著的性能开销，为避免超大数据集下的性能问题，可以考虑以下解决策略：
+
+- **使用 useState：** 使用 `useState` 等钩子单独管理不需要响应式特性的大数据集。
+- **使用 ref 包裹：** 使用 [ref](/reference/advanced/ref) 包裹大数据集以避免被 `Proxy` 代理。
+
+你可以通过以下代码在控制台中直观地感受到这种性能差异：
+
+```tsx
+const obj = { name: 'Reactive' };
+const proxiedObj = new Proxy(obj, {});
+
+console.time('Normal Object Get');
+for(let i = 0; i < 100_000_000; i++) obj.name;
+console.timeEnd('Normal Object Get'); // ～50ms, Chrome 131, MacBook Pro (M1 Pro + 16G)
+
+console.time('Proxied Object Get');
+for(let i = 0; i < 100_000_000; i++) proxiedObj.name;
+console.timeEnd('Proxied Object Get'); // ～1000ms, Chrome 131, MacBook Pro (M1 Pro + 16G)
+```

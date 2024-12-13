@@ -30,3 +30,25 @@ function App() {
   )
 }
 ```
+
+## ❓ When Handling Extremely Large Datasets (Typically Tens of Millions of Reads or More), Noticeable Lags Occur
+
+In the vast majority of use cases, you are unlikely to encounter performance bottlenecks. However, when dealing with extremely large datasets (with tens of millions of read operations or more), performance issues may become a problem. This is mainly because, when using `Proxy`, every data access triggers the proxy's `Getter` method, thereby causing a significant performance overhead during a large number of read operations. To avoid performance issues with extremely large datasets, consider the following solutions:
+
+- **Use useState:** Manage large datasets that don't require reactive features separately using hooks like `useState`.
+- **Use ref to wrap:** Wrap large datasets with [ref](/reference/advanced/ref) to prevent them from being proxied by `Proxy`.
+
+You can feel this performance difference intuitively by running the following code in the console:
+
+```tsx
+const obj = { name: 'Reactive' };
+const proxiedObj = new Proxy(obj, {});
+
+console.time('Normal Object Get');
+for(let i = 0; i < 100_000_000; i++) obj.name;
+console.timeEnd('Normal Object Get'); // ~50ms, Chrome 131, MacBook Pro (M1 Pro + 16G)
+
+console.time('Proxied Object Get');
+for(let i = 0; i = 100_000_000; i++) proxiedObj.name;
+console.timeEnd('Proxied Object Get'); // ~1000ms, Chrome 131, MacBook Pro (M1 Pro + 16G)
+```
