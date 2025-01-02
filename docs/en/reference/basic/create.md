@@ -209,3 +209,20 @@ Restore the Store to its initial state.
 ```tsx
 store.restore();
 ```
+
+Optional params for configuring restore behavior.
+
+```tsx
+export interface RestoreOptions<State extends object> {
+  /**
+   * When restoring the initial state, retain the state of some **top-level** property key names.
+   *
+   * @since 0.2.5
+   */
+  exclude?: (keyof State)[]
+}
+```
+
+```tsx
+store.restore({ exclude: ['count'] });
+```

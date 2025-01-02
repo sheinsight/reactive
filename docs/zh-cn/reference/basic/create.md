@@ -210,3 +210,20 @@ export interface WithUseSubscribeContributes<State extends object> {
 ```tsx
 store.restore();
 ```
+
+可选传入一个 Options 对象，用于配置恢复行为
+
+```tsx
+export interface RestoreOptions<State extends object> {
+  /**
+   * 在恢复初始化状态时，保留某些**顶层**属性键名的状态。
+   *
+   * @since 0.2.5
+   */
+  exclude?: (keyof State)[]
+}
+```
+
+```tsx
+store.restore({ exclude: ['count'] });
+```

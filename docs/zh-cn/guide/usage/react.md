@@ -182,8 +182,6 @@ export default function App() {
 
 如果需要，你也可以通过 `store.restore()` 轻松地**恢复**到初始状态，比如在组件卸载时，重置状态。
 
-`store.restore()` 中使用了较新的 [structuredClone API](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone)，如果有需要，请考虑添加一个 [polyfill](https://github.com/ungap/structured-clone)。
-
 ```tsx
 import { useUnmount } from '@shined/react-use'
 import { store } from './store'
@@ -198,4 +196,3 @@ export default function App() {
   )
 }
 ```
-

@@ -22,10 +22,10 @@ export type StoreSubscriber<State extends object> = (
   /**
    * @deprecated It is confusing, and makes TS type wrong in callback's `changes` argument. It will be removed in the next major version.
    */
-  selector?: (state: State) => object,
+  selector?: (state: State) => object
 ) => () => void
 
-export type VanillaStore<State extends object> = {
+export interface VanillaStore<State extends object> {
   /**
    * The mutable state object, whose changes will trigger subscribers.
    */
@@ -33,7 +33,16 @@ export type VanillaStore<State extends object> = {
   /**
    * Restore to initial state.
    */
-  restore: () => void
+  restore: (options?: RestoreOptions<State>) => void
+}
+
+export interface RestoreOptions<State extends object> {
+  /**
+   * Exclude some **top** keys from restoring.
+   *
+   * @since 0.2.5
+   */
+  exclude?: (keyof State)[]
 }
 
 /**
@@ -46,14 +55,17 @@ export type VanillaStore<State extends object> = {
  */
 export function createVanilla<State extends object>(
   initState: State,
-  options: StoreCreateOptions = {},
+  options: StoreCreateOptions = {}
 ): VanillaStore<State> & WithSubscribeContributes<State> & WithSnapshotContributes<State> {
   const proxyState = proxy(initState)
 
-  function restore() {
+  function restore(options: RestoreOptions<State> = {}) {
+    const { exclude = [] } = options
+
     const clonedState = deepCloneWithRef(initState)
 
     for (const key of Object.keys(clonedState)) {
+      if (exclude.includes(key as keyof State)) continue
       proxyState[key as keyof State] = clonedState[key as keyof State]
     }
   }

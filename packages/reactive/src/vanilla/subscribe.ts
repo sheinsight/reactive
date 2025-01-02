@@ -3,7 +3,7 @@ import { snapshot } from './snapshot.js'
 
 import type { StoreListener } from './proxy.js'
 
-export type ChangeItem<State> = {
+export interface ChangeItem<State> {
   props: PropertyKey[]
   propsPath: string
   previous: unknown
@@ -21,7 +21,7 @@ export type SubscribeListener<State> = (changes: ChangeItem<State>, version?: nu
 export function subscribe<State extends object>(
   proxyState: State,
   callback: SubscribeListener<State>,
-  notifyInSync?: boolean,
+  notifyInSync?: boolean
 ) {
   let promise: Promise<void> | undefined
   let previousState = snapshot(proxyState)

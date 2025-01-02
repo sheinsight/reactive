@@ -18,6 +18,29 @@ export {
 } from './vanilla/index.js'
 
 export {
+  /**
+   * Create a store with React hooks. If you are in a Vanilla JavaScript environment, consider using [createVanilla](https://sheinsight.github.io/reactive/zh-cn/reference/basic/create-vanilla.html) instead.
+   *
+   * 创建一个带有 React hooks 的 store。如果你在 Vanilla JavaScript 环境中使用 store，请考虑使用 [createVanilla](https://sheinsight.github.io/reactive/zh-cn/reference/basic/create-vanilla.html) 替代。
+   *
+   * @link https://sheinsight.github.io/reactive/reference/basic/create.html
+   *
+   * @example
+   *
+   * ```tsx
+   * import { create } from '@shined/reactive'
+   *
+   * const store = create({ count: 0 })
+   *
+   * function increaseCount() {
+   *   store.mutate.count++
+   * }
+   *
+   * function Counter() {
+   *   const count = store.useSnapshot(s => s.count)
+   *   return <button onClick={increaseCount}>Count is {count}</button>
+   * }
+   */
   createWithHooks as create,
   /**
    * @since 0.2.0

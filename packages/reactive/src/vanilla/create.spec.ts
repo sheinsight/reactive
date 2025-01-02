@@ -3,7 +3,7 @@ import { describe, expect, it, vitest } from 'vitest'
 
 import { useSnapshot } from '../react/use-snapshot.js'
 import { create } from './create.js'
-import { getSnapshot } from './snapshot.js'
+import { snapshot } from './snapshot.js'
 
 describe('index', () => {
   it('create, proxy, useSnapshot and subscribe should be defined', () => {
@@ -26,7 +26,7 @@ describe('index', () => {
     })
 
     const { result } = renderHook(() => useSnapshot(store.mutate))
-    expect(result.current).toEqual(getSnapshot(store.mutate))
+    expect(result.current).toEqual(snapshot(store.mutate))
 
     const callback = vitest.fn()
     store.subscribe(callback)
@@ -70,6 +70,72 @@ describe('index', () => {
 
     expect(store.mutate).toMatchObject({
       name: 'Pikachu',
+      address: {
+        city: 'NanJing',
+      },
+    })
+  })
+
+  it('should not restore excluded keys', async () => {
+    const store = create({
+      name: 'Pikachu',
+      info: {
+        age: 10,
+      },
+      address: {
+        city: 'NanJing',
+      },
+    })
+
+    store.mutate.name = 'Charmander'
+    store.mutate.info.age = 20
+    store.restore({
+      exclude: ['name', 'info'],
+    })
+
+    await Promise.resolve()
+
+    expect(store.mutate).toMatchObject({
+      name: 'Charmander',
+      info: {
+        age: 20,
+      },
+      address: {
+        city: 'NanJing',
+      },
+    })
+
+    store.mutate.name = 'Charmander'
+    store.mutate.info.age = 20
+    store.restore({
+      exclude: ['info'],
+    })
+
+    await Promise.resolve()
+
+    expect(store.mutate).toMatchObject({
+      name: 'Pikachu',
+      info: {
+        age: 20,
+      },
+      address: {
+        city: 'NanJing',
+      },
+    })
+
+    store.mutate.name = 'Charmander'
+    store.mutate.info.age = 20
+    store.restore({
+      exclude: [],
+    })
+
+    await Promise.resolve()
+
+    expect(store.mutate).toMatchObject({
+      name: 'Pikachu',
+      info: {
+        age: 10,
+      },
       address: {
         city: 'NanJing',
       },

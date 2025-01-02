@@ -182,8 +182,6 @@ export default function App() {
 
 If needed, you can easily **restore** to the initial state through `store.restore()`, for example, resetting the state when the component unmounts.
 
-`store.restore()` uses the newer [structuredClone API](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone), consider adding a [polyfill](https://github.com/ungap/structured-clone) if necessary.
-
 ```tsx
 import { useUnmount } from '@shined/react-use'
 import { store } from './store'
