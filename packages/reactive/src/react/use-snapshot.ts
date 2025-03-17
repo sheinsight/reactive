@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/with-selector.js'
 import { isFunction, shallowEqual } from '../utils/index.js'
 import { snapshot, subscribe } from '../vanilla/index.js'
@@ -30,26 +30,37 @@ export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
  * @since 0.2.0
  */
 export function useSnapshot<State extends object>(state: State): State
-export function useSnapshot<State extends object>(state: State, options: SnapshotOptions<State>): State
+export function useSnapshot<State extends object>(
+  state: State,
+  options: SnapshotOptions<State>
+): State
 export function useSnapshot<State extends object, StateSlice>(
   state: State,
-  selector: SnapshotSelector<State, StateSlice>,
+  selector: SnapshotSelector<State, StateSlice>
 ): StateSlice
 export function useSnapshot<State extends object, StateSlice>(
   state: State,
   selector: undefined,
-  options: SnapshotOptions<StateSlice>,
+  options: SnapshotOptions<StateSlice>
 ): State
 export function useSnapshot<State extends object, StateSlice>(
   state: State,
   selector?: SnapshotSelector<State, StateSlice>,
-  options?: SnapshotOptions<StateSlice>,
+  options?: SnapshotOptions<StateSlice>
 ): StateSlice
 export function useSnapshot<State extends object, StateSlice>(
   proxyState: State,
   selectorOrOption?: SnapshotOptions<StateSlice> | SnapshotSelector<State, StateSlice>,
-  maybeOptions?: SnapshotOptions<StateSlice>,
+  maybeOptions?: SnapshotOptions<StateSlice>
 ) {
+  const isUnmountedRef = useRef(false)
+
+  useEffect(() => {
+    return () => {
+      isUnmountedRef.current = true
+    }
+  }, [])
+
   let options: SnapshotOptions<StateSlice> | undefined
   let selector: SnapshotSelector<State, StateSlice> | undefined
 
@@ -65,7 +76,7 @@ export function useSnapshot<State extends object, StateSlice>(
 
   const _subscribe = useCallback(
     (callback: SubscribeListener<State>) => subscribe(proxyState, callback, updateInSync),
-    [proxyState, updateInSync],
+    [proxyState, updateInSync]
   )
 
   const _getSnapshot = useCallback(() => snapshot(proxyState), [proxyState])
@@ -77,7 +88,10 @@ export function useSnapshot<State extends object, StateSlice>(
     _getSnapshot,
     _getSnapshot,
     _selector,
-    isEqual,
+    (a, b) => {
+      if (isUnmountedRef.current) return true
+      return isEqual(a, b)
+    }
   )
 
   return _snapshot as StateSlice
