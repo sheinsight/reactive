@@ -21,7 +21,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@rspress/shared": "1.28.0",
-    "@types/node": "^20.17.47",
+    "@types/node": "^20.17.50",
     "@types/semver": "^7.7.0",
     "@unocss/reset": "^0.62.4",
     "bumpp": "^9.11.1",
