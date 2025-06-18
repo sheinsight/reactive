@@ -19,18 +19,18 @@ const store = create({
 });
 
 // ✅ You should do this, which is to only change the properties inside the ref object, not the ref object itself
-store.tableRef.tableEl = document.getElementById('table');
-store.fileRef.file = new File([''], 'example.txt');
+store.mutate.tableRef.tableEl = document.getElementById('table');
+store.mutate.fileRef.file = new File([''], 'example.txt');
 
 // ✅ Then you can operate on the non-proxy state inside, such as reading and writing
-store.tableRef.tableEl.addEventListener('click', () => {
+store.mutate.tableRef.tableEl.addEventListener('click', () => {
   console.log('table clicked');
 });
-store.fileRef.file.text().then(text => {
+store.mutate.fileRef.file.text().then(text => {
   console.log(text);
 });
 
 // ❌ Do not change the ref object itself, as it will lead to unexpected behavior
-store.tableRef = { tableEl: document.getElementById('table') };
-store.fileRef = { file: new File([''], 'example.txt') };
+store.mutate.tableRef = { tableEl: document.getElementById('table') };
+store.mutate.fileRef = { file: new File([''], 'example.txt') };
 ```

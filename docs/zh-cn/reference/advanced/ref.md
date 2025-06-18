@@ -19,18 +19,18 @@ const store = create({
 });
 
 // ✅ 你应该这样做，即只改变 ref 对象内部的属性，而不是更改 ref 对象本身
-store.tableRef.tableEl = document.getElementById('table');
-store.fileRef.file = new File([''], 'example.txt');
+store.mutate.tableRef.tableEl = document.getElementById('table');
+store.mutate.fileRef.file = new File([''], 'example.txt');
 
 // ✅ 然后可以对内部非代理状态进行操作，读写等
-store.tableRef.tableEl.addEventListener('click', () => {
+store.mutate.tableRef.tableEl.addEventListener('click', () => {
   console.log('table clicked');
 });
-store.fileRef.file.text().then(text => {
+store.mutate.fileRef.file.text().then(text => {
   console.log(text);
 });
 
 // ❌ 不要更改 ref 对象本身，会导致意外的行为
-store.tableRef = { tableEl: document.getElementById('table') };
-store.fileRef = { file: new File([''], 'example.txt') };
+store.mutate.tableRef = { tableEl: document.getElementById('table') };
+store.mutate.fileRef = { file: new File([''], 'example.txt') };
 ```
