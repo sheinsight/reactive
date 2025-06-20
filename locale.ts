@@ -119,6 +119,10 @@ export const sidebar = {
             text: 'produce',
             link: '/reference/advanced/produce',
           },
+          {
+            text: 'setGlobalNotifyInSync',
+            link: `/reference/advanced/set-global-notify-in-sync`,
+          },
         ],
       },
       {
@@ -238,7 +242,7 @@ export const sidebar = {
         link: `/${langSlug.zhCN}/guide/faq`,
       },
     ],
-    '/reference': [
+    '/zh-cn/reference': [
       {
         text: '基础 API',
         items: [
@@ -270,6 +274,10 @@ export const sidebar = {
           {
             text: 'produce',
             link: `/${langSlug.zhCN}/reference/advanced/produce`,
+          },
+          {
+            text: 'setGlobalNotifyInSync',
+            link: `/${langSlug.zhCN}/reference/advanced/set-global-notify-in-sync`,
           },
         ],
       },

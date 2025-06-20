@@ -4,6 +4,14 @@
 
 这样的状态类似于普通的 JavaScript 对象，它不会被跟踪，所以作用在其上的变化也**不会触发更新通知**，适用于不想被 Store 代理追踪、但是想确保使用体验一致的场景。比如存储 DOM 元素、File 对象等非结构化数据。
 
+## 类型
+
+```ts
+export declare function ref<T extends object>(o: T): T
+```
+
+## 用法示例
+
 ```tsx
 import { ref } from '@shined/reactive';
 

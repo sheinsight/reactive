@@ -23,6 +23,7 @@ export default defineConfig({
   description: locale.en.description,
   outDir: 'docs-dist',
   plugins,
+  globalStyles: path.join(__dirname, './docs/theme/style.css'),
   themeConfig: {
     // enableContentAnimation: true,
     enableScrollToTop: true,
@@ -39,12 +40,14 @@ export default defineConfig({
   builderPlugins,
   builderConfig: {
     html: {
-      tags: process.env.IS_SODOC ? [{ tag: 'script', children: "window.RSPRESS_THEME = 'light';" }] : [],
+      tags: process.env.IS_SODOC
+        ? [{ tag: 'script', children: "window.RSPRESS_THEME = 'light';" }]
+        : [],
     },
     output: {
       cleanDistPath: true,
     },
-    source: {
+    resolve: {
       alias: {
         '@@': path.resolve(__dirname, './'),
         '@': path.resolve(__dirname, './src'),

@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@rspress/shared": "1.28.0",
+    "@rspress/shared": "1.44.0",
     "@types/node": "^20.19.1",
     "@types/semver": "^7.7.0",
     "@unocss/reset": "^0.62.4",
@@ -34,7 +34,7 @@
     "read-pkg": "^9.0.1",
     "read-yaml-file": "^2.1.0",
     "rsbuild-plugin-google-analytics": "^1.0.3",
-    "rspress": "1.28.0",
+    "rspress": "1.44.0",
     "semver": "^7.7.2",
     "tsx": "^4.20.3",
     "vitepress": "^1.6.3",
