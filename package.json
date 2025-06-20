@@ -2,7 +2,7 @@
   "name": "reactive-mono-repo",
   "private": true,
   "version": "0.2.6",
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.12.1",
   "type": "module",
   "license": "MIT",
   "scripts": {
@@ -21,7 +21,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@rspress/shared": "1.28.0",
-    "@types/node": "^20.17.50",
+    "@types/node": "^20.19.1",
     "@types/semver": "^7.7.0",
     "@unocss/reset": "^0.62.4",
     "bumpp": "^9.11.1",
@@ -36,9 +36,9 @@
     "rsbuild-plugin-google-analytics": "^1.0.3",
     "rspress": "1.28.0",
     "semver": "^7.7.2",
-    "tsx": "^4.19.4",
+    "tsx": "^4.20.3",
     "vitepress": "^1.6.3",
     "write-package": "^7.1.0",
-    "zx": "^8.5.4"
+    "zx": "^8.5.5"
   }
 }
