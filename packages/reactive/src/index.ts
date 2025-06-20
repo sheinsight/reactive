@@ -4,6 +4,10 @@ export {
   subscribe,
   produce,
   /**
+   * @since 0.3.0
+   */
+  setGlobalNotifyInSync,
+  /**
    * @since 0.2.0
    */
   snapshot,

@@ -35,9 +35,12 @@ export interface WithUseSubscribeContributes<State extends object> {
  *
  */
 export function withUseSubscribe<Store extends VanillaStore<object>>(
-  store: Store,
+  store: Store
 ): Store & WithUseSubscribeContributes<Store['mutate']> {
-  const boundUseSubscribe = (listener: SubscribeListener<Store['mutate']>, notifyInSync: boolean = false) => {
+  const boundUseSubscribe = (
+    listener: SubscribeListener<Store['mutate']>,
+    notifyInSync?: boolean
+  ) => {
     return useSubscribe(store.mutate, listener, notifyInSync)
   }
 

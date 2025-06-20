@@ -55,7 +55,7 @@ export interface RestoreOptions<State extends object> {
  */
 export function createVanilla<State extends object>(
   initState: State,
-  options: StoreCreateOptions = {}
+  _options: StoreCreateOptions = {}
 ): VanillaStore<State> & WithSubscribeContributes<State> & WithSnapshotContributes<State> {
   const proxyState = proxy(initState)
 

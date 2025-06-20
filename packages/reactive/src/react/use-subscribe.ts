@@ -15,14 +15,18 @@ import type { SubscribeListener } from '../vanilla/subscribe'
 export function useSubscribe<State extends object>(
   proxyState: State,
   listener: SubscribeListener<State>,
-  notifyInSync: boolean = false,
+  notifyInSync?: boolean
 ) {
   // useLatest
   const listenerRef = useRef(listener)
   listenerRef.current = listener
 
   useEffect(() => {
-    const unsubscribe = subscribe(proxyState, (...args) => listenerRef.current(...args), notifyInSync)
+    const unsubscribe = subscribe(
+      proxyState,
+      (...args) => listenerRef.current(...args),
+      notifyInSync
+    )
 
     return unsubscribe
   }, [proxyState, notifyInSync])

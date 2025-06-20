@@ -1,5 +1,5 @@
-import { LISTENERS, get, propertyKeysToPath } from '../utils/index.js'
 import { snapshot } from './snapshot.js'
+import { LISTENERS, get, isBoolean, propertyKeysToPath } from '../utils/index.js'
 
 import type { StoreListener } from './proxy.js'
 
@@ -12,12 +12,32 @@ export interface ChangeItem<State> {
 }
 
 /**
- * @deprecated Use `SubscribeCallback` instead. Will be removed in the next major version.
+ * @deprecated Use `SubscribeListener` instead. Will be removed in the next major version.
  */
 export type SubscribeCallback<State> = SubscribeListener<State>
 
 export type SubscribeListener<State> = (changes: ChangeItem<State>, version?: number) => void
 
+let globalNotifyInSync: boolean = false
+
+/**
+ * Set the global default `sync` option.
+ *
+ * when the`sync` option is not set, this value will be used as fallback.
+ *
+ * set to `true` to notify subscribers in sync by default, or `false` to notify them asynchronously by default.
+ *
+ * @default false
+ *
+ * @since 0.3.0
+ */
+export function setGlobalNotifyInSync(value: boolean) {
+  globalNotifyInSync = value
+}
+
+/**
+ * Subscribe to the store's state changes.
+ */
 export function subscribe<State extends object>(
   proxyState: State,
   callback: SubscribeListener<State>,
@@ -48,7 +68,9 @@ export function subscribe<State extends object>(
 
     callbacks.add(() => void callback(changes, version))
 
-    if (notifyInSync) {
+    const finalNotifyInSync = isBoolean(notifyInSync) ? notifyInSync : globalNotifyInSync
+
+    if (finalNotifyInSync) {
       return void runCallbacks()
     }
 

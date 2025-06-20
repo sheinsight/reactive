@@ -10,7 +10,11 @@ export interface WithSubscribeContributes<State extends object> {
    * @param sync - Whether to call the listener synchronously.
    * @param selector - A selector to select a part of the state to be passed to the listener.
    */
-  subscribe: (listener: SubscribeListener<State>, sync?: boolean, selector?: (state: State) => object) => () => void
+  subscribe: (
+    listener: SubscribeListener<State>,
+    sync?: boolean,
+    selector?: (state: State) => object
+  ) => () => void
 }
 
 /**
@@ -35,12 +39,12 @@ export interface WithSubscribeContributes<State extends object> {
  *
  */
 export function withSubscribe<Store extends VanillaStore<object>>(
-  store: Store,
+  store: Store
 ): Store & WithSubscribeContributes<Store['mutate']> {
   function boundSubscribe(
     listener: SubscribeListener<Store['mutate']>,
-    sync = false,
-    selector: (state: Store['mutate']) => object = (s: Store['mutate']) => s,
+    sync?: boolean,
+    selector: (state: Store['mutate']) => object = (s: Store['mutate']) => s
   ) {
     return subscribe(selector(store.mutate) as Store['mutate'], listener, sync)
   }

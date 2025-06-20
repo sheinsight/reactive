@@ -8,6 +8,7 @@ import {
   createObjectFromPrototype,
   deepEqual,
   get,
+  isBoolean,
   isFunction,
   isObject,
   propertyKeysToPath,
@@ -33,6 +34,36 @@ describe('isObject', () => {
 
   it('should return false for number', () => {
     expect(isObject(100)).toBe(false)
+  })
+})
+
+describe('isBoolean', () => {
+  it('should return true for boolean', () => {
+    expect(isBoolean(true)).toBe(true)
+  })
+
+  it('should return false for boolean', () => {
+    expect(isBoolean(false)).toBe(true)
+  })
+
+  it('should return false for object', () => {
+    expect(isBoolean({})).toBe(false)
+  })
+
+  it('should return false for null', () => {
+    expect(isBoolean(null)).toBe(false)
+  })
+
+  it('should return false for undefined', () => {
+    expect(isBoolean(undefined)).toBe(false)
+  })
+
+  it('should return false for string', () => {
+    expect(isBoolean('a string')).toBe(false)
+  })
+
+  it('should return false for number', () => {
+    expect(isBoolean(100)).toBe(false)
   })
 })
 

@@ -72,7 +72,7 @@ export function useSnapshot<State extends object, StateSlice>(
     selector = selectorOrOption
   }
 
-  const { sync: updateInSync = false, isEqual = shallowEqual } = options ?? {}
+  const { sync: updateInSync, isEqual = shallowEqual } = options ?? {}
 
   const _subscribe = useCallback(
     (callback: SubscribeListener<State>) => subscribe(proxyState, callback, updateInSync),
