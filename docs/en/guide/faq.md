@@ -1,16 +1,14 @@
-# Frequently Asked Questions
+# FAQ
 
 ## ❓ How to Store Unproxied State in Reactive Store {#store-unproxied-state}
 
-You can use [ref](/reference/advanced/ref) to achieve this. This is very useful when you want to nest an object that is not wrapped by the internal proxy within the proxy (such as storing DOM elements, File objects, and other unstructured data), but please note that its changes will **not** be tracked. For more details and considerations, please refer to [ref](/reference/advanced/ref).
+You can use [ref](/reference/advanced/ref) to achieve this. This is very useful when you want to embed an object that is not wrapped by internal proxies within a proxy (such as storing DOM elements, File objects, and other unstructured data), but note that its changes will **not** be tracked. For more details and considerations, please refer to [ref](/reference/advanced/ref).
 
 ## ❓ Input Process May Be Interrupted When State Values Are Passed to `<input />` Elements {#input-chinese}
 
-By default, when state changes occur, Reactive internally notifies changes asynchronously to achieve batching updates for rendering optimization. If you want to disable this (for example, when used with `<input />` elements, which may conflict with the input method's [Composition events](https://developer.mozilla.org/en-US/docs/Web/API/CompositionEvent)), you can set the `sync` option to `true` when using `store.useSnapshot` to notify changes synchronously and avoid this issue.
+By default, Reactive internally notifies changes asynchronously when state changes occur, to achieve batched updates for rendering optimization. If you want to disable this (for example, when used with `<input />` elements, it may conflict with input method [Composition events](https://developer.mozilla.org/en-US/docs/Web/API/CompositionEvent)), you can set the `sync` option to `true` when using `store.useSnapshot` to notify changes synchronously and avoid this issue.
 
-Additionally, if you are using React 18 or above, you can consider using the [setGlobalNotifyInSync](/reference/advanced/set-global-notify-in-sync) method to globally set the `sync` option to `true` to resolve this issue.
-
-```tsx {8}
+```tsx
 const store = create({ inputValue: '' })
 
 const updateInputValue = (value: string) => {
@@ -18,7 +16,7 @@ const updateInputValue = (value: string) => {
 }
 
 function App() {
-  // Note: using sync: true here to notify changes synchronously, avoiding input method interruption
+  // Note that sync: true is used here to notify changes synchronously, avoiding input method composition interruption
   const inputValue = store.useSnapshot((s) => s.inputValue, { sync: true })
 
   return (
@@ -30,18 +28,42 @@ function App() {
     />
   )
 }
+```
 
+This issue is difficult to avoid. The pseudo-code for Reactive's internal asynchronous notification is as follows, which allows you to intuitively experience this input method composition interruption phenomenon:
+
+```tsx
+import { useState } from 'react'
+
+export default function App() {
+  const [state, setState] = useState('')
+
+  return (
+    <input
+      value={state}
+      onChange={(e) => {
+        const value = e.target.value
+        Promise.resolve().then(() => setState(value))
+      }}
+    />
+  )
+}
+```
+
+Additionally, if you are using React 18 or above, you can consider using the [setGlobalNotifyInSync](/reference/advanced/set-global-notify-in-sync) method introduced in version `0.3.0` to globally set the `sync` option to `true` to solve this issue. For more information, please refer to the [setGlobalNotifyInSync](/reference/advanced/set-global-notify-in-sync) documentation.
+
+```tsx
 // If you are using React 18 or above, you can globally set sync to true in the entry file
 import { setGlobalNotifyInSync } from '@shined/reactive'
 setGlobalNotifyInSync(true);
 ```
 
-## ❓ Noticeable Lag When Operating on Large Data Sets (Usually Over Ten Million Read Operations) {#large-data}
+## ❓ Noticeable Lag When Operating on Large Datasets (Usually Tens of Millions of Reads or More) {#large-data}
 
-In almost all use cases, you may not encounter performance bottlenecks. However, when dealing with extremely large data sets (tens of millions of read operations and above), performance issues may become a challenge. This is mainly because when using `Proxy`, each data access triggers the proxy's `Getter` method, resulting in significant performance overhead during large-scale read operations. To avoid performance issues with large data sets, consider the following strategies:
+In almost all use cases, you may not encounter performance bottlenecks. However, when dealing with extremely large datasets (tens of millions of read operations or more), performance issues may become a challenge. This is mainly because when using `Proxy`, each data access triggers the proxy's `Getter` method, resulting in significant performance overhead during large-scale read operations. To avoid performance issues with large datasets, consider the following strategies:
 
-- **Use useState:** Use hooks like `useState` to separately manage large data sets that don't require reactive features.
-- **Use ref wrapping:** Use [ref](/reference/advanced/ref) to wrap large data sets to avoid being proxied by `Proxy`.
+- **Use useState:** Use hooks like `useState` to separately manage large datasets that don't require reactive features.
+- **Use ref wrapping:** Use [ref](/reference/advanced/ref) to wrap large datasets to avoid being proxied by `Proxy`.
 
 You can intuitively experience this performance difference through the following code in the console:
 

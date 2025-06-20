@@ -8,9 +8,7 @@
 
 默认情况下，当状态变更时 Reactive 内部会异步地通知变更，来实现合并更新（即批处理）的效果，以优化渲染。如果你想禁用它（例如被 `<input />` 等元素使用时，可能与输入法的 [Composition 事件](https://developer.mozilla.org/en-US/docs/Web/API/CompositionEvent) 冲突），你可以在使用 `store.useSnapshot` 时设置 `sync` 选项为 `true` 来同步地通知变更，以避免这个问题。
 
-此外，如果你使用 React 18 及以上版本，可以考虑使用 [setGlobalNotifyInSync](/reference/advanced/set-global-notify-in-sync) 方法来全局设置 `sync` 选项为 `true` 以解决此问题。
-
-```tsx {8}
+```tsx
 const store = create({ inputValue: '' })
 
 const updateInputValue = (value: string) => {
@@ -30,7 +28,31 @@ function App() {
     />
   )
 }
+```
 
+这个问题难以避免，暂无更好方式处理。Reactive 内部异步通知的伪代码如下，你可以直观感受这种输入法组词中断的现象：
+
+```tsx
+import { useState } from 'react'
+
+export default function App() {
+  const [state, setState] = useState('')
+
+  return (
+    <input
+      value={state}
+      onChange={(e) => {
+        const value = e.target.value
+        Promise.resolve().then(() => setState(value))
+      }}
+    />
+  )
+}
+```
+
+此外，如果你使用 React 18 及以上版本，可以考虑使用 `0.3.0` 版本起引入的 [setGlobalNotifyInSync](/reference/advanced/set-global-notify-in-sync) 方法来全局设置 `sync` 选项为 `true` 以解决此问题，更多请参考 [setGlobalNotifyInSync](/reference/advanced/set-global-notify-in-sync) 文档。
+
+```tsx
 // 如果你使用 React 18 及以上版本，可以在入口文件中全局设置 sync 为 true
 import { setGlobalNotifyInSync } from '@shined/reactive'
 setGlobalNotifyInSync(true);
