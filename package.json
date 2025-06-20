@@ -1,7 +1,7 @@
 {
   "name": "reactive-mono-repo",
   "private": true,
-  "version": "0.2.6",
+  "version": "0.3.0-beta.1",
   "packageManager": "pnpm@10.12.1",
   "type": "module",
   "license": "MIT",
