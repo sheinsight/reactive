@@ -3,10 +3,13 @@
 // import UseEffectDemo from './use-effect'
 // import PerformanceDemo from './performance'
 
-import { create } from '@shined/reactive'
+import { create, setGlobalNotifyInSync } from '@shined/reactive'
 import { useEffect, useState } from 'react'
 
 const store = create({ inputValue: 'init', count: 0, other: true, other2: false })
+const inputStore = create({ inputValue: '' })
+
+setGlobalNotifyInSync(true)
 
 export default function App() {
   const { count } = store.useSnapshot({ sync: true })
@@ -30,12 +33,22 @@ export default function App() {
     //   setOther2(!other2)
   }
 
+  const { inputValue } = inputStore.useSnapshot()
+
   console.log('re-render', count)
 
   return (
-    <button type="button" onClick={handleClick}>
-      Test
-    </button>
+    <div>
+      <input
+        value={inputValue}
+        onChange={(event) => {
+          inputStore.mutate.inputValue = event.target.value
+        }}
+      />
+      <button type="button" onClick={handleClick}>
+        Test
+      </button>
+    </div>
   )
 }
 
