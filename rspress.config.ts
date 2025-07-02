@@ -19,7 +19,7 @@ if (process.env.IS_SODOC) {
 export default defineConfig({
   root: path.resolve(__dirname, './docs'),
   base,
-  lang: 'en',
+  lang: 'zh-cn',
   title: 'Reactive',
   description: locale.en.description,
   outDir: 'docs-dist',
