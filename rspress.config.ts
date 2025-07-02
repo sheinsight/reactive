@@ -10,7 +10,8 @@ const plugins: RspressPlugin[] = []
 const builderPlugins: ReturnType<typeof pluginGoogleAnalytics>[] = []
 
 if (process.env.IS_SODOC) {
-  plugins.push(require('@shein/rspress-plugin-sodoc')())
+  const mod = require('@shein/rspress-plugin-sodoc');
+  plugins.push((mod.default || mod)())
 } else {
   builderPlugins.push(pluginGoogleAnalytics({ id: 'G-R8D51L3PN0' }))
 }
