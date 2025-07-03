@@ -10,7 +10,7 @@ const plugins: RspressPlugin[] = []
 const builderPlugins: ReturnType<typeof pluginGoogleAnalytics>[] = []
 
 if (process.env.IS_SODOC) {
-  const mod = require('@shein/rspress-plugin-sodoc');
+  const mod = require('@shein/rspress-plugin-sodoc')
   plugins.push((mod.default || mod)())
 } else {
   builderPlugins.push(pluginGoogleAnalytics({ id: 'G-R8D51L3PN0' }))
@@ -19,7 +19,7 @@ if (process.env.IS_SODOC) {
 export default defineConfig({
   root: path.resolve(__dirname, './docs'),
   base,
-  lang: 'zh-cn',
+  lang: 'en',
   title: 'Reactive',
   description: locale.en.description,
   outDir: 'docs-dist',
