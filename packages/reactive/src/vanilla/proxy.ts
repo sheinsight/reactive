@@ -1,4 +1,12 @@
-import { LISTENERS, REACTIVE, SNAPSHOT, canProxy, createObjectFromPrototype, isObject } from '../utils/index.js'
+import {
+  LISTENERS,
+  REACTIVE,
+  PROXY_COUNT,
+  SNAPSHOT,
+  canProxy,
+  createObjectFromPrototype,
+  isObject,
+} from '../utils/index.js'
 import { isRef } from './ref.js'
 import { snapshot } from './snapshot.js'
 
@@ -13,7 +21,15 @@ export type StoreListener = (props: PropertyKey[], version?: number) => void
  */
 export type Listener = StoreListener
 
-export function proxy<State extends object>(initState: State, parentProps: PropertyKey[] = []): State {
+export function proxy<State extends object>(
+  initState: State,
+  parentProps: PropertyKey[] = [],
+  options?: {
+    addParentProxyCount: (value?: number) => void
+  }
+): State {
+  const { addParentProxyCount = () => {} } = options || {}
+
   let version = globalVersion
 
   // for all changes including nested objects, stored in `proxyState[LISTENERS]`
@@ -54,7 +70,7 @@ export function proxy<State extends object>(initState: State, parentProps: Prope
     snapshotCache.set(receiver, [version, nextSnapshot])
 
     for (const key of Reflect.ownKeys(target)) {
-      if (key === REACTIVE) continue
+      if (key === REACTIVE || key === PROXY_COUNT) continue
 
       const value: any = Reflect.get(target, key, receiver)
 
@@ -74,6 +90,12 @@ export function proxy<State extends object>(initState: State, parentProps: Prope
 
   const baseObject = createObjectFromPrototype(initState)
 
+  const addCurrentProxyCount = (value: number = 1) => {
+    addParentProxyCount(value)
+    const count = (Reflect.get(proxyState, PROXY_COUNT) || 1) as number
+    Reflect.defineProperty(proxyState, PROXY_COUNT, { value: count + value, writable: true })
+  }
+
   const proxyState = new Proxy(baseObject, {
     get(target, prop, receiver) {
       if (prop === LISTENERS) {
@@ -86,13 +108,16 @@ export function proxy<State extends object>(initState: State, parentProps: Prope
     },
     set(target, prop, value, receiver) {
       const props = [...parentProps, prop]
-      const preValue = Reflect.get(target, prop, receiver)
+      const preValue = Reflect.get(target, prop, receiver) as any
 
       // when set a new object to `prop`, we need to remove the old listeners
       // in outdated object in `prop`, which is not in proxy state anymore
       // meanwhile, we need to pop the old listener from `propListenerMap`
-      const childListeners = (preValue as any)?.[LISTENERS]
-      if (childListeners) childListeners.delete(popPropListener(prop))
+      const childListeners = preValue?.[LISTENERS]
+
+      if (childListeners) {
+        childListeners.delete(popPropListener(prop))
+      }
 
       if (!isObject(value) && Object.is(preValue, value)) {
         // `return true` means the operation is successful,
@@ -107,7 +132,17 @@ export function proxy<State extends object>(initState: State, parentProps: Prope
         // if the value is a proxy object, we need to merge the listeners
         nextValue[LISTENERS].add(getPropListener(prop))
       } else if (canProxy(value)) {
-        nextValue = proxy(value, props)
+        if (preValue?.[REACTIVE]) {
+          const childrenCount = preValue?.[PROXY_COUNT] || 1
+          addCurrentProxyCount(-childrenCount)
+        }
+
+        addCurrentProxyCount(1)
+
+        nextValue = proxy(value, props, {
+          addParentProxyCount: addCurrentProxyCount,
+        })
+
         nextValue[LISTENERS].add(getPropListener(prop))
       }
 
@@ -117,19 +152,35 @@ export function proxy<State extends object>(initState: State, parentProps: Prope
     },
     deleteProperty(target: State, prop: string | symbol) {
       const props = [...parentProps, prop]
-      const childListeners = (Reflect.get(target, prop) as any)?.[LISTENERS]
-      if (childListeners) childListeners.delete(popPropListener(prop))
+      const preValue = Reflect.get(target, prop) as any
+      const childListeners = preValue?.[LISTENERS]
+
+      if (childListeners) {
+        childListeners.delete(popPropListener(prop))
+      }
+
+      if (preValue?.[REACTIVE]) {
+        const childrenCount = preValue?.[PROXY_COUNT] || 1
+        addCurrentProxyCount(-childrenCount)
+      }
+
       const success = Reflect.deleteProperty(target, prop)
       success && notifyUpdate(props)
       return success
     },
   })
 
+  // mark the proxy state as reactive state
+  Reflect.defineProperty(proxyState, REACTIVE, { value: true })
+
   for (const key of Reflect.ownKeys(initState)) {
     proxyState[key as keyof State] = initState[key as keyof State]
   }
 
-  Reflect.defineProperty(proxyState, REACTIVE, { value: true })
+  // Initialize the reactive count property if it doesn't exist
+  if (!Reflect.has(proxyState, PROXY_COUNT)) {
+    Reflect.defineProperty(proxyState, PROXY_COUNT, { value: 1, writable: true })
+  }
 
   return proxyState
 }

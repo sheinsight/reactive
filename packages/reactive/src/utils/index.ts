@@ -14,6 +14,7 @@ export type AnyFunc = (...args: any[]) => any
 export const SNAPSHOT = Symbol('SNAPSHOT')
 export const LISTENERS = Symbol('LISTENERS')
 export const REACTIVE = Symbol('REACTIVE')
+export const PROXY_COUNT = Symbol('PROXY_COUNT')
 
 export const isProduction = process.env.NODE_ENV === 'production'
 

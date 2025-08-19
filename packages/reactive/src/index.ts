@@ -16,6 +16,10 @@ export {
    */
   createVanilla,
   /**
+   * @since 0.3.1
+   */
+  proxyCount,
+  /**
    * @deprecated Use `snapshot` instead. Will be removed in the next major version.
    */
   getSnapshot,
