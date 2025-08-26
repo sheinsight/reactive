@@ -29,6 +29,7 @@ export default defineConfig({
     // enableContentAnimation: true,
     enableScrollToTop: true,
     darkMode: !process.env.IS_SODOC,
+    search: !process.env.IS_SODOC,
     socialLinks: [
       {
         icon: 'github',
