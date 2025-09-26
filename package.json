@@ -12,6 +12,7 @@
     "test:ci": "pnpm --filter '@shined/*' test:ci",
     "lint": "biome check",
     "lint:fix": "biome check --fix --unsafe",
+    "publish:ci": "esno ./scripts/publish-ci.ts",
     "release": "bumpp -r",
     "docs:dev": "rspress dev docs",
     "docs:build": "pnpm install && esno ./scripts/build-docs.ts",
