@@ -42,7 +42,12 @@ export function canProxy(x: unknown) {
     !(x instanceof RegExp) &&
     !(x instanceof ArrayBuffer) &&
     !(x instanceof Promise) &&
-    !(x instanceof File)
+    // from node 18 & 20
+    (typeof File === 'undefined' || !(x instanceof File)) &&
+    // from node 18
+    (typeof Blob === 'undefined' || !(x instanceof Blob)) &&
+    // from node 18
+    (typeof FormData === 'undefined' || !(x instanceof FormData))
   )
 }
 
