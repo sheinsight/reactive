@@ -40,7 +40,9 @@ export function canProxy(x: unknown) {
     !(x instanceof Date) &&
     !(x instanceof String) &&
     !(x instanceof RegExp) &&
-    !(x instanceof ArrayBuffer)
+    !(x instanceof ArrayBuffer) &&
+    !(x instanceof Promise) &&
+    !(x instanceof File)
   )
 }
 

@@ -74,9 +74,7 @@ export function proxy<State extends object>(
 
       const value: any = Reflect.get(target, key, receiver)
 
-      if (isRef(value)) {
-        nextSnapshot[key as keyof State] = value
-      } else if (value?.[REACTIVE]) {
+      if (value?.[REACTIVE]) {
         nextSnapshot[key as keyof State] = snapshot(value)
       } else {
         nextSnapshot[key as keyof State] = value

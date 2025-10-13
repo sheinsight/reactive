@@ -3,14 +3,24 @@
 // import UseEffectDemo from './use-effect'
 // import PerformanceDemo from './performance'
 
-import { create, setGlobalNotifyInSync, proxyCount } from '@shined/reactive'
+import { create, setGlobalNotifyInSync, proxyCount, ref } from '@shined/reactive'
 import { useEffect, useState } from 'react'
 
 const store = create({
+  file: null as File | null,
   inputValue: 'init',
   count: 0,
   other: true,
   other2: false,
+  refTest: {
+    a: {
+      ref: ref({
+        value: {
+          b: 1,
+        },
+      }),
+    },
+  },
   // data: response.info.data,
   obj: {
     a: 1,
@@ -32,7 +42,9 @@ const inputStore = create({ inputValue: '' })
 setGlobalNotifyInSync(true)
 
 export default function App() {
-  const { count } = store.useSnapshot({ sync: true })
+  const { count, file, obj } = store.useSnapshot({ sync: true })
+
+  console.log('refTest', store.mutate.refTest)
 
   // const [count, setCount] = useState(0)
   // const [inputValue, setInputValue] = useState('')
@@ -58,14 +70,24 @@ export default function App() {
   console.log('re-render', count)
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      console.log(proxyCount(store.mutate), store.mutate)
-    }, 100)
-
-    return () => {
-      clearInterval(timer)
-    }
+    // const timer = setInterval(() => {
+    //   console.log(proxyCount(store.mutate), store.mutate)
+    // }, 100)
+    // return () => {
+    //   clearInterval(timer)
+    // }
   }, [])
+
+  const handleFile = () => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.onchange = (e) => {
+      const target = e.target as HTMLInputElement
+      const file = target.files?.[0] || null
+      store.mutate.file = file
+    }
+    input.click()
+  }
 
   return (
     <div>
@@ -77,6 +99,9 @@ export default function App() {
       />
       <button type="button" onClick={handleClick}>
         Test
+      </button>
+      <button type="button" onClick={handleFile}>
+        Test File: {file?.name || 'no file'}
       </button>
       <button
         type="button"
@@ -117,6 +142,8 @@ export default function App() {
       >
         pop array item
       </button>
+
+      <pre>{JSON.stringify(obj, null, 2)}</pre>
     </div>
   )
 }
