@@ -142,6 +142,38 @@ describe('index', () => {
     })
   })
 
+  it('should delete added properties when restore', async () => {
+    const store = create({
+      name: 'Pikachu',
+      address: {
+        city: 'NanJing',
+      },
+    })
+
+    // @ts-expect-error for test
+    store.mutate.age = 10
+    expect(store.mutate).toMatchObject({
+      name: 'Pikachu',
+      age: 10,
+      address: {
+        city: 'NanJing',
+      },
+    })
+
+    store.restore()
+
+    await Promise.resolve()
+
+    expect(store.mutate).toMatchObject({
+      name: 'Pikachu',
+      address: {
+        city: 'NanJing',
+      },
+    })
+    // @ts-expect-error for test
+    expect(store.mutate.age).toBeUndefined()
+  })
+
   it('should subscribe and unsubscribe', async () => {
     const store = create({
       name: 'Pikachu',

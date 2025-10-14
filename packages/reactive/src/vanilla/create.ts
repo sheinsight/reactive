@@ -63,10 +63,18 @@ export function createVanilla<State extends object>(
     const { exclude = [] } = options
 
     const clonedState = deepCloneWithRef(initState)
+    const initialKeys = Object.keys(initState)
 
-    for (const key of Object.keys(clonedState)) {
-      if (exclude.includes(key as keyof State)) continue
-      proxyState[key as keyof State] = clonedState[key as keyof State]
+    for (const key of Object.keys(clonedState) as (keyof State)[]) {
+      if (exclude.includes(key)) continue
+      proxyState[key] = clonedState[key]
+    }
+
+    const addedKeys = Object.keys(proxyState).filter((key) => !initialKeys.includes(key))
+
+    for (const key of addedKeys as (keyof State)[]) {
+      // delete keys that are not in the initial state
+      delete proxyState[key]
     }
   }
 
