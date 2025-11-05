@@ -73,6 +73,7 @@ export function createVanilla<State extends object>(
     const addedKeys = Object.keys(proxyState).filter((key) => !initialKeys.includes(key))
 
     for (const key of addedKeys as (keyof State)[]) {
+      if (exclude.includes(key)) continue
       // delete keys that are not in the initial state
       delete proxyState[key]
     }
