@@ -56,6 +56,7 @@ export function useSnapshot<State extends object, StateSlice>(
   const isUnmountedRef = useRef(false)
 
   useEffect(() => {
+    isUnmountedRef.current = false
     return () => {
       isUnmountedRef.current = true
     }
