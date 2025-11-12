@@ -75,7 +75,9 @@ export interface CreateSingleLoadingOptions {
  *
  * @see {@link https://sheinsight.github.io/react-use/ | React Use - Documentation}
  */
-export function createSingleLoading(options: CreateSingleLoadingOptions): CreateSingleLoadingReturns {
+export function createSingleLoading(
+  options: CreateSingleLoadingOptions = {}
+): CreateSingleLoadingReturns {
   const { resetOnError = true, initialValue = false } = options
 
   const store = createWithHooks({ loading: initialValue })
