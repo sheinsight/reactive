@@ -1,4 +1,4 @@
-import type { VanillaStore } from '../../vanilla/create.js'
+import type { VanillaStore } from '../create.js'
 
 export interface WithDerivedContributes<State extends object, D extends object = State> {
   /**

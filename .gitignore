@@ -109,3 +109,7 @@ docs/.vitepress/dist
 docs/.vitepress/cache
 
 docs-dist
+
+# LECP
+lib
+es

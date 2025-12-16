@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { create } from '../../vanilla/create.js'
+import { create } from '../create.js'
 import { withSnapshot } from './with-snapshot.js'
 
 describe('withSnapshot', () => {

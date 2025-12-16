@@ -1,14 +1,15 @@
 import { createVanilla } from '../vanilla/index.js'
-import { withUseSnapshot, withUseSubscribe } from '../enhancers/react/index.js'
+import { withUseSnapshot, withUseSubscribe } from './enhancers/index.js'
 
-import type {
-  WithUseSnapshotContributes,
-  WithUseSubscribeContributes,
-} from '../enhancers/react/index.js'
 import type { ExpandType } from '../utils/index.js'
+import type { SnapshotSelector } from '../vanilla/index.js'
+import type { WithUseSnapshotContributes, WithUseSubscribeContributes } from './enhancers/index.js'
 import type { StoreCreateOptions, VanillaStore } from '../vanilla/create.js'
-import type { WithSnapshotContributes, WithSubscribeContributes } from '../vanilla/index.js'
-import type { SnapshotOptions, SnapshotSelector } from './use-snapshot.js'
+import type {
+  WithSnapshotContributes,
+  WithSubscribeContributes,
+} from '../vanilla/enhancers/index.js'
+import type { SnapshotOptions } from './use-snapshot.js'
 
 export interface StoreUseSnapshot<State> {
   (): State

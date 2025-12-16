@@ -1,4 +1,4 @@
-import { useSubscribe } from '../../react/use-subscribe.js'
+import { useSubscribe } from '../use-subscribe.js'
 
 import type { SubscribeListener, VanillaStore } from '../../vanilla/index.js'
 

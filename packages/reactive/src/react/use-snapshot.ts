@@ -3,7 +3,7 @@ import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/shim/w
 import { isFunction, shallowEqual } from '../utils/index.js'
 import { snapshot, subscribe } from '../vanilla/index.js'
 
-import type { SubscribeListener } from '../vanilla/index.js'
+import type { SnapshotSelector, SubscribeListener } from '../vanilla/index.js'
 
 export interface SnapshotOptions<StateSlice> {
   /**
@@ -21,8 +21,6 @@ export interface SnapshotOptions<StateSlice> {
    */
   isEqual?: (a: StateSlice, b: StateSlice) => boolean
 }
-
-export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
 
 /**
  * Returns a snapshot of the store state.

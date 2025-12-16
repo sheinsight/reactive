@@ -8,7 +8,8 @@
     "strictNullChecks": true,
     "target": "ESNext",
     "module": "ESNext",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "ignoreDeprecations": "6.0"
   },
   "include": ["./locale.ts", "./rspress.config.ts"]
 }

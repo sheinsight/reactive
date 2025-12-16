@@ -19,8 +19,8 @@
     "url": "https://github.com/sheinsight/reactive/issues"
   },
   "scripts": {
-    "dev": "tsup --watch",
-    "build": "tsup",
+    "dev": "lecp --watch",
+    "build": "lecp",
     "test:ci": "vitest",
     "test": "vitest --coverage",
     "prepack": "clean-pkg-json"
@@ -67,6 +67,7 @@
   },
   "devDependencies": {
     "@redux-devtools/extension": "^3.3.0",
+    "@shined/lecp": "^0.2.2",
     "@swc/core": "^1.12.4",
     "@testing-library/react": "^14.3.1",
     "@types/node": "^20.19.1",

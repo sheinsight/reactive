@@ -1,6 +1,6 @@
 import { SNAPSHOT } from '../utils/index.js'
 
-import type { SnapshotSelector } from '../react/use-snapshot.js'
+export type SnapshotSelector<State, StateSlice> = (state: State) => StateSlice
 
 /**
  * Get a snapshot of the store state.
@@ -11,7 +11,7 @@ import type { SnapshotSelector } from '../react/use-snapshot.js'
  */
 export function snapshot<State extends object, StateSlice = State>(
   proxyState: State,
-  selector: SnapshotSelector<State, StateSlice> = (s) => s as unknown as StateSlice,
+  selector: SnapshotSelector<State, StateSlice> = (s) => s as unknown as StateSlice
 ): StateSlice {
   return selector((proxyState as any)[SNAPSHOT])
 }

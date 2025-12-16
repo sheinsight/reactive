@@ -1,6 +1,6 @@
-import { subscribe } from '../../vanilla/subscribe.js'
+import { subscribe } from '../subscribe.js'
 
-import type { SubscribeListener, VanillaStore } from '../../vanilla/index.js'
+import type { SubscribeListener, VanillaStore } from '../index.js'
 
 export interface WithSubscribeContributes<State extends object> {
   /**

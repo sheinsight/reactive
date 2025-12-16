@@ -7,7 +7,6 @@ import {
   createObjectFromPrototype,
   isObject,
 } from '../utils/index.js'
-import { isRef } from './ref.js'
 import { snapshot } from './snapshot.js'
 
 let globalVersion = 1
@@ -145,7 +144,11 @@ export function proxy<State extends object>(
       }
 
       const success = Reflect.set(target, prop, nextValue, receiver)
-      success && notifyUpdate(props)
+
+      if (success) {
+        notifyUpdate(props)
+      }
+
       return success
     },
     deleteProperty(target: State, prop: string | symbol) {
@@ -163,7 +166,11 @@ export function proxy<State extends object>(
       }
 
       const success = Reflect.deleteProperty(target, prop)
-      success && notifyUpdate(props)
+
+      if (success) {
+        notifyUpdate(props)
+      }
+
       return success
     },
   })

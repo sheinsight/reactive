@@ -1,7 +1,7 @@
-import { snapshot } from '../../vanilla/snapshot.js'
+import { snapshot } from '../snapshot.js'
 
-import type { SnapshotSelector } from '../../react/use-snapshot.js'
-import type { VanillaStore } from '../../vanilla/create.js'
+import type { VanillaStore } from '../create.js'
+import type { SnapshotSelector } from '../snapshot.js'
 
 export interface WithSnapshotContributes<State extends object> {
   /**
@@ -33,10 +33,10 @@ export interface WithSnapshotContributes<State extends object> {
  * ```
  */
 export function withSnapshot<Store extends VanillaStore<object>>(
-  store: Store,
+  store: Store
 ): Store & WithSnapshotContributes<Store['mutate']> {
   const _snapshot = <StateSlice = Store>(
-    selector: SnapshotSelector<Store['mutate'], StateSlice> = (s) => s as unknown as StateSlice,
+    selector: SnapshotSelector<Store['mutate'], StateSlice> = (s) => s as unknown as StateSlice
   ) => {
     return snapshot(store.mutate, selector) as StateSlice
   }

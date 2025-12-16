@@ -64,9 +64,10 @@ export {
   useSubscribe,
 } from './react/index.js'
 
-export * from './enhancers/index.js'
+export * from './react/enhancers/index.js'
+export * from './vanilla/enhancers/index.js'
 
 export type * from './vanilla/index.js'
 export type * from './react/index.js'
 export type * from './utils/index.js'
-export type * from './enhancers/index.js'
+export type * from './standalone/create-single-loading/index.js'

@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { create } from '../../vanilla/create.js'
-import { withUseSnapshot } from '../react/with-use-snapshot.js'
+import { withUseSnapshot } from './with-use-snapshot.js'
 
 describe('withUseSnapshot', () => {
   it('should enhance a store with useSnapshot method', () => {
@@ -9,7 +9,7 @@ describe('withUseSnapshot', () => {
       create({
         count: 123,
         info: { name: 'Viki' },
-      }),
+      })
     )
 
     const { result } = renderHook(() => store.useSnapshot())
@@ -22,7 +22,7 @@ describe('withUseSnapshot', () => {
       create({
         count: 123,
         info: { name: 'Viki' },
-      }),
+      })
     )
 
     const { result } = renderHook(() => store.useSnapshot((s) => s.info))
@@ -35,7 +35,7 @@ describe('withUseSnapshot', () => {
       create({
         count: 123,
         info: { name: 'Viki' },
-      }),
+      })
     )
 
     const { result } = renderHook(() => store.useSnapshot((s) => s.info))
@@ -54,7 +54,7 @@ describe('withUseSnapshot', () => {
       create({
         count: 123,
         info: { name: 'Viki' },
-      }),
+      })
     )
 
     const { result } = renderHook(() => store.useSnapshot((s) => s.info, { sync: true }))

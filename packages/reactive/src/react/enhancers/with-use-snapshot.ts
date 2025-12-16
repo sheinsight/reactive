@@ -1,9 +1,10 @@
-import { useSnapshot } from '../../react/use-snapshot.js'
+import { useSnapshot } from '../use-snapshot.js'
 import { isFunction } from '../../utils/index.js'
 
-import type { StoreUseSnapshot } from '../../react/create-with-hooks.js'
-import type { SnapshotOptions, SnapshotSelector } from '../../react/use-snapshot.js'
 import type { VanillaStore } from '../../vanilla/create.js'
+import type { SnapshotOptions } from '../use-snapshot.js'
+import type { StoreUseSnapshot } from '../create-with-hooks.js'
+import type { SnapshotSelector } from '../../vanilla/snapshot.js'
 
 export interface WithUseSnapshotContributes<State extends object> {
   /**
@@ -42,11 +43,14 @@ export interface WithUseSnapshotContributes<State extends object> {
  * ```
  */
 export function withUseSnapshot<Store extends VanillaStore<object>>(
-  store: Store,
+  store: Store
 ): Store & WithUseSnapshotContributes<Store['mutate']> {
   const boundUseSnapshot: StoreUseSnapshot<Store['mutate']> = <StateSlice>(
-    selectorOrOption?: SnapshotOptions<StateSlice> | SnapshotSelector<Store['mutate'], StateSlice> | undefined,
-    maybeOptions?: SnapshotOptions<StateSlice>,
+    selectorOrOption?:
+      | SnapshotOptions<StateSlice>
+      | SnapshotSelector<Store['mutate'], StateSlice>
+      | undefined,
+    maybeOptions?: SnapshotOptions<StateSlice>
   ) => {
     let options: SnapshotOptions<StateSlice> | undefined
     let selector: SnapshotSelector<Store['mutate'], StateSlice> | undefined

@@ -7,4 +7,5 @@ export * from './ref.js'
 export * from './subscribe.js'
 export * from './proxy-count.js'
 
-export * from '../enhancers/vanilla/index.js'
+export * from './enhancers/index.js'
+export type * from './enhancers/index.js'

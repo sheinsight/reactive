@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig({
   target: 'es5',
-  /** @issue https://github.com/egoist/tsup/issues/1000*/
+  /** @issue https://github.com/egoist/tsup/issues/1000 */
   entry: [
     'src/index.ts',
     'src/vanilla/index.ts', // export `./vanilla` entry in `package.json`

@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { create } from '../../vanilla/index.js'
-import { withUseDerived } from '../react/with-use-derived.js'
+import { withUseDerived } from './with-use-derived.js'
 
 describe('withUseDerived', () => {
   it('should return the derived state', () => {
@@ -13,7 +13,7 @@ describe('withUseDerived', () => {
       (s) => ({
         isViki: s.info.name === 'Viki',
         isNegative: s.count < 0,
-      }),
+      })
     )
 
     const { result } = renderHook(() => store.useDerived())
@@ -31,7 +31,7 @@ describe('withUseDerived', () => {
       (s) => ({
         isViki: s.info.name === 'Viki',
         isNegative: s.count < 0,
-      }),
+      })
     )
 
     const { result } = renderHook(() => store.useDerived())
@@ -56,7 +56,7 @@ describe('withUseDerived', () => {
       (s) => ({
         isViki: s.info.name === 'Viki',
         isNegative: s.count < 0,
-      }),
+      })
     )
 
     const { result } = renderHook(() => store.useDerived({ sync: true }))
