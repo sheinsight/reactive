@@ -1,4 +1,4 @@
-import { createObjectFromPrototype, isObject } from '../utils'
+import { canProxy, createObjectFromPrototype } from '../utils'
 
 const internal_refSet = new WeakSet()
 
@@ -17,12 +17,8 @@ export function deepCloneWithRef<State extends object>(initialState: State): Sta
   for (const key in initialState) {
     const value = initialState[key as keyof State]
 
-    if (isObject(value)) {
-      if (isRef(value)) {
-        cloned[key as keyof State] = value
-      } else {
-        cloned[key as keyof State] = deepCloneWithRef(value)
-      }
+    if (canProxy(value)) {
+      cloned[key as keyof State] = deepCloneWithRef(value as object) as State[keyof State]
     } else {
       cloned[key as keyof State] = value
     }
