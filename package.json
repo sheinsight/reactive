@@ -22,8 +22,8 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@rspress/shared": "1.44.0",
-    "@types/node": "^20.19.1",
-    "@types/semver": "^7.7.0",
+    "@types/node": "^20.19.41",
+    "@types/semver": "^7.7.1",
     "@unocss/reset": "^0.62.4",
     "bumpp": "^9.11.1",
     "enquirer": "^2.4.1",
@@ -31,15 +31,15 @@
     "execa": "^8.0.1",
     "find-packages": "^10.0.4",
     "happy-dom": "^13.10.1",
-    "less": "^4.3.0",
+    "less": "^4.6.4",
     "read-pkg": "^9.0.1",
     "read-yaml-file": "^2.1.0",
-    "rsbuild-plugin-google-analytics": "^1.0.3",
+    "rsbuild-plugin-google-analytics": "^1.0.5",
     "rspress": "1.44.0",
-    "semver": "^7.7.2",
-    "tsx": "^4.20.3",
-    "vitepress": "^1.6.3",
-    "write-package": "^7.1.0",
-    "zx": "^8.5.5"
+    "semver": "^7.8.1",
+    "tsx": "^4.22.3",
+    "vitepress": "^1.6.4",
+    "write-package": "^7.2.0",
+    "zx": "^8.8.5"
   }
 }

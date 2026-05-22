@@ -1,0 +1,7 @@
+# 标记 lock 文件为生成文件
+pnpm-lock.yaml linguist-generated
+package-lock.json linguist-generated
+yarn.lock linguist-generated
+
+# 标记 package.json 为生成文件
+package.json linguist-generated

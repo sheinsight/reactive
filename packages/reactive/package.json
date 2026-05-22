@@ -55,7 +55,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "use-sync-external-store": "^1.5.0"
+    "use-sync-external-store": "^1.6.0"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -68,18 +68,18 @@
   "devDependencies": {
     "@redux-devtools/extension": "^3.3.0",
     "@shined/lecp": "^0.2.2",
-    "@swc/core": "^1.12.4",
+    "@swc/core": "^1.15.33",
     "@testing-library/react": "^14.3.1",
-    "@types/node": "^20.19.1",
-    "@types/react": "^18.3.23",
+    "@types/node": "^20.19.41",
+    "@types/react": "^18.3.29",
     "@types/use-sync-external-store": "^0.0.6",
     "@vitest/coverage-v8": "^2.1.9",
-    "clean-pkg-json": "^1.3.0",
-    "prettier": "^3.5.3",
+    "clean-pkg-json": "^1.4.2",
+    "prettier": "^3.8.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tsup": "^8.5.0",
-    "typescript": "^5.8.3",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
     "vitest": "^2.1.9"
   },
   "peerDependencies": {
