@@ -5,6 +5,7 @@ import {
   SNAPSHOT,
   canProxy,
   createObjectFromPrototype,
+  hasOwn,
   isObject,
 } from '../utils/index.js'
 import { snapshot } from './snapshot.js'
@@ -116,7 +117,7 @@ export function proxy<State extends object>(
         childListeners.delete(popPropListener(prop))
       }
 
-      if (!isObject(value) && Object.is(preValue, value)) {
+      if (!isObject(value) && Object.is(preValue, value) && hasOwn.call(target, prop)) {
         // `return true` means the operation is successful,
         // but we don't need to notify the update here,
         // because the value is basic value, and it's the same as before
