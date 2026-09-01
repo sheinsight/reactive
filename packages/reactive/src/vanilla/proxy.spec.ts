@@ -172,4 +172,38 @@ describe('proxy', () => {
 
     expect(listener).toHaveBeenCalledTimes(0)
   })
+
+  it('should preserve an undefined property during initialization', () => {
+    const reactiveState = proxy({ info: { age: undefined } })
+
+    expect(Object.hasOwn(reactiveState.info, 'age')).toBe(true)
+    expect(Object.hasOwn((reactiveState as any)[SNAPSHOT].info, 'age')).toBe(true)
+    expect(reactiveState.info.age).toBeUndefined()
+  })
+
+  it('should preserve a property changed to undefined', () => {
+    const reactiveState = proxy({ info: { age: 18 as number | undefined } })
+
+    reactiveState.info.age = undefined
+
+    expect(Object.hasOwn(reactiveState.info, 'age')).toBe(true)
+    expect(Object.hasOwn((reactiveState as any)[SNAPSHOT].info, 'age')).toBe(true)
+    expect(reactiveState.info.age).toBeUndefined()
+  })
+
+  it('should notify only when an undefined property is first added', () => {
+    const reactiveState = proxy({ info: {} as { age?: number } })
+    const listener = vi.fn()
+
+    ;(reactiveState as any)[LISTENERS].add(listener)
+    reactiveState.info.age = undefined
+
+    expect(Object.hasOwn(reactiveState.info, 'age')).toBe(true)
+    expect(Object.hasOwn((reactiveState as any)[SNAPSHOT].info, 'age')).toBe(true)
+    expect(listener).toHaveBeenCalledTimes(1)
+
+    reactiveState.info.age = undefined
+
+    expect(listener).toHaveBeenCalledTimes(1)
+  })
 })
