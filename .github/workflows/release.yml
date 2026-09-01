@@ -23,9 +23,9 @@ jobs:
           node-version-file: '.node-version'
           registry-url: 'https://registry.npmjs.org'
 
-      # npm 11.5.1 or later is required for OIDC so update to latest to be sure
-      - name: Update npm to latest
-        run: npm install -g npm@latest
+      # npm 11.5.1 or later is required for OIDC. Pin it to keep releases reproducible.
+      - name: Install npm
+        run: npm install -g npm@11.6.2
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
